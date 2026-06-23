@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/ui/Icon.astro';
+import { site } from '../data/site';
+---
+
+<Layout title="Experts Travaux — Site en construction">
+  <main class="grid min-h-screen grid-cols-1 lg:grid-cols-2">
+    <!-- Colonne contenu -->
+    <section
+      class="order-2 flex flex-col justify-between gap-12 px-4 py-12 sm:px-8 lg:order-1 lg:px-16 lg:py-16"
+    >
+      <img
+        src={site.logo.full}
+        alt={site.name}
+        width="320"
+        height="80"
+        class="h-auto w-48 self-start sm:w-64"
+        decoding="async"
+      />
+
+      <div class="flex max-w-xl flex-col gap-6">
+        <span
+          class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.05em] text-on-surface"
+        >
+          <span class="h-2 w-2 bg-tertiary" aria-hidden="true"></span>
+          Site en construction
+        </span>
+        <h1
+          class="font-display text-4xl font-extrabold leading-tight tracking-tight text-on-surface sm:text-5xl lg:text-6xl"
+        >
+          Notre site fait peau neuve.
+        </h1>
+        <p class="text-lg leading-relaxed text-on-surface-variant">
+          Nous préparons une nouvelle vitrine à la hauteur de nos réalisations en
+          rénovation et bâtiment. Elle sera disponible très prochainement.
+        </p>
+
+        <!-- Contact -->
+        <div class="mt-2 flex flex-col gap-5 border-l-2 border-primary pl-4">
+          <span
+            class="text-sm font-semibold uppercase tracking-[0.05em] text-on-surface"
+          >
+            Une question, un projet&nbsp;?
+          </span>
+
+          <a
+            href={`mailto:${site.email}`}
+            class="inline-flex w-fit items-center gap-3 bg-primary px-5 py-3 text-on-primary transition-colors hover:bg-primary-container"
+          >
+            <Icon name="mail" class="h-5 w-5" />
+            <span class="text-base">{site.email}</span>
+          </a>
+
+          <div class="flex flex-col gap-3 text-base text-on-surface-variant">
+            <a
+              href={site.phone.href}
+              class="inline-flex w-fit items-center gap-3 transition-colors hover:text-primary"
+            >
+              <Icon name="phone" class="h-5 w-5 text-primary" />
+              {site.phone.display}
+            </a>
+            <a
+              href={site.address.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex w-fit items-start gap-3 transition-colors hover:text-primary"
+            >
+              <Icon name="pin" class="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+              <span>
+                {site.address.street}<br />{site.address.city}
+              </span>
+            </a>
+          </div>
+
+          <ul class="flex items-center gap-3">
+            {
+              site.socials.map((social) => (
+                <li>
+                  <a
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.name}
+                    class="flex h-10 w-10 items-center justify-center rounded-full border-2 border-primary text-primary transition-colors hover:bg-primary hover:text-on-primary"
+                  >
+                    <Icon name={social.icon} class="h-5 w-5" />
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <p class="text-sm text-on-surface-variant">
+        © 2026 {site.name} — Rénovation &amp; Bâtiment
+      </p>
+    </section>
+
+    <!-- Colonne illustration -->
+    <section
+      class="order-1 relative h-56 overflow-hidden sm:h-80 lg:order-2 lg:h-full lg:min-h-screen lg:border-l lg:border-outline-variant"
+    >
+      <img
+        src="/assets/maintenance.webp"
+        alt="Logo Experts Travaux gravé sur un mur, posé par un artisan"
+        width="1064"
+        height="1008"
+        class="absolute inset-0 h-full w-full object-cover object-[5%_center]"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </section>
+  </main>
+</Layout>

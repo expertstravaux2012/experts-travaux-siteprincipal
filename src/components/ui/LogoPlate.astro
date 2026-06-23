@@ -1,0 +1,52 @@
+---
+// Calque clair derrière le logo sur photo : préserve le liseret ochre et les gris
+// de la charte (pas de filtre invert).
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  imgClass?: string;
+  padding?: 'sm' | 'md' | 'lg';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  /** default : discret ; featured : hero (coins arrondis, liseret ochre, profondeur légère) */
+  variant?: 'default' | 'featured';
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  imgClass = 'h-12 w-auto',
+  padding = 'sm',
+  fetchpriority,
+  variant = 'default',
+} = Astro.props;
+
+const padClass = {
+  sm: 'p-2',
+  md: 'p-4 sm:p-5',
+  lg: 'p-5 sm:p-6',
+}[padding];
+
+const variantClass = {
+  default: 'border border-outline-variant/50 bg-surface-container-lowest/92 backdrop-blur-sm',
+  featured:
+    'overflow-hidden rounded-lg border border-outline-variant/60 border-b-[3px] border-b-tertiary bg-surface-container-lowest/95 shadow-[0_12px_40px_rgba(0,0,0,0.18)] backdrop-blur-md ring-1 ring-on-surface/5',
+}[variant];
+---
+
+<div
+  class:list={['inline-flex', variantClass, padClass]}
+>
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    class={imgClass}
+    decoding="async"
+    fetchpriority={fetchpriority}
+  />
+</div>

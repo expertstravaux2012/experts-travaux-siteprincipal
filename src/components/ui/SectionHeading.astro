@@ -1,0 +1,22 @@
+---
+// Entête de section : eyebrow MAJUSCULES + titre. Réutilisé par toutes les sections.
+interface Props {
+  eyebrow: string;
+  title: string;
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const { eyebrow, title, align = 'left', class: className = '' } = Astro.props;
+const isCenter = align === 'center';
+---
+
+<div class={`flex flex-col gap-4 ${isCenter ? 'items-center text-center' : ''} ${className}`}>
+  <span class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.05em] text-on-surface">
+    <span class="h-2 w-2 bg-tertiary" aria-hidden="true"></span>
+    {eyebrow}
+  </span>
+  <h2 class="max-w-3xl font-display text-3xl font-bold leading-tight tracking-tight text-on-surface sm:text-4xl">
+    {title}
+  </h2>
+</div>

@@ -1,0 +1,91 @@
+---
+import { navigation } from '../../data/navigation';
+import { site } from '../../data/site';
+import Icon from '../ui/Icon.astro';
+
+const year = 2026;
+---
+
+<footer class="border-t border-outline-variant bg-inverse-surface text-inverse-on-surface">
+  <div class="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 lg:px-16">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
+      <!-- Marque -->
+      <div class="flex flex-col gap-4">
+        <a href="#top" class="w-fit" aria-label={`${site.name} — accueil`}>
+          <img
+            src={site.logo.mark}
+            alt=""
+            width="48"
+            height="48"
+            class="h-12 w-auto brightness-0 invert"
+            decoding="async"
+          />
+        </a>
+        <p class="max-w-xs text-base text-inverse-on-surface/80">
+          Rénovation & bâtiment à Toulouse. Un seul interlocuteur, du devis à la remise des clés.
+        </p>
+        <ul class="mt-2 flex items-center gap-3">
+          {
+            site.socials.map((social) => (
+              <li>
+                <a
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.name}
+                  class="flex h-10 w-10 items-center justify-center rounded-full border-2 border-inverse-on-surface text-inverse-on-surface transition-colors hover:border-tertiary hover:bg-tertiary hover:text-on-surface"
+                >
+                  <Icon name={social.icon} class="h-5 w-5" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Plan du site -->
+      <nav aria-label="Plan du site" class="flex flex-col gap-4">
+        <span class="text-sm font-semibold uppercase tracking-[0.05em] text-inverse-on-surface/60">
+          Navigation
+        </span>
+        <ul class="flex flex-col gap-3">
+          {
+            [...navigation.links, navigation.cta].map((link) => (
+              <li>
+                <a href={link.href} class="text-base underline-offset-4 hover:underline">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Contact -->
+      <div class="flex flex-col gap-4">
+        <span class="text-sm font-semibold uppercase tracking-[0.05em] text-inverse-on-surface/60">
+          Contact
+        </span>
+        <a href={`mailto:${site.email}`} class="inline-flex items-center gap-3 text-base underline-offset-4 hover:underline">
+          <Icon name="mail" class="h-5 w-5" />{site.email}
+        </a>
+        <a href={site.phone.href} class="inline-flex items-center gap-3 text-base underline-offset-4 hover:underline">
+          <Icon name="phone" class="h-5 w-5" />{site.phone.display}
+        </a>
+        <a
+          href={site.address.mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-start gap-3 text-base underline-offset-4 hover:underline"
+        >
+          <Icon name="pin" class="mt-0.5 h-5 w-5 shrink-0" />
+          <span>{site.address.street}<br />{site.address.city}</span>
+        </a>
+      </div>
+    </div>
+
+    <p class="mt-12 border-t border-inverse-on-surface/20 pt-8 text-sm text-inverse-on-surface/60">
+      © {year} {site.name} — Rénovation & Bâtiment · Toulouse
+    </p>
+  </div>
+</footer>

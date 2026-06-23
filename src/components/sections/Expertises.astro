@@ -1,0 +1,43 @@
+---
+import { expertises } from '../../data/expertises';
+import SectionHeading from '../ui/SectionHeading.astro';
+import Icon from '../ui/Icon.astro';
+---
+
+<section id="expertises" class="border-b border-outline-variant bg-surface">
+  <div class="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 lg:px-16 lg:py-24">
+    <SectionHeading
+      eyebrow="Expertises"
+      title="Un savoir-faire complet, du gros œuvre aux finitions."
+      class="mb-12"
+    />
+
+    <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        expertises.map((exp) => (
+          <li class="group border border-outline-variant bg-surface-container-lowest">
+            <a href={`#contact`} class="flex h-full flex-col" aria-label={`En savoir plus : ${exp.title}`}>
+              <div class="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src={exp.image}
+                  alt={exp.alt}
+                  loading="lazy"
+                  decoding="async"
+                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <div class="flex flex-1 flex-col gap-3 p-6">
+                <h3 class="font-display text-xl font-bold text-on-surface">{exp.title}</h3>
+                <p class="flex-1 text-base leading-relaxed text-on-surface-variant">{exp.accroche}</p>
+                <span class="mt-2 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.05em] text-on-surface underline-offset-4 group-hover:underline">
+                  En savoir plus
+                  <Icon name="arrow-right" class="h-4 w-4" />
+                </span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

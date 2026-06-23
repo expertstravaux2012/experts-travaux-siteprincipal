@@ -1,0 +1,51 @@
+---
+// Bouton DESIGN.md — blocs rectangulaires, 0px radius, label Montserrat MAJUSCULES.
+// Polymorphe : rend un <a> si `href`, sinon un <button>.
+import Icon from './Icon.astro';
+
+type Variant = 'primary' | 'secondary' | 'secondary-light' | 'accent';
+
+interface Props {
+  variant?: Variant;
+  href?: string;
+  type?: 'button' | 'submit';
+  icon?: 'arrow-right' | 'mail' | 'phone';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  icon,
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-3 px-6 py-4 font-display text-sm font-semibold uppercase tracking-[0.05em] transition-colors';
+
+const variants: Record<Variant, string> = {
+  primary: 'bg-primary text-on-primary hover:bg-primary-container',
+  secondary:
+    'border-2 border-primary text-primary hover:bg-primary hover:text-on-primary',
+  'secondary-light':
+    'border-2 border-on-primary text-on-primary hover:bg-on-primary hover:text-primary',
+  accent:
+    'bg-tertiary text-on-surface hover:bg-on-tertiary-container hover:text-inverse-on-surface',
+};
+
+const cls = `${base} ${variants[variant]} ${className}`;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class={cls}
+  href={href}
+  type={href ? undefined : type}
+  {...rest}
+>
+  <slot />
+  {icon && <Icon name={icon} class="h-4 w-4" />}
+</Tag>

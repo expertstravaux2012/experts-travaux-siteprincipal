@@ -1,0 +1,83 @@
+@import 'tailwindcss';
+
+/* Tokens design system — source de vérité : DESIGN.md */
+@theme {
+  /* Surfaces */
+  --color-surface: #f9f9f9;
+  --color-surface-dim: #dadada;
+  --color-surface-bright: #f9f9f9;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f3f4;
+  --color-surface-container: #eeeeee;
+  --color-surface-container-high: #e8e8e8;
+  --color-surface-container-highest: #e2e2e2;
+  --color-surface-variant: #e2e2e2;
+
+  /* Contenu sur surface */
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #46474a;
+  --color-inverse-surface: #2f3131;
+  --color-inverse-on-surface: #f0f1f1;
+
+  /* Contours */
+  --color-outline: #76777b;
+  --color-outline-variant: #c7c6ca;
+
+  /* Primary — Onyx */
+  --color-primary: #000000;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1b1b1c;
+  --color-on-primary-container: #858384;
+  --color-inverse-primary: #c8c6c7;
+
+  /* Secondary — Slate */
+  --color-secondary: #52606d;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #d3e1f1;
+  --color-on-secondary-container: #566472;
+
+  /* Tertiary — Ochre (accent de marque, cf. on-tertiary-container DESIGN.md).
+     Réservé aux accents graphiques (3:1) ; pas pour du texte sur fond clair (< 4.5:1). */
+  --color-tertiary: #c76c00;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #ffdcc3;
+  --color-on-tertiary-container: #2f1500;
+
+  /* Error */
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+
+  /* Background */
+  --color-background: #f9f9f9;
+  --color-on-background: #1a1c1c;
+
+  /* Typographie */
+  --font-display: 'Montserrat', sans-serif;
+  --font-sans: 'Inter', sans-serif;
+
+  /* Rayons — angles 0px partout */
+  --radius-none: 0px;
+}
+
+@layer base {
+  /* Scroll fluide vers les ancres + décalage sous le header sticky (h-20 = 5rem). */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  /* Angles nets par défaut : le design system impose 0px de roundedness.
+     En @layer base pour rester surchargeable par les utilitaires (ex. rounded-full
+     des icônes sociales, seule exception autorisée par DESIGN.md). */
+  *,
+  *::before,
+  *::after {
+    border-radius: 0;
+  }
+
+  /* Focus clavier : outline haute lisibilité (l'ochre de marque ne passe pas AA). */
+  :focus-visible {
+    outline: 2px solid var(--color-on-surface);
+    outline-offset: 3px;
+  }
+}

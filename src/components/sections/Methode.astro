@@ -1,0 +1,45 @@
+---
+import { etapes, garanties } from '../../data/methode';
+import SectionHeading from '../ui/SectionHeading.astro';
+import Icon from '../ui/Icon.astro';
+---
+
+<section id="methode" class="border-b border-outline-variant bg-surface">
+  <div class="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 lg:px-16 lg:py-24">
+    <SectionHeading
+      eyebrow="Méthode"
+      title="Un cadre clair, du premier échange à la remise des clés."
+      class="mb-12"
+    />
+
+    <!-- Étapes -->
+    <ol class="grid grid-cols-1 gap-px border border-outline-variant bg-outline-variant sm:grid-cols-2 lg:grid-cols-4">
+      {
+        etapes.map((etape) => (
+          <li class="flex flex-col gap-3 bg-surface-container-lowest p-6">
+            <span class="font-display text-4xl font-extrabold text-tertiary">{etape.numero}</span>
+            <h3 class="font-display text-lg font-bold text-on-surface">{etape.titre}</h3>
+            <p class="text-base leading-relaxed text-on-surface-variant">{etape.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <!-- Garanties -->
+    <ul class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        garanties.map((g) => (
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center bg-primary text-on-primary">
+              <Icon name="check" class="h-4 w-4" />
+            </span>
+            <div class="flex flex-col gap-1">
+              <span class="font-display text-base font-bold text-on-surface">{g.titre}</span>
+              <span class="text-sm text-on-surface-variant">{g.description}</span>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

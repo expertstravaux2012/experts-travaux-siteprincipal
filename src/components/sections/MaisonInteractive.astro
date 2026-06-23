@@ -1,0 +1,367 @@
+---
+// Maison en coupe (cutaway), line-art monochrome, fidèle à la charte.
+// Chaque zone <a class="zone" data-id> est un lien rendu côté serveur vers
+// /metiers/{slug} (SEO sans JS). Les libellés viennent de corps-metier.ts (DRY).
+// Le script client n'ajoute que la synchro de survol zone <-> légende.
+import { corpsMetier } from '../../data/corps-metier';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+const byId = Object.fromEntries(corpsMetier.map((c) => [c.id, c]));
+const hrefFor = (id: string) => `/metiers/${byId[id].slug}`;
+const labelFor = (id: string) => byId[id].nom;
+---
+
+<section id="expertises" class="border-b border-outline-variant bg-surface">
+  <div class="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 lg:px-16 lg:py-24">
+    <SectionHeading
+      eyebrow="Expertises"
+      title="Un savoir-faire complet, du gros œuvre aux finitions."
+      class="mb-4"
+    />
+    <p class="mb-12 max-w-2xl text-lg leading-relaxed text-on-surface-variant">
+      Tous les corps de métier de votre chantier, maîtrisés en interne et coordonnés
+      par un seul interlocuteur, du devis à la remise des clés.
+    </p>
+
+    <!-- ============================ SVG MAISON ============================ -->
+    <div class="maison mx-auto mb-10 max-w-4xl border border-outline-variant bg-surface-container-lowest p-6 sm:p-10">
+      <svg
+        viewBox="0 0 1000 720"
+        role="img"
+        aria-label="Coupe d'une maison ; chaque partie est un lien vers le corps de métier correspondant."
+        class="mx-auto h-auto w-full"
+      >
+          <!-- Sol (décoratif, non cliquable) -->
+          <line x1="40" y1="628" x2="960" y2="628" class="ground" />
+
+          <!-- Décor statique : couleur douce (tokens de la charte), non cliquable -->
+          <g class="decor" aria-hidden="true">
+            <!-- aplats de profondeur : toit + étages -->
+            <polygon class="fill-roof" points="240,228 510,92 780,228" />
+            <rect class="fill-floor" x="262" y="228" width="496" height="172" />
+            <rect class="fill-floor" x="262" y="400" width="496" height="198" />
+            <!-- cheminée : accent chaud -->
+            <rect class="chimney" x="636" y="118" width="30" height="60" />
+            <rect class="chimney" x="630" y="108" width="42" height="14" />
+          </g>
+
+          <!-- MAÇONNERIE / GROS ŒUVRE : fondation -->
+          <a class="zone" data-id="maconnerie" href={hrefFor('maconnerie')} aria-label={labelFor('maconnerie')}>
+            <title>{labelFor('maconnerie')}</title>
+            <rect class="hit" x="246" y="598" width="528" height="30" />
+            <g class="art">
+              <rect x="246" y="600" width="528" height="26" />
+              <line x1="312" y1="600" x2="312" y2="626" />
+              <line x1="378" y1="600" x2="378" y2="626" />
+              <line x1="444" y1="600" x2="444" y2="626" />
+              <line x1="510" y1="600" x2="510" y2="626" />
+              <line x1="576" y1="600" x2="576" y2="626" />
+              <line x1="642" y1="600" x2="642" y2="626" />
+              <line x1="708" y1="600" x2="708" y2="626" />
+              <line x1="279" y1="613" x2="345" y2="613" />
+              <line x1="411" y1="613" x2="477" y2="613" />
+              <line x1="543" y1="613" x2="609" y2="613" />
+              <line x1="675" y1="613" x2="741" y2="613" />
+            </g>
+          </a>
+
+          <!-- FAÇADE & RAVALEMENT : murs extérieurs (gauche + droite) -->
+          <a class="zone" data-id="facade" href={hrefFor('facade')} aria-label={labelFor('facade')}>
+            <title>{labelFor('facade')}</title>
+            <rect class="hit" x="250" y="228" width="14" height="372" />
+            <rect class="hit" x="756" y="228" width="14" height="372" />
+            <g class="art">
+              <rect x="250" y="228" width="12" height="372" />
+              <rect x="758" y="228" width="12" height="372" />
+            </g>
+          </a>
+
+          <!-- TOITURE & COUVERTURE : bande de tuiles -->
+          <a class="zone" data-id="toiture" href={hrefFor('toiture')} aria-label={labelFor('toiture')}>
+            <title>{labelFor('toiture')}</title>
+            <polygon class="hit" points="240,228 510,92 780,228 758,228 510,112 262,228" />
+            <g class="art">
+              <polygon points="240,228 510,92 780,228 758,228 510,112 262,228" />
+              <line x1="320" y1="172" x2="333" y2="186" />
+              <line x1="380" y1="142" x2="393" y2="156" />
+              <line x1="440" y1="112" x2="453" y2="126" />
+              <line x1="560" y1="126" x2="573" y2="112" />
+              <line x1="620" y1="156" x2="633" y2="142" />
+              <line x1="680" y1="186" x2="693" y2="172" />
+            </g>
+          </a>
+
+          <!-- CHARPENTE : ferme triangulaire (combles) -->
+          <a class="zone" data-id="charpente" href={hrefFor('charpente')} aria-label={labelFor('charpente')}>
+            <title>{labelFor('charpente')}</title>
+            <polygon class="hit" points="262,228 510,112 758,228" />
+            <g class="art">
+              <line x1="262" y1="228" x2="510" y2="112" />
+              <line x1="510" y1="112" x2="758" y2="228" />
+              <line x1="262" y1="228" x2="758" y2="228" />
+              <line x1="510" y1="112" x2="510" y2="228" />
+              <line x1="386" y1="170" x2="510" y2="228" />
+              <line x1="634" y1="170" x2="510" y2="228" />
+            </g>
+          </a>
+
+          <!-- ISOLATION : bande isolée des combles -->
+          <a class="zone" data-id="isolation" href={hrefFor('isolation')} aria-label={labelFor('isolation')}>
+            <title>{labelFor('isolation')}</title>
+            <polygon class="hit" points="300,206 720,206 758,228 262,228" />
+            <g class="art">
+              <polygon points="300,206 720,206 758,228 262,228" />
+              <path d="M280 228 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0 q12 -14 24 0" />
+            </g>
+          </a>
+
+          <!-- EXTENSION & SURÉLÉVATION : annexe latérale gauche -->
+          <a class="zone" data-id="extension" href={hrefFor('extension')} aria-label={labelFor('extension')}>
+            <title>{labelFor('extension')}</title>
+            <polygon class="hit" points="108,360 260,310 260,600 108,600" />
+            <g class="art">
+              <polyline points="108,360 260,310" />
+              <line x1="108" y1="360" x2="108" y2="600" />
+              <line x1="108" y1="600" x2="260" y2="600" />
+            </g>
+          </a>
+
+          <!-- CUISINE & PLOMBERIE : pièce RDC gauche -->
+          <a class="zone" data-id="cuisine" href={hrefFor('cuisine')} aria-label={labelFor('cuisine')}>
+            <title>{labelFor('cuisine')}</title>
+            <rect class="hit" x="262" y="402" width="246" height="196" />
+            <g class="art">
+              <!-- plan de travail + caisson bas + évier -->
+              <line x1="292" y1="556" x2="476" y2="556" />
+              <rect x="292" y="556" width="184" height="42" />
+              <line x1="384" y1="556" x2="384" y2="598" />
+              <rect x="312" y="566" width="36" height="22" />
+              <line x1="426" y1="540" x2="426" y2="556" />
+              <line x1="418" y1="540" x2="434" y2="540" />
+              <!-- meuble haut -->
+              <rect x="300" y="436" width="84" height="40" />
+            </g>
+          </a>
+
+          <!-- SALLE DE BAIN & ÉTANCHÉITÉ : pièce étage gauche -->
+          <a class="zone" data-id="salle-de-bain" href={hrefFor('salle-de-bain')} aria-label={labelFor('salle-de-bain')}>
+            <title>{labelFor('salle-de-bain')}</title>
+            <path class="water" d="M304 346 q0 26 26 26 h108 q26 0 26 -26 z" />
+            <rect class="hit" x="262" y="230" width="246" height="170" />
+            <g class="art">
+              <!-- baignoire -->
+              <path d="M300 344 q0 30 28 30 h112 q28 0 28 -30" />
+              <line x1="300" y1="334" x2="300" y2="344" />
+              <line x1="468" y1="334" x2="468" y2="344" />
+              <line x1="300" y1="344" x2="468" y2="344" />
+              <!-- robinet -->
+              <line x1="312" y1="312" x2="312" y2="334" />
+              <path d="M312 312 q0 -10 12 -10" />
+            </g>
+          </a>
+
+          <!-- CHAUFFAGE & CLIMATISATION : radiateur, pièce RDC droite -->
+          <a class="zone" data-id="chauffage" href={hrefFor('chauffage')} aria-label={labelFor('chauffage')}>
+            <title>{labelFor('chauffage')}</title>
+            <rect class="hit" x="510" y="402" width="246" height="196" />
+            <g class="art">
+              <line x1="660" y1="500" x2="732" y2="500" />
+              <line x1="660" y1="572" x2="732" y2="572" />
+              <line x1="668" y1="500" x2="668" y2="572" />
+              <line x1="684" y1="500" x2="684" y2="572" />
+              <line x1="700" y1="500" x2="700" y2="572" />
+              <line x1="716" y1="500" x2="716" y2="572" />
+              <line x1="724" y1="572" x2="724" y2="588" />
+            </g>
+          </a>
+
+          <!-- ÉLECTRICITÉ : tableau + réseau, pièce étage droite -->
+          <a class="zone" data-id="electricite" href={hrefFor('electricite')} aria-label={labelFor('electricite')}>
+            <title>{labelFor('electricite')}</title>
+            <rect class="hit" x="510" y="230" width="246" height="170" />
+            <g class="art">
+              <!-- tableau -->
+              <rect x="664" y="260" width="56" height="44" />
+              <line x1="672" y1="272" x2="684" y2="272" />
+              <line x1="700" y1="272" x2="712" y2="272" />
+              <line x1="672" y1="288" x2="684" y2="288" />
+              <line x1="700" y1="288" x2="712" y2="288" />
+              <!-- câble en zig-zag vers prise -->
+              <polyline points="692,304 692,330 564,330 564,360" />
+              <circle cx="564" cy="368" r="8" />
+            </g>
+          </a>
+
+          <!-- FINITIONS : sols / planchers (RDC + étage) -->
+          <a class="zone" data-id="finitions" href={hrefFor('finitions')} aria-label={labelFor('finitions')}>
+            <title>{labelFor('finitions')}</title>
+            <rect class="hit" x="262" y="586" width="496" height="14" />
+            <rect class="hit" x="262" y="388" width="496" height="14" />
+            <g class="art">
+              <line x1="262" y1="588" x2="758" y2="588" />
+              <line x1="262" y1="400" x2="758" y2="400" />
+              <line x1="290" y1="588" x2="282" y2="600" />
+              <line x1="350" y1="588" x2="342" y2="600" />
+              <line x1="410" y1="588" x2="402" y2="600" />
+              <line x1="470" y1="588" x2="462" y2="600" />
+              <line x1="530" y1="588" x2="522" y2="600" />
+              <line x1="590" y1="588" x2="582" y2="600" />
+              <line x1="650" y1="588" x2="642" y2="600" />
+              <line x1="710" y1="588" x2="702" y2="600" />
+            </g>
+          </a>
+
+          <!-- MENUISERIES EXTÉRIEURES : fenêtres (dessinées en dernier => au-dessus) -->
+          <a class="zone" data-id="menuiseries" href={hrefFor('menuiseries')} aria-label={labelFor('menuiseries')}>
+            <title>{labelFor('menuiseries')}</title>
+            <rect class="glass" x="745" y="289" width="30" height="66" />
+            <rect class="glass" x="745" y="455" width="30" height="66" />
+            <rect class="glass" x="153" y="433" width="34" height="68" />
+            <rect class="hit" x="742" y="286" width="36" height="72" />
+            <rect class="hit" x="742" y="452" width="36" height="72" />
+            <rect class="hit" x="150" y="430" width="40" height="74" />
+            <g class="art">
+              <rect x="744" y="288" width="32" height="68" />
+              <line x1="760" y1="288" x2="760" y2="356" />
+              <line x1="744" y1="322" x2="776" y2="322" />
+              <rect x="744" y="454" width="32" height="68" />
+              <line x1="760" y1="454" x2="760" y2="522" />
+              <line x1="744" y1="488" x2="776" y2="488" />
+              <rect x="152" y="432" width="36" height="70" />
+              <line x1="170" y1="432" x2="170" y2="502" />
+              <line x1="152" y1="467" x2="188" y2="467" />
+            </g>
+          </a>
+        </svg>
+      </div>
+
+      <!-- ====================== CORPS DE MÉTIER (grille) ====================== -->
+      <p class="mb-6 text-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">
+        Cliquez sur un métier pour découvrir notre approche, nos garanties et nos réalisations.
+      </p>
+      <ul class="grid grid-cols-1 gap-px border border-outline-variant bg-outline-variant sm:grid-cols-2 lg:grid-cols-4">
+          {
+            corpsMetier.map((c) => (
+              <li>
+                <a
+                  class="legend-item flex h-full flex-col gap-1 bg-surface-container-lowest p-4 transition-colors"
+                  data-id={c.id}
+                  href={`/metiers/${c.slug}`}
+                >
+                  <span class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.05em] text-on-surface">
+                    <span class="legend-dot h-2 w-2 shrink-0 bg-outline transition-colors" aria-hidden="true" />
+                    {c.nom}
+                  </span>
+                  <span class="pl-5 text-sm leading-relaxed text-on-surface-variant">{c.description}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+  </div>
+</section>
+
+<style>
+  .maison svg {
+    overflow: visible;
+  }
+
+  .ground {
+    stroke: var(--color-outline-variant);
+    stroke-width: 2;
+  }
+
+  /* Décor coloré statique — uniquement des tokens de la charte */
+  .decor {
+    pointer-events: none;
+  }
+  .fill-roof {
+    fill: var(--color-surface-container);
+  }
+  .fill-floor {
+    fill: var(--color-surface-container-low);
+  }
+  .chimney {
+    fill: var(--color-tertiary-container);
+    stroke: var(--color-on-surface);
+    stroke-width: 2;
+  }
+  /* Vitrages & eau : accent froid (secondary-container) */
+  .glass,
+  .water {
+    fill: var(--color-secondary-container);
+  }
+
+  /* Zones cliquables */
+  .zone {
+    cursor: pointer;
+  }
+  .zone .hit {
+    fill: transparent;
+    stroke: none;
+    transition: fill 0.15s ease;
+  }
+  .zone .art {
+    fill: none;
+    stroke: var(--color-on-surface);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+    transition: stroke 0.15s ease;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* État actif (survol, focus, ou survol de la légende correspondante) */
+  .zone:hover .hit,
+  .zone:focus-visible .hit,
+  .zone.is-active .hit {
+    fill: var(--color-tertiary-container);
+  }
+  .zone:hover .art,
+  .zone:focus-visible .art,
+  .zone.is-active .art {
+    stroke: var(--color-tertiary);
+  }
+  .zone:focus-visible {
+    outline: none;
+  }
+  .zone:focus-visible .hit {
+    stroke: var(--color-on-surface);
+    stroke-width: 2;
+  }
+
+  /* Légende */
+  .legend-item:hover .legend-dot,
+  .legend-item:focus-visible .legend-dot,
+  .legend-item.is-active .legend-dot {
+    background-color: var(--color-tertiary);
+  }
+  .legend-item.is-active,
+  .legend-item:hover {
+    background-color: var(--color-surface-container);
+  }
+</style>
+
+<script>
+  // Progressive enhancement : synchronise le survol/focus entre une zone du
+  // SVG et l'élément de légende portant le même data-id. Les liens fonctionnent
+  // déjà sans JS (rendus côté serveur).
+  const zones = Array.from(document.querySelectorAll<HTMLElement>('#expertises .zone'));
+  const items = Array.from(document.querySelectorAll<HTMLElement>('#expertises .legend-item'));
+
+  const setActive = (id: string, active: boolean) => {
+    for (const el of [...zones, ...items]) {
+      if (el.dataset.id === id) el.classList.toggle('is-active', active);
+    }
+  };
+
+  for (const el of [...zones, ...items]) {
+    const id = el.dataset.id;
+    if (!id) continue;
+    el.addEventListener('mouseenter', () => setActive(id, true));
+    el.addEventListener('mouseleave', () => setActive(id, false));
+    el.addEventListener('focus', () => setActive(id, true));
+    el.addEventListener('blur', () => setActive(id, false));
+  }
+</script>

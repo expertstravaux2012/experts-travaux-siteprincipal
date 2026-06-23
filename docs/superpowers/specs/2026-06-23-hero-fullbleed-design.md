@@ -15,7 +15,7 @@ contenu centré en blanc, header transparent qui se solidifie au scroll.
 |-------|-------|
 | Composition | Header transparent sur le hero → devient blanc opaque au scroll |
 | Contenu | Centré horizontalement, hero plein écran (100vh) |
-| Logo (header transparent) | Blanchi en CSS (`brightness(0) invert(1)`), revient à l'original au scroll |
+| Logo (header transparent) | Pictogramme blanc via filtre CSS (`invert`), sans cadre. Lockup complet dans `LogoPlate` au centre du hero (liseret ochre visible). |
 
 ## Périmètre
 
@@ -29,11 +29,11 @@ Trois fichiers touchés, aucune régression ailleurs.
 - Quand `overHero` :
   - Positionnement **`fixed`** (au lieu de `sticky`) pour que la photo passe sous le header
     et que le hero démarre à `y=0`.
-  - **État initial** : fond transparent, liens nav + CTA en blanc, logo blanchi
-    (filtre CSS). Le séparateur bas est masqué.
-  - **État `.is-solid`** (ajouté par script au scroll > ~60px) : fond
-    `surface-container-lowest`, bordure basse `outline-variant`, nav + logo à
-    l'original. Transition `transition-colors`.
+  - **État initial** : fond transparent, liens nav + burger en blanc
+    (classe `.header-control`, `color: on-primary`). Logo inchangé. Pas de bordure.
+  - **État `.is-solid`** (ajouté par script au scroll > 60px) : fond
+    `surface-container-lowest`, bordure basse `outline-variant`, nav en
+    `on-surface`. Transition `transition-colors` / `color`.
 - Script : écoute `scroll`, bascule la classe `.is-solid` selon `window.scrollY`.
   Idempotent, passif (`{ passive: true }`).
 - Drawer mobile : déjà opaque (`bg-surface-container-lowest`), aucun changement.
@@ -49,6 +49,7 @@ Trois fichiers touchés, aucune régression ailleurs.
   (lisibilité du header transparent) et le bas, garantit le contraste AA du texte blanc
   même si une photo claire est mise plus tard.
 - **Contenu** centré, `relative z-10`, texte blanc :
+  - lockup complet `site.logo.full` en tête, dans `LogoPlate` (couleurs d'origine, liseret ochre) ;
   - eyebrow : carré ochre (`bg-tertiary`) + label majuscules blanc ;
   - `h1` Montserrat blanc (mêmes tailles responsive qu'aujourd'hui) ;
   - sous-titre `text-white/85` ;

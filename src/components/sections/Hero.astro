@@ -1,0 +1,63 @@
+---
+import { hero } from '../../data/home';
+import { site } from '../../data/site';
+import Button from '../ui/Button.astro';
+import LogoPlate from '../ui/LogoPlate.astro';
+---
+
+<section
+  id="top"
+  class="relative flex min-h-screen items-center justify-center overflow-hidden"
+>
+  <!-- Photo de fond plein cadre, léger flou (scale pour masquer les bords du flou) -->
+  <img
+    src={hero.image}
+    alt={hero.imageAlt}
+    class="absolute inset-0 h-full w-full scale-105 object-cover blur-[2px]"
+    fetchpriority="high"
+    decoding="async"
+  />
+
+  <!-- Scrim sombre : lisibilité du header transparent + contraste AA du texte blanc -->
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black/65"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- Contenu centré -->
+  <div
+    class="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-8 px-4 py-32 text-center sm:px-8"
+  >
+    <LogoPlate
+      src={site.logo.full}
+      alt={site.name}
+      width={320}
+      height={128}
+      imgClass="h-32 w-auto sm:h-40 lg:h-48"
+      padding="lg"
+      variant="featured"
+      fetchpriority="high"
+    />
+    <span
+      class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.05em] text-on-primary"
+    >
+      <span class="h-2 w-2 bg-tertiary" aria-hidden="true"></span>
+      {hero.eyebrow}
+    </span>
+    <h1
+      class="font-display text-4xl font-extrabold leading-tight tracking-tight text-on-primary sm:text-5xl lg:text-6xl"
+    >
+      {hero.title}
+    </h1>
+    <p class="max-w-xl text-lg leading-relaxed text-on-primary/85">
+      {hero.subtitle}
+    </p>
+    <div class="flex flex-col gap-4 sm:flex-row">
+      <Button variant="accent" href={hero.primaryCta.href}>{hero.primaryCta.label}</Button>
+      <Button variant="secondary-light" href={hero.secondaryCta.href} icon="arrow-right">
+        {hero.secondaryCta.label}
+      </Button>
+    </div>
+  </div>
+</section>
