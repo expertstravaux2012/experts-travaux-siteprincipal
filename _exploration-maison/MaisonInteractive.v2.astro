@@ -1,0 +1,154 @@
+---
+// Maison interactive v2 — perspective isometrique 3/4 (coupe de coin).
+// EXPLORATION : variante a comparer avec MaisonInteractive.astro (line-art).
+// Contrat identique : 12 data-id = corps-metier.ts (source de verite unique, DRY).
+// Geometrie generee par projection iso (cf. _exploration-maison/gen.py).
+import { corpsMetier } from '../src/data/corps-metier';
+import SectionHeading from '../src/components/ui/SectionHeading.astro';
+
+const byId = Object.fromEntries(corpsMetier.map((c) => [c.id, c]));
+const hrefFor = (id: string) => `/metiers/${byId[id].slug}`;
+const labelFor = (id: string) => byId[id].nom;
+---
+
+<section id="expertises" class="border-b border-outline-variant bg-surface">
+  <div class="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 lg:px-16 lg:py-24">
+    <SectionHeading eyebrow="Expertises" title="Un savoir-faire complet, du gros œuvre aux finitions." class="mb-4" />
+    <p class="mb-12 max-w-2xl text-lg leading-relaxed text-on-surface-variant">
+      Tous les corps de métier de votre chantier, maîtrisés en interne et coordonnés
+      par un seul interlocuteur, du devis à la remise des clés.
+    </p>
+
+    <div class="maison mx-auto mb-10 max-w-5xl border border-outline-variant bg-surface-container-lowest p-6 sm:p-10">
+      <svg viewBox="0 0 1380 840"  role="img" aria-label="Coupe isometrique d'une maison ; chaque partie est un lien vers un corps de metier."><style>
+      .fnd-top{fill:var(--color-surface-container-high);stroke:var(--color-on-surface);stroke-width:1.5}
+      .fnd-r{fill:var(--color-outline);stroke:var(--color-on-surface);stroke-width:1.5}
+      .fnd-l{fill:var(--color-outline-variant);stroke:var(--color-on-surface);stroke-width:1.5}
+      .in-far{fill:var(--color-surface-container-low);stroke:var(--color-outline-variant);stroke-width:1}
+      .in-side{fill:var(--color-surface-container-high);stroke:var(--color-outline-variant);stroke-width:1}
+      .floor-top{fill:var(--color-surface-container);stroke:var(--color-on-surface);stroke-width:1.4}
+      .floor-edge{fill:var(--color-outline-variant);stroke:var(--color-on-surface);stroke-width:1.4}
+      .in-line{stroke:var(--color-outline-variant);stroke-width:1}
+      .roof-back{fill:var(--color-outline-variant);stroke:var(--color-on-surface);stroke-width:1.5}
+      .gable-r{fill:var(--color-surface-container-high);stroke:var(--color-on-surface);stroke-width:1.5}
+      .hit{fill:transparent;stroke:none}
+      .lead{stroke:var(--color-outline);stroke-width:1;fill:none}
+      .leaddot{fill:var(--color-tertiary)}
+      .ltxt{font:600 14px system-ui,-apple-system,Segoe UI,Arial,sans-serif;fill:var(--color-on-surface)}
+      /* art par zone */
+      .facade-fill{fill:var(--color-surface-container);stroke:var(--color-on-surface);stroke-width:1.6}
+      .facade-band{stroke:var(--color-tertiary);stroke-width:3}
+      .roof-front{fill:var(--color-tertiary-container);stroke:var(--color-on-surface);stroke-width:1.6}
+      .tile{stroke:var(--color-tertiary);stroke-width:1;opacity:.5}
+      .truss{stroke:var(--color-on-surface);stroke-width:2;fill:none;stroke-linecap:round}
+      .truss-thin{stroke:var(--color-on-surface-variant);stroke-width:1.2;fill:none}
+      .iso-wave{stroke:var(--color-tertiary);stroke-width:2;fill:none;opacity:.8}
+      .win{fill:var(--color-secondary-container);stroke:var(--color-on-surface);stroke-width:1.4}
+      .winbar{stroke:var(--color-on-surface);stroke-width:1}
+      .ext-t{fill:var(--color-surface-container-high);stroke:var(--color-on-surface);stroke-width:1.5}
+      .ext-l{fill:var(--color-outline-variant);stroke:var(--color-on-surface);stroke-width:1.5}
+      .ext-f{fill:var(--color-surface-container);stroke:var(--color-on-surface);stroke-width:1.5}
+      .wood-t{fill:var(--color-tertiary-container);stroke:var(--color-on-surface);stroke-width:1.2}
+      .wood-f{fill:var(--color-tertiary-container);stroke:var(--color-on-surface);stroke-width:1.2;opacity:.85}
+      .wood-s{fill:var(--color-tertiary-container);stroke:var(--color-on-surface);stroke-width:1.2;opacity:.7}
+      .unit-t{fill:var(--color-surface-container);stroke:var(--color-on-surface);stroke-width:1.2}
+      .unit-f{fill:var(--color-surface-container-high);stroke:var(--color-on-surface);stroke-width:1.2}
+      .unit-s{fill:var(--color-outline-variant);stroke:var(--color-on-surface);stroke-width:1.2}
+      .pac-t{fill:var(--color-surface-container);stroke:var(--color-on-surface);stroke-width:1.2}
+      .pac-f{fill:var(--color-surface-container-high);stroke:var(--color-on-surface);stroke-width:1.2}
+      .pac-s{fill:var(--color-outline-variant);stroke:var(--color-on-surface);stroke-width:1.2}
+      .coil{stroke:var(--color-tertiary);stroke-width:1.4;opacity:.7}
+      .shower{fill:var(--color-secondary-container);stroke:var(--color-on-surface);stroke-width:1.2;opacity:.8}
+      .bglass{fill:var(--color-secondary-container);stroke:var(--color-on-surface);stroke-width:1.2;opacity:.5}
+      .fix{stroke:var(--color-on-surface-variant);stroke-width:1.6}
+      .panel-t{fill:var(--color-surface-container);stroke:var(--color-on-surface);stroke-width:1.2}
+      .panel-f{fill:var(--color-surface-container-high);stroke:var(--color-on-surface);stroke-width:1.2}
+      .panel-s{fill:var(--color-outline-variant);stroke:var(--color-on-surface);stroke-width:1.2}
+      .cable{stroke:var(--color-tertiary);stroke-width:1.6;fill:none}
+      /* interaction */
+      .zone{cursor:pointer}
+      .zone .hit{transition:fill .15s ease}
+      .zone:hover .hit,.zone:focus-visible .hit,.zone.is-active .hit{fill:var(--color-tertiary-container);opacity:.55}
+      .zone:focus-visible{outline:none}
+      </style>
+      <g class="decor" aria-hidden="true">
+      <polygon class="fnd-top" points="600.0,491.0 846.0,633.0 641.6,751.0 395.6,609.0" />
+      <polygon class="fnd-r" points="600.0,491.0 846.0,633.0 846.0,655.0 600.0,513.0" />
+      <polygon class="fnd-l" points="600.0,491.0 395.6,609.0 395.6,631.0 600.0,513.0" />
+      <polygon class="in-far" points="419.9,609.0 641.6,737.0 641.6,513.0 419.9,385.0" />
+      <polygon class="in-side" points="821.7,633.0 641.6,737.0 641.6,513.0 821.7,409.0" />
+      <polygon class="floor-top" points="600.0,393.0 821.7,521.0 641.6,625.0 419.9,497.0" />
+      <polygon class="floor-edge" points="600.0,393.0 821.7,521.0 821.7,534.6 600.0,406.6" />
+      <polygon class="floor-edge" points="600.0,393.0 419.9,497.0 419.9,510.6 600.0,406.6" />
+      <line x1="509.9" y1="557.0" x2="509.9" y2="445.0" class="in-line"/>
+      <polygon class="roof-back" points="419.9,385.0 641.6,513.0 731.6,377.0 509.9,249.0" />
+      <polygon class="gable-r" points="821.7,409.0 641.6,513.0 731.6,377.0" />
+      </g>
+      <a class="zone" data-id="maconnerie" href={hrefFor('maconnerie')} aria-label={labelFor('maconnerie')}><title>{labelFor('maconnerie')}</title><polygon class="hit" points="600.0,491.0 846.0,633.0 846.0,655.0 600.0,513.0" /><polygon class="hit" points="600.0,491.0 395.6,609.0 395.6,631.0 600.0,513.0" /></a>
+      <a class="zone" data-id="finitions" href={hrefFor('finitions')} aria-label={labelFor('finitions')}><title>{labelFor('finitions')}</title><polygon class="hit" points="600.0,393.0 821.7,521.0 641.6,625.0 419.9,497.0" /></a>
+      <a class="zone" data-id="facade" href={hrefFor('facade')} aria-label={labelFor('facade')}><title>{labelFor('facade')}</title><polygon class="hit" points="600.0,505.0 821.7,633.0 821.7,409.0 600.0,281.0" /><polygon class="facade-fill" points="600.0,505.0 821.7,633.0 821.7,409.0 600.0,281.0" /><line x1="600.0" y1="393.0" x2="821.7" y2="521.0" class="facade-band"/></a>
+      <a class="zone" data-id="toiture" href={hrefFor('toiture')} aria-label={labelFor('toiture')}><title>{labelFor('toiture')}</title><polygon class="hit" points="600.0,281.0 821.7,409.0 731.6,377.0 509.9,249.0" /><polygon class="roof-front" points="600.0,281.0 821.7,409.0 731.6,377.0 509.9,249.0" /><line x1="585.0" y1="275.7" x2="806.7" y2="403.7" class="tile"/><line x1="570.0" y1="270.3" x2="791.7" y2="398.3" class="tile"/><line x1="555.0" y1="265.0" x2="776.7" y2="393.0" class="tile"/><line x1="539.9" y1="259.7" x2="761.6" y2="387.7" class="tile"/><line x1="524.9" y1="254.3" x2="746.6" y2="382.3" class="tile"/></a>
+      <a class="zone" data-id="charpente" href={hrefFor('charpente')} aria-label={labelFor('charpente')}><title>{labelFor('charpente')}</title><polygon class="hit" points="600.0,281.0 509.9,249.0 419.9,385.0" /><line x1="600.0" y1="281.0" x2="509.9" y2="249.0" class="truss"/><line x1="419.9" y1="385.0" x2="509.9" y2="249.0" class="truss"/><line x1="600.0" y1="281.0" x2="419.9" y2="385.0" class="truss"/><line x1="509.9" y1="333.0" x2="509.9" y2="249.0" class="truss-thin"/><line x1="555.0" y1="307.0" x2="546.0" y2="266.0" class="truss-thin"/><line x1="464.9" y1="359.0" x2="473.9" y2="307.6" class="truss-thin"/><line x1="652.0" y1="311.0" x2="561.9" y2="279.0" class="truss"/><line x1="471.8" y1="415.0" x2="561.9" y2="279.0" class="truss"/><line x1="652.0" y1="311.0" x2="471.8" y2="415.0" class="truss"/><line x1="561.9" y1="363.0" x2="561.9" y2="279.0" class="truss-thin"/><line x1="606.9" y1="337.0" x2="597.9" y2="296.0" class="truss-thin"/><line x1="516.9" y1="389.0" x2="525.9" y2="337.6" class="truss-thin"/><line x1="703.9" y1="341.0" x2="613.9" y2="309.0" class="truss"/><line x1="523.8" y1="445.0" x2="613.9" y2="309.0" class="truss"/><line x1="703.9" y1="341.0" x2="523.8" y2="445.0" class="truss"/><line x1="613.9" y1="393.0" x2="613.9" y2="309.0" class="truss-thin"/><line x1="658.9" y1="367.0" x2="649.9" y2="326.0" class="truss-thin"/><line x1="568.8" y1="419.0" x2="577.8" y2="367.6" class="truss-thin"/><line x1="509.9" y1="249.0" x2="613.9" y2="309.0" class="truss-thin"/><line x1="600.0" y1="281.0" x2="703.9" y2="341.0" class="truss-thin"/></a>
+      <a class="zone" data-id="isolation" href={hrefFor('isolation')} aria-label={labelFor('isolation')}><title>{labelFor('isolation')}</title><polygon class="hit" points="600.0,281.0 509.9,249.0 419.9,385.0" /><path class="iso-wave" d="M 600.0 281.0 Q 592.3 270.8 590.0 277.4 Q 577.6 280.5 580.0 273.9 Q 572.3 263.7 570.0 270.3 Q 557.6 273.4 560.0 266.8 Q 552.3 256.6 549.9 263.2 Q 537.6 266.3 539.9 259.7 Q 532.3 249.5 529.9 256.1 Q 517.6 259.2 519.9 252.6 Q 512.2 242.4 509.9 249.0  M 419.9 385.0 Q 435.7 373.8 429.9 369.9 Q 434.1 350.9 439.9 354.8 Q 455.7 343.5 449.9 339.7 Q 454.1 320.7 459.9 324.6 Q 475.7 313.3 469.9 309.4 Q 474.1 290.5 479.9 294.3 Q 495.7 283.1 489.9 279.2 Q 494.1 260.2 499.9 264.1 Q 515.7 252.9 509.9 249.0 "/></a>
+      <a class="zone" data-id="extension" href={hrefFor('extension')} aria-label={labelFor('extension')}><title>{labelFor('extension')}</title><polygon class="hit" points="419.9,609.0 343.7,653.0 343.7,546.6 419.9,502.6" /><polygon class="hit" points="343.7,653.0 454.5,717.0 454.5,610.6 343.7,546.6" /><polygon class="ext-t" points="419.9,502.6 530.7,566.6 454.5,610.6 343.7,546.6" /><polygon class="ext-l" points="419.9,609.0 343.7,653.0 343.7,546.6 419.9,502.6" /><polygon class="ext-f" points="343.7,653.0 454.5,717.0 454.5,610.6 343.7,546.6" /></a>
+      <a class="zone" data-id="cuisine" href={hrefFor('cuisine')} aria-label={labelFor('cuisine')}><title>{labelFor('cuisine')}</title><polygon class="hit" points="606.9,621.0 724.7,689.0 641.6,737.0 523.8,669.0" /><polygon class="wood-t" points="610.4,593.0 693.5,641.0 669.3,655.0 586.1,607.0" /><polygon class="wood-f" points="610.4,593.0 693.5,641.0 693.5,679.0 610.4,631.0" /><polygon class="wood-s" points="693.5,641.0 669.3,655.0 669.3,693.0 693.5,679.0" /><polygon class="unit-t" points="600.0,605.0 658.9,639.0 641.6,649.0 582.7,615.0" /><polygon class="unit-f" points="600.0,605.0 658.9,639.0 658.9,711.0 600.0,677.0" /><polygon class="unit-s" points="658.9,639.0 641.6,649.0 641.6,721.0 658.9,711.0" /></a>
+      <a class="zone" data-id="chauffage" href={hrefFor('chauffage')} aria-label={labelFor('chauffage')}><title>{labelFor('chauffage')}</title><polygon class="hit" points="662.4,489.0 731.6,529.0 679.7,559.0 610.4,519.0" /><polygon class="pac-t" points="677.9,464.0 719.5,488.0 690.1,505.0 648.5,481.0" /><polygon class="pac-f" points="677.9,464.0 719.5,488.0 719.5,528.0 677.9,504.0" /><polygon class="pac-s" points="719.5,488.0 690.1,505.0 690.1,545.0 719.5,528.0" /><line x1="606.9" y1="528.2" x2="530.7" y2="572.2" class="coil"/><line x1="626.0" y1="539.2" x2="549.8" y2="583.2" class="coil"/><line x1="645.0" y1="550.2" x2="568.8" y2="594.2" class="coil"/><line x1="664.1" y1="561.2" x2="587.9" y2="605.2" class="coil"/><line x1="683.1" y1="572.2" x2="606.9" y2="616.2" class="coil"/></a>
+      <a class="zone" data-id="salle-de-bain" href={hrefFor('salle-de-bain')} aria-label={labelFor('salle-de-bain')}><title>{labelFor('salle-de-bain')}</title><polygon class="hit" points="617.3,515.0 724.7,577.0 641.6,625.0 534.2,563.0" /><polygon class="shower" points="620.8,519.8 690.1,559.8 638.1,589.8 568.8,549.8" /><polygon class="bglass" points="620.8,521.0 568.8,551.0 568.8,475.0 620.8,445.0" /><line x1="672.7" y1="555.0" x2="672.7" y2="487.0" class="fix"/><line x1="672.7" y1="487.0" x2="655.4" y2="477.0" class="fix"/></a>
+      <a class="zone" data-id="electricite" href={hrefFor('electricite')} aria-label={labelFor('electricite')}><title>{labelFor('electricite')}</title><polygon class="hit" points="762.8,515.0 797.5,535.0 752.4,561.0 717.8,541.0" /><polygon class="panel-t" points="764.5,460.0 774.9,466.0 747.2,482.0 736.8,476.0" /><polygon class="panel-f" points="764.5,460.0 774.9,466.0 774.9,498.0 764.5,492.0" /><polygon class="panel-s" points="774.9,466.0 747.2,482.0 747.2,514.0 774.9,498.0" /><path class="cable" d="M 755.9 503.0 L 755.9 539.0 L 731.6 505.0"/></a>
+      <a class="zone" data-id="menuiseries" href={hrefFor('menuiseries')} aria-label={labelFor('menuiseries')}><title>{labelFor('menuiseries')}</title><polygon class="hit" points="600.0,505.0 821.7,633.0 821.7,409.0 600.0,281.0" /><polygon class="win" points="648.5,509.0 690.1,533.0 690.1,473.0 648.5,449.0" /><line x1="669.3" y1="521.0" x2="669.3" y2="461.0" class="winbar"/><line x1="648.5" y1="479.0" x2="690.1" y2="503.0" class="winbar"/><polygon class="win" points="728.2,555.0 769.7,579.0 769.7,519.0 728.2,495.0" /><line x1="749.0" y1="567.0" x2="749.0" y2="507.0" class="winbar"/><line x1="728.2" y1="525.0" x2="769.7" y2="549.0" class="winbar"/><polygon class="win" points="648.5,397.0 690.1,421.0 690.1,361.0 648.5,337.0" /><line x1="669.3" y1="409.0" x2="669.3" y2="349.0" class="winbar"/><line x1="648.5" y1="367.0" x2="690.1" y2="391.0" class="winbar"/><polygon class="win" points="728.2,443.0 769.7,467.0 769.7,407.0 728.2,383.0" /><line x1="749.0" y1="455.0" x2="749.0" y2="395.0" class="winbar"/><line x1="728.2" y1="413.0" x2="769.7" y2="437.0" class="winbar"/></a>
+      <g class="labels" aria-hidden="true">
+      <line x1="755.2" y1="606.6" x2="1115" y2="745" class="lead"/><circle cx="755.2" cy="606.6" r="3" class="leaddot"/><text x="1121" y="749" text-anchor="start" class="ltxt">{labelFor('maconnerie')}</text>
+      <line x1="509.9" y1="445.0" x2="255" y2="400" class="lead"/><circle cx="509.9" cy="445.0" r="3" class="leaddot"/><text x="249" y="404" text-anchor="end" class="ltxt">{labelFor('finitions')}</text>
+      <line x1="821.7" y1="493.0" x2="1115" y2="330" class="lead"/><circle cx="821.7" cy="493.0" r="3" class="leaddot"/><text x="1121" y="334" text-anchor="start" class="ltxt">{labelFor('facade')}</text>
+      <line x1="665.8" y1="308.0" x2="1115" y2="150" class="lead"/><circle cx="665.8" cy="308.0" r="3" class="leaddot"/><text x="1121" y="154" text-anchor="start" class="ltxt">{labelFor('toiture')}</text>
+      <line x1="561.9" y1="312.6" x2="255" y2="150" class="lead"/><circle cx="561.9" cy="312.6" r="3" class="leaddot"/><text x="249" y="154" text-anchor="end" class="ltxt">{labelFor('charpente')}</text>
+      <line x1="509.9" y1="257.4" x2="255" y2="255" class="lead"/><circle cx="509.9" cy="257.4" r="3" class="leaddot"/><text x="249" y="259" text-anchor="end" class="ltxt">{labelFor('isolation')}</text>
+      <line x1="394.9" y1="570.2" x2="255" y2="710" class="lead"/><circle cx="394.9" cy="570.2" r="3" class="leaddot"/><text x="249" y="714" text-anchor="end" class="ltxt">{labelFor('extension')}</text>
+      <line x1="634.6" y1="645.0" x2="1115" y2="650" class="lead"/><circle cx="634.6" cy="645.0" r="3" class="leaddot"/><text x="1121" y="654" text-anchor="start" class="ltxt">{labelFor('cuisine')}</text>
+      <line x1="683.1" y1="501.0" x2="255" y2="560" class="lead"/><circle cx="683.1" cy="501.0" r="3" class="leaddot"/><text x="249" y="564" text-anchor="end" class="ltxt">{labelFor('chauffage')}</text>
+      <line x1="631.2" y1="531.0" x2="1115" y2="540" class="lead"/><circle cx="631.2" cy="531.0" r="3" class="leaddot"/><text x="1121" y="544" text-anchor="start" class="ltxt">{labelFor('salle-de-bain')}</text>
+      <line x1="755.9" y1="487.0" x2="1115" y2="430" class="lead"/><circle cx="755.9" cy="487.0" r="3" class="leaddot"/><text x="1121" y="434" text-anchor="start" class="ltxt">{labelFor('electricite')}</text>
+      <line x1="728.2" y1="415.0" x2="1115" y2="235" class="lead"/><circle cx="728.2" cy="415.0" r="3" class="leaddot"/><text x="1121" y="239" text-anchor="start" class="ltxt">{labelFor('menuiseries')}</text>
+      </g>
+      </svg>
+    </div>
+
+    <p class="mb-6 text-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">
+      Cliquez sur un métier pour découvrir notre approche, nos garanties et nos réalisations.
+    </p>
+    <ul class="grid grid-cols-1 gap-px border border-outline-variant bg-outline-variant sm:grid-cols-2 lg:grid-cols-4">
+      {corpsMetier.map((c) => (
+        <li>
+          <a class="legend-item flex h-full flex-col gap-1 bg-surface-container-lowest p-4 transition-colors" data-id={c.id} href={`/metiers/${c.slug}`}>
+            <span class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.05em] text-on-surface">
+              <span class="legend-dot h-2 w-2 shrink-0 bg-outline transition-colors" aria-hidden="true" />
+              {c.nom}
+            </span>
+            <span class="pl-5 text-sm leading-relaxed text-on-surface-variant">{c.description}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .maison svg { overflow: visible; }
+  .legend-item:hover .legend-dot,.legend-item:focus-visible .legend-dot,.legend-item.is-active .legend-dot { background-color: var(--color-tertiary); }
+  .legend-item.is-active,.legend-item:hover { background-color: var(--color-surface-container); }
+</style>
+
+<script>
+  const zones = Array.from(document.querySelectorAll<HTMLElement>('#expertises .zone'));
+  const items = Array.from(document.querySelectorAll<HTMLElement>('#expertises .legend-item'));
+  const setActive = (id: string, active: boolean) => {
+    for (const el of [...zones, ...items]) { if (el.dataset.id === id) el.classList.toggle('is-active', active); }
+  };
+  for (const el of [...zones, ...items]) {
+    const id = el.dataset.id; if (!id) continue;
+    el.addEventListener('mouseenter', () => setActive(id, true));
+    el.addEventListener('mouseleave', () => setActive(id, false));
+    el.addEventListener('focus', () => setActive(id, true));
+    el.addEventListener('blur', () => setActive(id, false));
+  }
+</script>
