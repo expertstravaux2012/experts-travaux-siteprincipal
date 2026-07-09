@@ -9,14 +9,18 @@ import LogoPlate from '../ui/LogoPlate.astro';
   id="top"
   class="relative flex min-h-screen items-center justify-center overflow-hidden"
 >
-  <!-- Photo de fond plein cadre, léger flou (scale pour masquer les bords du flou) -->
-  <img
-    src={hero.image}
-    alt={hero.imageAlt}
-    class="absolute inset-0 h-full w-full scale-105 object-cover blur-[2px]"
-    fetchpriority="high"
-    decoding="async"
-  />
+  <!-- Carrousel JS : N slides empilées, opacité gérée par le script -->
+  {hero.slides.map((slide, i) => (
+    <img
+      src={slide.src}
+      alt={slide.alt}
+      class={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 motion-reduce:transition-none${i === 0 ? '' : ' opacity-0'}`}
+      data-hero-image
+      fetchpriority={i === 0 ? 'high' : undefined}
+      loading={i === 0 ? undefined : 'lazy'}
+      decoding="async"
+    />
+  ))}
 
   <!-- Scrim sombre : lisibilité du header transparent + contraste AA du texte blanc -->
   <div
@@ -27,7 +31,7 @@ import LogoPlate from '../ui/LogoPlate.astro';
 
   <!-- Contenu centré -->
   <div
-    class="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-8 px-4 py-32 text-center sm:px-8"
+    class="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-6 px-4 pt-24 pb-12 text-center sm:px-8"
   >
     <LogoPlate
       src={site.logo.full}
@@ -59,5 +63,71 @@ import LogoPlate from '../ui/LogoPlate.astro';
         {hero.secondaryCta.label}
       </Button>
     </div>
+
+    <!-- Légende + pastilles de navigation du carrousel -->
+    <div class="flex flex-col items-center gap-3">
+      <div class="flex items-center" role="tablist" aria-label="Réalisations en arrière-plan">
+        {hero.slides.map((slide, i) => (
+          <button
+            type="button"
+            role="tab"
+            class="group p-2"
+            data-hero-dot
+            aria-label={slide.caption}
+            aria-selected={i === 0 ? 'true' : 'false'}
+          >
+            <span
+              class={`block h-2 w-2 transition-colors${i === 0 ? ' bg-tertiary' : ' bg-on-primary/40 group-hover:bg-on-primary/70'}`}
+            ></span>
+          </button>
+        ))}
+      </div>
+      <div class="grid justify-items-center">
+        {hero.slides.map((slide, i) => (
+          <span
+            class={`col-start-1 row-start-1 text-center text-sm font-semibold uppercase tracking-[0.05em] text-on-primary/80 transition-opacity duration-300 motion-reduce:transition-none${i === 0 ? '' : ' opacity-0'}`}
+            data-hero-caption
+          >
+            {slide.caption}
+          </span>
+        ))}
+      </div>
+    </div>
   </div>
 </section>
+
+<script>
+  const images = [...document.querySelectorAll('[data-hero-image]')] as HTMLElement[];
+  const dots = [...document.querySelectorAll('[data-hero-dot]')] as HTMLElement[];
+  const captions = [...document.querySelectorAll('[data-hero-caption]')] as HTMLElement[];
+  let index = 0;
+  let timer: ReturnType<typeof setInterval>;
+
+  function show(i: number) {
+    index = i;
+    images.forEach((el, j) => el.classList.toggle('opacity-0', j !== i));
+    captions.forEach((el, j) => el.classList.toggle('opacity-0', j !== i));
+    dots.forEach((el, j) => {
+      el.setAttribute('aria-selected', String(j === i));
+      const square = el.firstElementChild as HTMLElement;
+      square.classList.toggle('bg-tertiary', j === i);
+      square.classList.toggle('bg-on-primary/40', j !== i);
+      square.classList.toggle('group-hover:bg-on-primary/70', j !== i);
+    });
+  }
+
+  function startAuto() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    timer = setInterval(() => show((index + 1) % images.length), 8000);
+  }
+
+  dots.forEach((dot, i) =>
+    dot.addEventListener('click', () => {
+      clearInterval(timer);
+      show(i);
+      startAuto();
+    })
+  );
+
+  startAuto();
+</script>
