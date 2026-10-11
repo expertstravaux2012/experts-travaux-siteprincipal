@@ -1,6 +1,7 @@
 ---
 import { hero } from '../../data/home';
 import Button from '../ui/Button.astro';
+import { responsiveSrcset } from '../../lib/url';
 
 const total = hero.slides.length;
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -21,7 +22,10 @@ const pad = (n: number) => String(n).padStart(2, '0');
       >
         <img
           src={i === 0 ? slide.src : undefined}
+          srcset={i === 0 ? responsiveSrcset(slide.src) : undefined}
+          sizes="100vw"
           data-src={i === 0 ? undefined : slide.src}
+          data-srcset={i === 0 ? undefined : responsiveSrcset(slide.src)}
           alt={slide.alt}
           width={slide.width}
           height={slide.height}
@@ -51,8 +55,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       {hero.eyebrow}
     </span>
     <h1
-      class="hero-rise font-display text-headline-lg-mobile text-on-primary md:text-headline-lg"
-      style="--i:1"
+      class="hero-rise-t font-display text-headline-lg-mobile text-on-primary md:text-headline-lg"
     >
       {hero.title}
     </h1>
@@ -212,6 +215,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
       animation: hero-rise 400ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
       animation-delay: calc(var(--i) * 75ms);
     }
+    [data-hero] .hero-rise-t {
+      animation: hero-rise-t 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -234,6 +240,10 @@ const pad = (n: number) => String(n).padStart(2, '0');
   @keyframes hero-progress {
     from { transform: scaleX(0); }
     to { transform: scaleX(1); }
+  }
+  @keyframes hero-rise-t {
+    from { transform: translateY(var(--spacing-space-md, 1rem)); }
+    to { transform: none; }
   }
   @keyframes hero-rise {
     from { opacity: 0; transform: translateY(var(--spacing-space-md, 1rem)); }
@@ -339,7 +349,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
   const loadDeferred = () =>
     images.forEach((img) => {
-      const src = img.dataset.src;
+      const { src, srcset } = img.dataset;
+      if (srcset) img.srcset = srcset;
       if (src) img.src = src;
     });
   if (document.readyState === 'complete') loadDeferred();
