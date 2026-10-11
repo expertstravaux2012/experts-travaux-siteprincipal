@@ -16,5 +16,9 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      // Three.js (~600 Ko, ~150 Ko gzip) est volontairement isolé dans un chunk chargé à la demande (maison 3D).
+      chunkSizeWarningLimit: 700,
+    },
   },
 });

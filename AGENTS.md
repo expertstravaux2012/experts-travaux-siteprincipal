@@ -25,6 +25,7 @@ src/
   styles/global.css        tokens Tailwind v4 (@theme) issus de DESIGN.md
   data/                    site, navigation, home, particuliers, professionnels, corps-metier, seo, pages, methode, realisations
   lib/                     url (absoluteUrl, metierPath), jsonld, faq-jsonld
+  lib/maison3d/            maquette 3D Three.js (house-model, house-materials, viewer) — chargée en lazy par MaisonInteractiveHybride
   components/
     ui/                    Button, Icon, Logo, SectionHeading, Section, Card, Chip, SquareList, Breadcrumb, RichParagraph
     layout/                Header, Footer
@@ -35,6 +36,8 @@ src/
 ```
 
 Mise en ligne : `indexable: false` dans `src/data/site.ts` (noindex + robots Disallow). Passer à `true` au lancement après confirmation du domaine (`site.url`) et du rayon « 100 km » (étendu depuis le brief). Écart assumé : H1 du Hero en `headline-lg` (96 caractères). `sections/MaisonInteractive.astro` = legacy volontairement conservé, non importé.
+
+Maison interactive : `MaisonInteractiveHybride` charge `lib/maison3d/viewer` à l'approche de la section (hors bundle initial, Lighthouse inchangé) ; photo + zones SVG restent le repli (WebGL absent, Save-Data, erreur). Les couleurs de matériaux de la maquette vivent dans `lib/maison3d/house-materials.ts` (exception assumée aux tokens : maison grisée au repos, couleurs révélées au survol d'un métier).
 
 Images réelles du portfolio dans `../assets/` (15 catégories, ~90 photos) — à utiliser via le composant Image d'Astro (AVIF/WebP).
 

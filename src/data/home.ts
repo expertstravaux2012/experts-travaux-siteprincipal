@@ -368,3 +368,17 @@ export const methodeSection: SectionIntro = {
   eyebrow: 'Méthode',
   title: 'Un cadre clair, du premier échange à la remise des clés.',
 };
+
+export const maisonInteractiveSection = {
+  eyebrow: 'Expertises',
+  title: 'Un savoir-faire complet, du gros œuvre aux finitions.',
+  intro:
+    'Tous les corps de métier de votre chantier, maîtrisés en interne et coordonnés par un seul interlocuteur, du devis à la remise des clés.',
+  prompt: 'Cliquez sur un métier pour découvrir notre approche, nos garanties et nos réalisations.',
+  coupeLabel: "Coupe d'une maison illustrant les corps de métier ; la liste des métiers ci-dessous offre les mêmes liens.",
+  viewerLabel:
+    "Maquette 3D d'une maison, orientable, illustrant les corps de métier ; la liste des métiers ci-dessous offre les mêmes liens.",
+  hint: 'Faites glisser pour pivoter la maison',
+  cta: 'Découvrir ce métier',
+  close: 'Fermer',
+};
