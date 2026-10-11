@@ -1,0 +1,33 @@
+---
+// Lien vers une page métier : `card` (méga-menu, grille hairline) ou `row` (accordéon mobile).
+import IndexLabel from './IndexLabel.astro';
+
+interface Props {
+  href: string;
+  index: number;
+  nom: string;
+  description?: string;
+  variant?: 'card' | 'row';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { href, index, nom, description, variant = 'card', class: className, ...rest } = Astro.props;
+
+const variants = {
+  card: 'relative flex flex-col gap-space-sm border border-hairline p-space-md text-on-surface transition-colors hover:z-10 hover:border-obsidian focus-visible:z-10 focus-visible:border-obsidian motion-reduce:transition-none',
+  row: 'flex min-h-11 items-baseline gap-space-md border-b border-hairline py-space-sm text-on-surface hover:text-on-surface-variant',
+};
+---
+
+<a href={href} class:list={[variants[variant], className]} {...rest}>
+  <span class="flex items-baseline gap-space-sm label-md">
+    <IndexLabel index={index} class="text-on-surface-variant" />
+    <span>{nom}</span>
+  </span>
+  {
+    variant === 'card' && description && (
+      <span class="line-clamp-2 text-body-sm text-on-surface-variant">{description}</span>
+    )
+  }
+</a>

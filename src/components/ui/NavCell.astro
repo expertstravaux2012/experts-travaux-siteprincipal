@@ -1,0 +1,39 @@
+---
+// Cellule du cartouche desktop : lien ou bouton, numéro mono + libellé.
+// L'inversion (volet depuis le bas) est pilotée par le groupe parent `group/item`
+// et par les variables --nav-* posées sur le Header.
+import IndexLabel from './IndexLabel.astro';
+
+interface Props {
+  href?: string;
+  index?: number;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { href, index, class: className = '', ...rest } = Astro.props;
+const Tag = href ? 'a' : 'button';
+
+const cell =
+  'group/cell relative isolate flex min-h-11 whitespace-nowrap items-center gap-space-sm px-space-sm wide:px-space-md label-md text-(--nav-fg) outline-offset-[-4px] focus-visible:outline-(--nav-inv-fg) transition-colors duration-200 motion-reduce:transition-none ' +
+  'before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-(--nav-inv-bg) before:transition-transform before:duration-200 before:ease-out motion-reduce:before:transition-none ' +
+  'group-hover/item:text-(--nav-inv-fg) group-hover/item:before:scale-y-100 ' +
+  'group-has-[:focus-visible]/item:text-(--nav-inv-fg) group-has-[:focus-visible]/item:before:scale-y-100 ' +
+  'group-data-[open]/item:text-(--nav-inv-fg) group-data-[open]/item:before:scale-y-100';
+---
+
+<Tag class:list={[cell, className]} href={href} type={href ? undefined : 'button'} {...rest}>
+  {index !== undefined && <IndexLabel index={index} />}
+  <slot />
+  {
+    index !== undefined && (
+      <span
+        aria-hidden="true"
+        class="absolute bottom-space-sm left-space-md hidden items-center gap-space-xs group-aria-[current=page]/cell:flex"
+      >
+        <span class="h-1.5 w-1.5 bg-current" />
+        <span class="h-px w-4 bg-current" />
+      </span>
+    )
+  }
+</Tag>

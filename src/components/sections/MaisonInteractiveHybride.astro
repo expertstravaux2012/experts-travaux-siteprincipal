@@ -1,67 +1,54 @@
 ---
 // Maison interactive — HYBRIDE (photo + calque vectoriel).
-// Source : _exploration-maison/ (zones.py + gen2.py). Variante line-art : MaisonInteractive.astro.
+// Source : _exploration-maison/ (zones.py + gen2.py).
 // 12 data-id = corps-metier.ts (DRY).
 import { corpsMetier } from '../../data/corps-metier';
+import { metierPath } from '../../lib/url';
 import SectionHeading from '../ui/SectionHeading.astro';
 const byId = Object.fromEntries(corpsMetier.map((c) => [c.id, c]));
-const hrefFor = (id: string) => `/metiers/${byId[id].slug}`;
+const hrefFor = (id: string) => metierPath(byId[id].slug);
 const labelFor = (id: string) => byId[id].nom;
 ---
 
-<section id="expertises" class="border-b border-outline-variant bg-surface">
-  <div class="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 lg:px-16 lg:py-24">
+<section id="expertises" class="border-b border-hairline bg-surface">
+  <div class="mx-auto max-w-site px-margin py-space-xl desktop:py-space-2xl">
     <SectionHeading eyebrow="Expertises" title="Un savoir-faire complet, du gros œuvre aux finitions." class="mb-4" />
-    <p class="mb-12 max-w-2xl text-lg leading-relaxed text-on-surface-variant">
+    <p class="mb-12 max-w-2xl text-body-lg text-on-surface-variant">
       Tous les corps de métier de votre chantier, maîtrisés en interne et coordonnés
       par un seul interlocuteur, du devis à la remise des clés.
     </p>
 
-    <div class="hybride mx-auto mb-10 max-w-5xl border border-outline-variant bg-surface-container-lowest p-4 sm:p-8">
+    <div class="hybride mx-auto mb-10 max-w-5xl border border-hairline bg-surface-container-lowest p-0 md:p-8">
       <div class="wrap">
-      <svg viewBox="0 0 1560 900" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="Coupe d'une maison ; chaque partie est un lien vers un corps de metier."><image href="/assets/maison-coupe.webp" xlink:href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet"/>
-      <a class="zone" data-id="toiture" href={hrefFor('toiture')}><title>{labelFor('toiture')}</title><polygon class="hit" points="540.0,332.8 780.0,215.6 950.0,210.0 1180.0,304.9 1050.0,321.6 850.0,249.1 660.0,299.3"/></a>
-      <a class="zone" data-id="charpente" href={hrefFor('charpente')}><title>{labelFor('charpente')}</title><polygon class="hit" points="860.0,310.5 940.0,232.3 1090.0,277.0 1050.0,355.1 890.0,338.4"/></a>
-      <a class="zone" data-id="isolation" href={hrefFor('isolation')}><title>{labelFor('isolation')}</title><polygon class="hit" points="610.0,377.4 740.0,344.0 750.0,444.4 620.0,472.3"/></a>
-      <a class="zone" data-id="facade" href={hrefFor('facade')}><title>{labelFor('facade')}</title><polygon class="hit" points="510.0,344.0 610.0,321.6 620.0,556.0 510.0,522.6"/></a>
-      <a class="zone" data-id="menuiseries" href={hrefFor('menuiseries')}><title>{labelFor('menuiseries')}</title><polygon class="hit" points="514.0,357.0 570.0,357.0 570.0,426.0 514.0,426.0"/><polygon class="hit" points="585.0,357.0 639.0,357.0 639.0,426.0 585.0,426.0"/><polygon class="hit" points="514.0,478.0 570.0,478.0 570.0,547.0 514.0,547.0"/><polygon class="hit" points="585.0,478.0 639.0,478.0 639.0,547.0 585.0,547.0"/></a>
-      <a class="zone" data-id="maconnerie" href={hrefFor('maconnerie')}><title>{labelFor('maconnerie')}</title><polygon class="hit" points="400.0,422.1 520.0,388.6 540.0,533.7 410.0,556.0"/></a>
-      <a class="zone" data-id="extension" href={hrefFor('extension')}><title>{labelFor('extension')}</title><polygon class="hit" points="1099.0,350.0 1143.0,356.0 1143.0,528.0 1099.0,522.0"/></a>
-      <a class="zone" data-id="salle-de-bain" href={hrefFor('salle-de-bain')}><title>{labelFor('salle-de-bain')}</title><polygon class="hit" points="900.0,366.3 1080.0,371.9 1070.0,472.3 900.0,461.2"/></a>
-      <a class="zone" data-id="cuisine" href={hrefFor('cuisine')}><title>{labelFor('cuisine')}</title><polygon class="hit" points="880.0,494.6 1100.0,494.6 1090.0,600.7 880.0,589.5"/></a>
-      <a class="zone" data-id="electricite" href={hrefFor('electricite')}><title>{labelFor('electricite')}</title><polygon class="hit" points="780.0,304.9 850.0,304.9 850.0,595.1 780.0,595.1"/></a>
-      <a class="zone" data-id="chauffage" href={hrefFor('chauffage')}><title>{labelFor('chauffage')}</title><polygon class="hit" points="480.0,550.5 600.0,544.9 610.0,617.4 480.0,623.0"/><polygon class="hit" points="434.0,545.0 500.0,545.0 500.0,600.0 434.0,600.0"/></a>
-      <a class="zone" data-id="finitions" href={hrefFor('finitions')}><title>{labelFor('finitions')}</title><polygon class="hit" points="710.0,424.0 780.0,419.0 780.0,553.0 710.0,558.0"/></a>
-      <g class="labels">
-      <a class="lab" data-id="toiture" href={hrefFor('toiture')}><rect class="labhit" x="1308" y="99.0" width="244" height="22"/><line x1="1030.0" y1="254.7" x2="1300" y2="110.0" class="lead"/><circle cx="1030.0" cy="254.7" r="4" class="leaddot"/><text x="1308" y="114.0" text-anchor="start" class="ltxt">{labelFor('toiture')}</text></a>
-      <a class="lab" data-id="charpente" href={hrefFor('charpente')}><rect class="labhit" x="1308" y="237.0" width="244" height="22"/><line x1="970.0" y1="282.6" x2="1300" y2="248.0" class="lead"/><circle cx="970.0" cy="282.6" r="4" class="leaddot"/><text x="1308" y="252.0" text-anchor="start" class="ltxt">{labelFor('charpente')}</text></a>
-      <a class="lab" data-id="isolation" href={hrefFor('isolation')}><rect class="labhit" x="26" y="99.0" width="244" height="22"/><line x1="670.0" y1="399.8" x2="278" y2="110.0" class="lead"/><circle cx="670.0" cy="399.8" r="4" class="leaddot"/><text x="270" y="114.0" text-anchor="end" class="ltxt">{labelFor('isolation')}</text></a>
-      <a class="lab" data-id="facade" href={hrefFor('facade')}><rect class="labhit" x="26" y="237.0" width="244" height="22"/><line x1="570.0" y1="416.5" x2="278" y2="248.0" class="lead"/><circle cx="570.0" cy="416.5" r="4" class="leaddot"/><text x="270" y="252.0" text-anchor="end" class="ltxt">{labelFor('facade')}</text></a>
-      <a class="lab" data-id="menuiseries" href={hrefFor('menuiseries')}><rect class="labhit" x="26" y="513.0" width="244" height="22"/><line x1="540.0" y1="512.0" x2="278" y2="524.0" class="lead"/><circle cx="540.0" cy="512.0" r="4" class="leaddot"/><text x="270" y="528.0" text-anchor="end" class="ltxt">{labelFor('menuiseries')}</text></a>
-      <a class="lab" data-id="maconnerie" href={hrefFor('maconnerie')}><rect class="labhit" x="26" y="375.0" width="244" height="22"/><line x1="470.0" y1="472.3" x2="278" y2="386.0" class="lead"/><circle cx="470.0" cy="472.3" r="4" class="leaddot"/><text x="270" y="390.0" text-anchor="end" class="ltxt">{labelFor('maconnerie')}</text></a>
-      <a class="lab" data-id="extension" href={hrefFor('extension')}><rect class="labhit" x="1308" y="651.0" width="244" height="22"/><line x1="1140.0" y1="440.0" x2="1300" y2="662.0" class="lead"/><circle cx="1140.0" cy="440.0" r="4" class="leaddot"/><text x="1308" y="666.0" text-anchor="start" class="ltxt">{labelFor('extension')}</text></a>
-      <a class="lab" data-id="salle-de-bain" href={hrefFor('salle-de-bain')}><rect class="labhit" x="1308" y="513.0" width="244" height="22"/><line x1="990.0" y1="405.4" x2="1300" y2="524.0" class="lead"/><circle cx="990.0" cy="405.4" r="4" class="leaddot"/><text x="1308" y="528.0" text-anchor="start" class="ltxt">{labelFor('salle-de-bain')}</text></a>
-      <a class="lab" data-id="cuisine" href={hrefFor('cuisine')}><rect class="labhit" x="1308" y="789.0" width="244" height="22"/><line x1="990.0" y1="550.5" x2="1300" y2="800.0" class="lead"/><circle cx="990.0" cy="550.5" r="4" class="leaddot"/><text x="1308" y="804.0" text-anchor="start" class="ltxt">{labelFor('cuisine')}</text></a>
-      <a class="lab" data-id="electricite" href={hrefFor('electricite')}><rect class="labhit" x="1308" y="375.0" width="244" height="22"/><line x1="820.0" y1="399.8" x2="1300" y2="386.0" class="lead"/><circle cx="820.0" cy="399.8" r="4" class="leaddot"/><text x="1308" y="390.0" text-anchor="start" class="ltxt">{labelFor('electricite')}</text></a>
-      <a class="lab" data-id="chauffage" href={hrefFor('chauffage')}><rect class="labhit" x="26" y="789.0" width="244" height="22"/><line x1="540.0" y1="578.4" x2="278" y2="800.0" class="lead"/><circle cx="540.0" cy="578.4" r="4" class="leaddot"/><text x="270" y="804.0" text-anchor="end" class="ltxt">{labelFor('chauffage')}</text></a>
-      <a class="lab" data-id="finitions" href={hrefFor('finitions')}><rect class="labhit" x="26" y="651.0" width="244" height="22"/><line x1="750.0" y1="505.8" x2="278" y2="662.0" class="lead"/><circle cx="750.0" cy="505.8" r="4" class="leaddot"/><text x="270" y="666.0" text-anchor="end" class="ltxt">{labelFor('finitions')}</text></a>
-      </g>
+      <svg viewBox="290 170 1000 560" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="group" aria-label="Coupe d'une maison illustrant les corps de métier ; la liste des métiers ci-dessous offre les mêmes liens."><defs><clipPath id="clip-toiture"><use href="#hit-toiture-0"/><use href="#hit-toiture-1"/></clipPath><clipPath id="clip-charpente"><use href="#hit-charpente-0"/><use href="#hit-charpente-1"/></clipPath><clipPath id="clip-isolation"><use href="#hit-isolation-0"/><use href="#hit-isolation-1"/><use href="#hit-isolation-2"/></clipPath><clipPath id="clip-facade"><use href="#hit-facade-0"/></clipPath><clipPath id="clip-menuiseries"><use href="#hit-menuiseries-0"/><use href="#hit-menuiseries-1"/><use href="#hit-menuiseries-2"/><use href="#hit-menuiseries-3"/></clipPath><clipPath id="clip-maconnerie"><use href="#hit-maconnerie-0"/></clipPath><clipPath id="clip-extension"><use href="#hit-extension-0"/></clipPath><clipPath id="clip-salle-de-bain"><use href="#hit-salle-de-bain-0"/></clipPath><clipPath id="clip-cuisine"><use href="#hit-cuisine-0"/></clipPath><clipPath id="clip-electricite"><use href="#hit-electricite-0"/></clipPath><clipPath id="clip-chauffage"><use href="#hit-chauffage-0"/><use href="#hit-chauffage-1"/><use href="#hit-chauffage-2"/><use href="#hit-chauffage-3"/><use href="#hit-chauffage-4"/><use href="#hit-chauffage-5"/><use href="#hit-chauffage-6"/><use href="#hit-chauffage-7"/><use href="#hit-chauffage-8"/><use href="#hit-chauffage-9"/></clipPath><clipPath id="clip-finitions"><use href="#hit-finitions-0"/></clipPath></defs><image class="maison-base" href="/assets/maison-coupe.webp" xlink:href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet"/><rect class="maison-tint" x="290" y="170.9" width="1000" height="558.1" aria-hidden="true"/>
+      <a class="zone" data-id="toiture" href={hrefFor('toiture')} tabindex="-1" aria-hidden="true" aria-label={labelFor('toiture')}><title>{labelFor('toiture')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-toiture)" aria-hidden="true"/><polygon id="hit-toiture-0" class="hit" points="487.5,304.9 661.0,203.9 830.0,229.9 821.0,240.9 669.0,335.9 497.5,323.4"/><polygon id="hit-toiture-1" class="hit" points="854.0,231.9 1151.0,311.9 1154.0,319.9 1135.0,324.9 856.0,245.9"/></a>
+      <a class="zone" data-id="charpente" href={hrefFor('charpente')} tabindex="-1" aria-hidden="true" aria-label={labelFor('charpente')}><title>{labelFor('charpente')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-charpente)" aria-hidden="true"/><polygon id="hit-charpente-0" class="hit" points="670.0,335.9 820.0,240.9 818.0,329.9"/><polygon id="hit-charpente-1" class="hit" points="857.5,245.9 1072.5,320.9 857.5,331.9"/></a>
+      <a class="zone" data-id="isolation" href={hrefFor('isolation')} tabindex="-1" aria-hidden="true" aria-label={labelFor('isolation')}><title>{labelFor('isolation')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-isolation)" aria-hidden="true"/><polygon id="hit-isolation-0" class="hit" points="622.5,312.9 695.0,275.4 760.0,250.4 787.5,247.9 784.5,255.4 740.0,278.9 725.0,286.9 665.5,321.4 647.5,323.4"/><polygon id="hit-isolation-1" class="hit" points="687.5,325.9 740.0,308.4 805.0,311.9 804.0,323.4 686.0,330.9"/><polygon id="hit-isolation-2" class="hit" points="860.0,301.9 1064.0,319.9 1064.0,328.4 860.0,329.9"/></a>
+      <a class="zone" data-id="facade" href={hrefFor('facade')} tabindex="-1" aria-hidden="true" aria-label={labelFor('facade')}><title>{labelFor('facade')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-facade)" aria-hidden="true"/><polygon id="hit-facade-0" class="hit" points="499.0,319.9 665.0,344.9 666.0,645.9 505.0,585.9"/></a>
+      <a class="zone" data-id="menuiseries" href={hrefFor('menuiseries')} tabindex="-1" aria-hidden="true" aria-label={labelFor('menuiseries')}><title>{labelFor('menuiseries')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-menuiseries)" aria-hidden="true"/><polygon id="hit-menuiseries-0" class="hit" points="514.0,357.0 570.0,357.0 570.0,426.0 514.0,426.0"/><polygon id="hit-menuiseries-1" class="hit" points="585.0,357.0 639.0,357.0 639.0,426.0 585.0,426.0"/><polygon id="hit-menuiseries-2" class="hit" points="514.0,478.0 570.0,478.0 570.0,547.0 514.0,547.0"/><polygon id="hit-menuiseries-3" class="hit" points="585.0,478.0 639.0,478.0 639.0,547.0 585.0,547.0"/></a>
+      <a class="zone" data-id="maconnerie" href={hrefFor('maconnerie')} tabindex="-1" aria-hidden="true" aria-label={labelFor('maconnerie')}><title>{labelFor('maconnerie')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-maconnerie)" aria-hidden="true"/><polygon id="hit-maconnerie-0" class="hit" points="471.0,446.9 499.0,438.9 502.5,490.9 502.5,575.9 440.0,570.9 426.0,550.9 451.0,500.9"/></a>
+      <a class="zone" data-id="extension" href={hrefFor('extension')} tabindex="-1" aria-hidden="true" aria-label={labelFor('extension')}><title>{labelFor('extension')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-extension)" aria-hidden="true"/><polygon id="hit-extension-0" class="hit" points="1099.0,350.0 1143.0,356.0 1143.0,528.0 1099.0,522.0"/></a>
+      <a class="zone" data-id="salle-de-bain" href={hrefFor('salle-de-bain')} tabindex="-1" aria-hidden="true" aria-label={labelFor('salle-de-bain')}><title>{labelFor('salle-de-bain')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-salle-de-bain)" aria-hidden="true"/><polygon id="hit-salle-de-bain-0" class="hit" points="900.0,366.3 1080.0,371.9 1070.0,472.3 900.0,461.2"/></a>
+      <a class="zone" data-id="cuisine" href={hrefFor('cuisine')} tabindex="-1" aria-hidden="true" aria-label={labelFor('cuisine')}><title>{labelFor('cuisine')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-cuisine)" aria-hidden="true"/><polygon id="hit-cuisine-0" class="hit" points="880.0,494.6 1100.0,494.6 1090.0,600.7 880.0,589.5"/></a>
+      <a class="zone" data-id="electricite" href={hrefFor('electricite')} tabindex="-1" aria-hidden="true" aria-label={labelFor('electricite')}><title>{labelFor('electricite')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-electricite)" aria-hidden="true"/><polygon id="hit-electricite-0" class="hit" points="780.0,304.9 850.0,304.9 850.0,595.1 780.0,595.1"/></a>
+      <a class="zone" data-id="chauffage" href={hrefFor('chauffage')} tabindex="-1" aria-hidden="true" aria-label={labelFor('chauffage')}><title>{labelFor('chauffage')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-chauffage)" aria-hidden="true"/><polygon id="hit-chauffage-0" class="hit" points="455.0,573.4 507.5,573.4 507.5,619.4 455.0,619.4"/><polygon id="hit-chauffage-1" class="hit" points="364.0,608.9 422.5,608.9 440.0,623.4 452.5,653.4 451.0,663.4 420.0,663.4 409.0,623.4 364.0,613.9"/><polygon id="hit-chauffage-2" class="hit" points="495.0,629.9 540.0,633.4 570.0,641.9 640.0,663.4 640.0,670.9 570.0,651.9 542.5,651.9 495.0,638.4"/><polygon id="hit-chauffage-3" class="hit" points="494.0,638.4 517.5,638.4 517.5,690.9 494.0,690.9"/><polygon id="hit-chauffage-4" class="hit" points="819.0,576.9 849.0,576.9 849.0,601.9 819.0,601.9"/><polygon id="hit-chauffage-5" class="hit" points="819.0,601.9 847.5,601.9 849.0,620.9 880.0,623.4 881.0,648.4 870.0,649.9 840.0,633.4 835.0,643.4 800.0,648.4 797.5,638.4 819.0,633.4"/><polygon id="hit-chauffage-6" class="hit" points="680.0,633.4 740.0,618.4 782.5,620.9 790.0,626.9 727.5,645.9 685.0,643.4"/><polygon id="hit-chauffage-7" class="hit" points="897.5,617.4 1000.0,622.4 1021.0,633.4 1010.0,641.9 955.0,638.4 902.5,623.4"/><polygon id="hit-chauffage-8" class="hit" points="939.0,476.9 1030.0,472.4 1031.0,484.9 990.0,489.4 950.0,484.9"/><polygon id="hit-chauffage-9" class="hit" points="682.5,484.9 760.0,474.4 791.0,473.9 791.0,481.9 740.0,491.9 685.0,493.4"/></a>
+      <a class="zone" data-id="finitions" href={hrefFor('finitions')} tabindex="-1" aria-hidden="true" aria-label={labelFor('finitions')}><title>{labelFor('finitions')}</title><image class="maison-color" href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-finitions)" aria-hidden="true"/><polygon id="hit-finitions-0" class="hit" points="710.0,424.0 780.0,419.0 780.0,553.0 710.0,558.0"/></a>
       </svg>
       </div>
     </div>
 
-    <p class="mb-6 text-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">
+    <p class="mb-6 label-md text-on-surface-variant">
       Cliquez sur un métier pour découvrir notre approche, nos garanties et nos réalisations.
     </p>
-    <ul class="grid grid-cols-1 gap-px border border-outline-variant bg-outline-variant sm:grid-cols-2 lg:grid-cols-4">
+    <ul class="grid grid-cols-1 gap-px border border-hairline bg-hairline md:grid-cols-2 desktop:grid-cols-4">
       {corpsMetier.map((c) => (
         <li>
-          <a class="legend-item flex h-full flex-col gap-1 bg-surface-container-lowest p-4 transition-colors" data-id={c.id} href={`/metiers/${c.slug}`}>
-            <span class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.05em] text-on-surface">
+          <a class="legend-item flex h-full flex-col gap-1 bg-surface-container-lowest p-4 transition-colors" data-id={c.id} href={metierPath(c.slug)}>
+            <span class="flex items-center gap-3 label-md text-on-surface">
               <span class="legend-dot h-2 w-2 shrink-0 bg-outline transition-colors" aria-hidden="true" />
               {c.nom}
             </span>
-            <span class="pl-5 text-sm leading-relaxed text-on-surface-variant">{c.description}</span>
+            <span class="pl-5 text-body-sm text-on-surface-variant">{c.description}</span>
           </a>
         </li>
       ))}
@@ -72,42 +59,31 @@ const labelFor = (id: string) => byId[id].nom;
 <style>
 .hybride .wrap { position: relative; width: 100%; }
 .hybride svg { width: 100%; height: auto; display: block; overflow: visible; }
-/* Libellés interactifs : seul le rect de hit capte le survol/clic ; trait, point
-   et texte restent décoratifs. user-select off pour éviter le surlignage bleu. */
-.hybride :global(.labels) {
-  user-select: none;
-  -webkit-user-select: none;
-}
-.labhit { fill: transparent; pointer-events: auto; cursor: pointer; }
-.lead, .leaddot, .ltxt { pointer-events: none; }
-.hybride :global(svg a.lab:focus),
-.hybride :global(svg a.lab:active) { outline: none !important; }
 .hit { fill: transparent; stroke: transparent; stroke-width: 2; cursor: pointer; transition: fill-opacity .15s, fill .15s, stroke .15s; }
-.zone:hover .hit, .zone:focus-visible .hit, .zone.is-active .hit { fill: var(--color-tertiary); fill-opacity: .30; stroke: var(--color-tertiary); }
+.hybride svg { isolation: isolate; }
+.maison-base { filter: grayscale(1); }
+.maison-tint { fill: var(--color-tertiary); mix-blend-mode: overlay; pointer-events: none; }
+.maison-color { opacity: 0; pointer-events: none; transition: opacity .3s ease; }
+.zone:hover .maison-color, .zone:focus-visible .maison-color, .zone.is-active .maison-color { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .maison-color { transition: none; } }
+.zone:focus-visible .hit { stroke: var(--color-obsidian); stroke-width: 3; }
 .hybride :global(svg a.zone:focus),
 .hybride :global(svg a.zone:active) { outline: none !important; }
 .legend-item:focus:not(:focus-visible) { outline: none; }
-.lead { stroke: var(--color-on-surface); stroke-width: 1.2; opacity: .5; }
-.leaddot { fill: var(--color-tertiary); stroke: var(--color-surface-container-lowest); stroke-width: 1.5; }
-.ltxt { font: 600 14px system-ui, -apple-system, Segoe UI, Arial, sans-serif; fill: var(--color-on-surface); }
-.lab.is-active .ltxt { fill: var(--color-tertiary); }
-.lab.is-active .lead { opacity: 1; stroke: var(--color-tertiary); }
-.lab.is-active .leaddot { r: 5.5; }
 
-.legend-item:hover .legend-dot, .legend-item:focus-visible .legend-dot, .legend-item.is-active .legend-dot { background-color: var(--color-tertiary); }
+.legend-item:hover .legend-dot, .legend-item:focus-visible .legend-dot, .legend-item.is-active .legend-dot { background-color: var(--color-obsidian); }
 .legend-item.is-active, .legend-item:hover { background-color: var(--color-surface-container); }
 </style>
 
 <script>
   const Z = Array.from(document.querySelectorAll<HTMLElement>('#expertises .zone'));
   const I = Array.from(document.querySelectorAll<HTMLElement>('#expertises .legend-item'));
-  const L = Array.from(document.querySelectorAll<HTMLElement>('#expertises .lab'));
-  const set = (id: string, a: boolean) => { for (const el of [...Z, ...I, ...L]) if (el.dataset.id === id) el.classList.toggle('is-active', a); };
+  const set = (id: string, a: boolean) => { for (const el of [...Z, ...I]) if (el.dataset.id === id) el.classList.toggle('is-active', a); };
   // Clic souris : pas de focus persistant (Chrome dessine un rect bleu sur les <a> SVG).
-  for (const el of [...Z, ...I, ...L]) {
+  for (const el of [...Z, ...I]) {
     el.addEventListener('mousedown', (e) => { if (e.button === 0) e.preventDefault(); });
   }
-  for (const el of [...Z, ...I, ...L]) {
+  for (const el of [...Z, ...I]) {
     const id = el.dataset.id;
     if (!id) continue;
     el.addEventListener('mouseenter', () => set(id, true));

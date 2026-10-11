@@ -1,0 +1,70 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import PageIntro from '../../components/sections/page/PageIntro.astro';
+import PrestationsGrid from '../../components/sections/page/PrestationsGrid.astro';
+import AvantApres from '../../components/sections/page/AvantApres.astro';
+import Secteurs from '../../components/sections/page/Secteurs.astro';
+import Argumentaire from '../../components/sections/page/Argumentaire.astro';
+import ActionPanel from '../../components/sections/page/ActionPanel.astro';
+import ActionPanels from '../../components/sections/page/ActionPanels.astro';
+import Faq from '../../components/sections/page/Faq.astro';
+import CtaBand from '../../components/sections/page/CtaBand.astro';
+import Contact from '../../components/sections/Contact.astro';
+import { professionnels as c } from '../../data/professionnels';
+import { seo } from '../../data/seo';
+import { faqJsonLd } from '../../lib/faq-jsonld';
+import { breadcrumbNode } from '../../lib/jsonld';
+import { silos } from '../../data/pages';
+
+const seoBase = {
+  ...seo.professionnels,
+  path: '/professionnels/',
+  jsonLd: [
+    breadcrumbNode('/professionnels/', [{ name: silos.professionnels.label, path: '/professionnels/' }]),
+    faqJsonLd('/professionnels/', c.faq),
+  ],
+};
+---
+
+<Layout
+  title={seoBase.title}
+  description={seoBase.description}
+  path={seoBase.path}
+  jsonLd={seoBase.jsonLd}
+>
+  <Header />
+  <main id="main">
+    <PageIntro eyebrow={c.eyebrow} title={c.h1} intro={c.intro} />
+    <PrestationsGrid eyebrow={c.prestationsHeading.eyebrow} title={c.prestationsHeading.title} items={c.prestations} />
+    <Secteurs
+      eyebrow={c.secteursHeading.eyebrow}
+      title={c.secteursHeading.title}
+      intro={c.secteursHeading.intro}
+      items={c.secteurs}
+    />
+    <AvantApres
+      eyebrow={c.avantApresHeading.eyebrow}
+      title={c.avantApresHeading.title}
+      intro={c.avantApresHeading.intro}
+      items={c.avantApres}
+    />
+    <Argumentaire eyebrow={c.argumentaireHeading.eyebrow} title={c.argumentaireHeading.title} items={c.argumentaire} />
+    <ActionPanels tone="low">
+      <div class="desktop:col-span-2">
+        <ActionPanel
+          eyebrow={c.appelOffres.eyebrow}
+          title={c.appelOffres.title}
+          text={c.appelOffres.text}
+          items={c.appelOffres.elements}
+          ctas={[c.appelOffres.ctaPrincipal, c.appelOffres.ctaSecondaire]}
+        />
+      </div>
+    </ActionPanels>
+    <Faq eyebrow={c.faqHeading.eyebrow} title={c.faqHeading.title} items={c.faq} />
+    <CtaBand cta={c.cta} />
+    <Contact cible="professionnels" />
+  </main>
+  <Footer />
+</Layout>

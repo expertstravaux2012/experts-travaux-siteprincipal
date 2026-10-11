@@ -1,0 +1,97 @@
+---
+// Carte éditoriale de réalisation sur fond sombre. Seules les métadonnées non nulles sont rendues.
+// `href` : cible facultative ; le bouton ↗ n'apparaît que si elle est fournie.
+import type { Realisation } from '../../data/realisations';
+import type { RealisationsLabels } from '../../data/home';
+import Icon from './Icon.astro';
+
+interface Props {
+  realisation: Realisation;
+  index: number;
+  labels: RealisationsLabels;
+  href?: string | null;
+  class?: string;
+  imageClass?: string;
+}
+
+const {
+  realisation: real,
+  index,
+  labels,
+  href = null,
+  class: className = '',
+  imageClass = 'aspect-4/3',
+} = Astro.props;
+
+const plate = String(index + 1).padStart(2, '0');
+const tag = [`${labels.plate} ${plate} // ${real.categorie}`, real.surface]
+  .filter(Boolean)
+  .join(' · ');
+const hasMeta = Boolean(real.lieu || real.duree);
+---
+
+<li
+  class={`group flex flex-col border border-hairline-inverse p-space-md transition-colors hover:border-inverse-on-surface focus-within:border-inverse-on-surface ${className}`}
+>
+  <div class={`relative overflow-hidden border border-hairline-inverse ${imageClass}`}>
+    <img
+      src={real.image}
+      alt={real.alt}
+      loading="lazy"
+      decoding="async"
+      width={real.width}
+      height={real.height}
+      class="h-full w-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0 group-focus-within:grayscale-0 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+    />
+    <span
+      class="absolute left-0 top-0 bg-obsidian px-space-md py-space-sm label-sm text-on-primary"
+      aria-hidden="true"
+    >
+      {tag}
+    </span>
+    {
+      real.annee && (
+        <span class="absolute bottom-0 right-0 bg-obsidian px-space-md py-space-sm label-sm text-on-primary">
+          {labels.restitution} : {real.annee}
+        </span>
+      )
+    }
+  </div>
+
+  <div class="mt-space-md flex flex-1 flex-col gap-space-sm">
+    <p class="label-sm text-inverse-primary">{real.eyebrow}</p>
+    <h3 class="font-display text-headline-md text-inverse-on-surface">{real.titre}</h3>
+    <p class="text-body-md text-inverse-primary">{real.description}</p>
+
+    {
+      href && (
+        <a
+          href={href}
+          aria-label={`${labels.voir} : ${real.titre}`}
+          class="mt-space-sm inline-flex h-11 w-11 items-center justify-center border border-inverse-on-surface text-inverse-on-surface transition-colors hover:bg-inverse-on-surface hover:text-obsidian focus-visible:outline-inverse-on-surface"
+        >
+          <Icon name="arrow-right" class="h-4 w-4 -rotate-45" />
+        </a>
+      )
+    }
+
+    {
+      hasMeta && (
+        <dl class="mt-auto flex flex-wrap justify-between gap-x-space-md gap-y-space-xs border-t border-hairline-inverse pt-space-sm label-sm text-inverse-primary">
+          {real.lieu && (
+            <div class="flex gap-space-xs">
+              <dt>{labels.lieu} :</dt>
+              <dd>{real.lieu}</dd>
+            </div>
+          )}
+          {real.duree && (
+            <div class="ml-auto flex gap-space-xs">
+              <dt>{labels.duree} :</dt>
+              <dd>{real.duree}</dd>
+            </div>
+          )}
+        </dl>
+      )
+    }
+  </div>
+</li>

@@ -2,27 +2,24 @@
 import { navigation } from '../../data/navigation';
 import { site } from '../../data/site';
 import Icon from '../ui/Icon.astro';
+import Logo from '../ui/Logo.astro';
 
-const year = 2026;
+const year = new Date().getFullYear();
+const { labels } = site;
+const linkClass =
+  'inline-flex min-h-11 items-center text-body-md underline-offset-4 hover:underline focus-visible:outline-inverse-on-surface';
 ---
 
-<footer class="border-t border-outline-variant bg-inverse-surface text-inverse-on-surface">
-  <div class="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 lg:px-16">
-    <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
+<footer class="border-t border-hairline-inverse bg-inverse-surface text-inverse-on-surface">
+  <div class="mx-auto max-w-site px-margin py-space-xl">
+    <div class="grid grid-cols-1 gap-space-lg md:grid-cols-3 md:gap-gutter">
       <!-- Marque -->
       <div class="flex flex-col gap-4">
-        <a href="#top" class="w-fit" aria-label={`${site.name} — accueil`}>
-          <img
-            src={site.logo.mark}
-            alt=""
-            width="48"
-            height="48"
-            class="h-12 w-auto brightness-0 invert"
-            decoding="async"
-          />
+        <a href="/" class="w-fit focus-visible:outline-inverse-on-surface" aria-label={labels.homeAria}>
+          <Logo variant="on-dark" class="text-lg" />
         </a>
-        <p class="max-w-xs text-base text-inverse-on-surface/80">
-          Rénovation & bâtiment à Toulouse. Un seul interlocuteur, du devis à la remise des clés.
+        <p class="max-w-xs text-body-md text-inverse-on-surface/80">
+          {site.description}
         </p>
         <ul class="mt-2 flex items-center gap-3">
           {
@@ -33,7 +30,7 @@ const year = 2026;
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.name}
-                  class="flex h-10 w-10 items-center justify-center rounded-full border-2 border-inverse-on-surface text-inverse-on-surface transition-colors hover:border-tertiary hover:bg-tertiary hover:text-on-surface"
+                  class="flex h-11 w-11 items-center justify-center rounded-full border border-inverse-on-surface text-inverse-on-surface transition-colors focus-visible:outline-inverse-on-surface hover:border-inverse-on-surface hover:bg-hairline-inverse"
                 >
                   <Icon name={social.icon} class="h-5 w-5" />
                 </a>
@@ -44,15 +41,15 @@ const year = 2026;
       </div>
 
       <!-- Plan du site -->
-      <nav aria-label="Plan du site" class="flex flex-col gap-4">
-        <span class="text-sm font-semibold uppercase tracking-[0.05em] text-inverse-on-surface/60">
-          Navigation
+      <nav aria-label={labels.footerNav} class="flex flex-col gap-4">
+        <span class="label-md text-inverse-on-surface/80">
+          {labels.footerNavTitle}
         </span>
-        <ul class="flex flex-col gap-3">
+        <ul class="flex flex-col">
           {
             [...navigation.links, navigation.cta].map((link) => (
               <li>
-                <a href={link.href} class="text-base underline-offset-4 hover:underline">
+                <a href={link.href} class={linkClass}>
                   {link.label}
                 </a>
               </li>
@@ -62,21 +59,21 @@ const year = 2026;
       </nav>
 
       <!-- Contact -->
-      <div class="flex flex-col gap-4">
-        <span class="text-sm font-semibold uppercase tracking-[0.05em] text-inverse-on-surface/60">
-          Contact
+      <div class="flex flex-col gap-1">
+        <span class="mb-3 label-md text-inverse-on-surface/80">
+          {labels.footerContactTitle}
         </span>
-        <a href={`mailto:${site.email}`} class="inline-flex items-center gap-3 text-base underline-offset-4 hover:underline">
+        <a href={`mailto:${site.email}`} class={`gap-3 ${linkClass}`}>
           <Icon name="mail" class="h-5 w-5" />{site.email}
         </a>
-        <a href={site.phone.href} class="inline-flex items-center gap-3 text-base underline-offset-4 hover:underline">
+        <a href={site.phone.href} class={`gap-3 ${linkClass}`}>
           <Icon name="phone" class="h-5 w-5" />{site.phone.display}
         </a>
         <a
           href={site.address.mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-start gap-3 text-base underline-offset-4 hover:underline"
+          class={`gap-3 ${linkClass}`}
         >
           <Icon name="pin" class="mt-0.5 h-5 w-5 shrink-0" />
           <span>{site.address.street}<br />{site.address.city}</span>
@@ -84,8 +81,8 @@ const year = 2026;
       </div>
     </div>
 
-    <p class="mt-12 border-t border-inverse-on-surface/20 pt-8 text-sm text-inverse-on-surface/60">
-      © {year} {site.name} — Rénovation & Bâtiment · Toulouse
+    <p class="mt-12 border-t border-hairline-inverse pt-8 text-body-sm text-inverse-on-surface/80">
+      © {year} {site.name} — {site.legalLine}
     </p>
   </div>
 </footer>

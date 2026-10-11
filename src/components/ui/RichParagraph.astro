@@ -1,0 +1,27 @@
+---
+import type { RichParagraph } from '../../data/home';
+
+interface Props {
+  segments: RichParagraph;
+  class?: string;
+}
+
+const { segments, class: className = '' } = Astro.props;
+---
+
+<p class={className}>
+  {
+    segments.map((segment) =>
+      segment.href ? (
+        <a
+          href={segment.href}
+          class="text-on-surface underline decoration-hairline underline-offset-4 transition-colors hover:decoration-obsidian"
+        >
+          {segment.text}
+        </a>
+      ) : (
+        segment.text
+      )
+    )
+  }
+</p>

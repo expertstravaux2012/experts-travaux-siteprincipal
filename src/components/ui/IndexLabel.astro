@@ -1,0 +1,11 @@
+---
+interface Props {
+  /** Position 0-based ; rendue sur deux chiffres (01, 02…). */
+  index: number;
+  class?: string;
+}
+
+const { index, class: className } = Astro.props;
+---
+
+<span class={className} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>

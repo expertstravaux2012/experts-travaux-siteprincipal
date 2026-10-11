@@ -1,0 +1,27 @@
+---
+// Bandeau d'appel à l'action de fin de page (fond obsidian).
+import type { Lien, PageCta } from '../../../data/home';
+import Section from '../../ui/Section.astro';
+import Button from '../../ui/Button.astro';
+
+interface Props {
+  cta: PageCta;
+  secondary?: Lien;
+}
+
+const { cta, secondary } = Astro.props;
+---
+
+<Section tone="inverse">
+  <div class="grid grid-cols-1 items-end gap-space-lg desktop:grid-cols-12 desktop:gap-gutter">
+    <div class="flex flex-col gap-space-md desktop:col-span-8">
+      <span class="label-md">[{cta.eyebrow}]</span>
+      <h2 class="font-display text-headline-lg-mobile md:text-headline-lg">{cta.title}</h2>
+      <p class="max-w-2xl text-body-lg text-inverse-primary">{cta.text}</p>
+    </div>
+    <div class="flex flex-wrap gap-space-md desktop:col-span-4 desktop:justify-self-end">
+      <Button href={cta.href} variant="primary-light" icon="arrow-right">{cta.label}</Button>
+      {secondary && <Button href={secondary.href} variant="secondary-light">{secondary.label}</Button>}
+    </div>
+  </div>
+</Section>

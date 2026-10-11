@@ -1,91 +1,114 @@
 ---
 import { hero } from '../../data/home';
-import { site } from '../../data/site';
 import Button from '../ui/Button.astro';
-import LogoPlate from '../ui/LogoPlate.astro';
+
+const total = hero.slides.length;
+const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <section
   id="top"
-  class="relative flex min-h-screen items-center justify-center overflow-hidden"
+  class="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-obsidian"
+  data-hero
 >
-  <!-- Carrousel JS : N slides empilées, opacité gérée par le script -->
-  {hero.slides.map((slide, i) => (
-    <img
-      src={slide.src}
-      alt={slide.alt}
-      class={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 motion-reduce:transition-none${i === 0 ? '' : ' opacity-0'}`}
-      data-hero-image
-      fetchpriority={i === 0 ? 'high' : undefined}
-      loading={i === 0 ? undefined : 'lazy'}
-      decoding="async"
-    />
-  ))}
+  <div class="absolute inset-0 z-0">
+    {hero.slides.map((slide, i) => (
+      <div
+        class="hero-slide absolute inset-0"
+        data-hero-slide
+        data-state={i === 0 ? 'active' : 'idle'}
+        aria-hidden={i === 0 ? undefined : 'true'}
+      >
+        <img
+          src={i === 0 ? slide.src : undefined}
+          data-src={i === 0 ? undefined : slide.src}
+          alt={slide.alt}
+          width={slide.width}
+          height={slide.height}
+          class="h-full w-full object-cover"
+          data-hero-image
+          fetchpriority={i === 0 ? 'high' : 'low'}
+          decoding="async"
+        />
+      </div>
+    ))}
+  </div>
 
-  <!-- Scrim sombre : lisibilité du header transparent + contraste AA du texte blanc -->
+  <div class="hero-reveal hero-desaturate pointer-events-none absolute inset-0" aria-hidden="true"></div>
+  <div class="hero-reveal hero-veil pointer-events-none absolute inset-0 bg-tertiary" aria-hidden="true"></div>
+
   <div
-    class="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black/65"
+    class="hero-scrim pointer-events-none absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-black/65"
     aria-hidden="true"
   >
   </div>
 
-  <!-- Contenu centré -->
   <div
-    class="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-6 px-4 pt-24 pb-12 text-center sm:px-8"
+    class="relative z-10 mx-auto flex max-w-5xl flex-col items-center gap-6 px-margin pt-24 pb-12 text-center"
   >
-    <LogoPlate
-      src={site.logo.full}
-      alt={site.name}
-      width={320}
-      height={128}
-      imgClass="h-32 w-auto sm:h-40 lg:h-48"
-      padding="lg"
-      variant="featured"
-      fetchpriority="high"
-    />
-    <span
-      class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.05em] text-on-primary"
-    >
-      <span class="h-2 w-2 bg-tertiary" aria-hidden="true"></span>
+    <span class="hero-rise flex items-center gap-3 label-md text-on-primary" style="--i:0">
+      <span class="h-2 w-2 bg-on-primary" aria-hidden="true"></span>
       {hero.eyebrow}
     </span>
     <h1
-      class="font-display text-4xl font-extrabold leading-tight tracking-tight text-on-primary sm:text-5xl lg:text-6xl"
+      class="hero-rise font-display text-headline-lg-mobile text-on-primary md:text-headline-lg"
+      style="--i:1"
     >
       {hero.title}
     </h1>
-    <p class="max-w-xl text-lg leading-relaxed text-on-primary/85">
+    <p class="hero-rise max-w-3xl text-body-lg text-on-primary" style="--i:2">
       {hero.subtitle}
     </p>
-    <div class="flex flex-col gap-4 sm:flex-row">
-      <Button variant="accent" href={hero.primaryCta.href}>{hero.primaryCta.label}</Button>
-      <Button variant="secondary-light" href={hero.secondaryCta.href} icon="arrow-right">
-        {hero.secondaryCta.label}
+    <div class="hero-rise flex flex-col gap-4 sm:flex-row" style="--i:3">
+      <Button variant="primary-light" href={hero.ctas.particuliers.href} class="focus-visible:outline-on-primary">
+        {hero.ctas.particuliers.label}
+      </Button>
+      <Button variant="secondary-light" href={hero.ctas.professionnels.href} class="focus-visible:outline-on-primary">
+        {hero.ctas.professionnels.label}
       </Button>
     </div>
 
-    <!-- Légende + pastilles de navigation du carrousel -->
-    <div class="flex flex-col items-center gap-3">
-      <div class="flex items-center" role="tablist" aria-label="Réalisations en arrière-plan">
+    <div class="hero-rise flex w-full max-w-md flex-col items-stretch gap-1" style="--i:4">
+      <div class="flex items-center gap-4" data-hero-status>
+        <span class="label-md whitespace-nowrap text-on-primary" aria-hidden="true">
+          <span data-hero-current>{pad(1)}</span> / {pad(total)}
+        </span>
+        <span class="relative h-0.5 flex-1 overflow-hidden bg-on-primary/30" aria-hidden="true" data-hero-track>
+          <span class="hero-progress absolute inset-0 origin-left bg-on-primary" data-hero-progress></span>
+        </span>
+        <button
+          type="button"
+          class="flex min-h-11 items-center label-md text-on-primary underline-offset-4 hover:underline focus-visible:outline-on-primary"
+          data-hero-toggle
+          aria-label={hero.carousel.pauseAriaLabel}
+          data-pause-label={hero.carousel.pause}
+          data-resume-label={hero.carousel.resume}
+          data-pause-aria={hero.carousel.pauseAriaLabel}
+          data-resume-aria={hero.carousel.resumeAriaLabel}
+        >
+          {hero.carousel.pause}
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between" role="group" aria-label={hero.carousel.groupLabel} data-hero-controls>
         {hero.slides.map((slide, i) => (
           <button
             type="button"
-            role="tab"
-            class="group p-2"
+            class="group flex min-h-11 min-w-11 flex-col items-center justify-center gap-1 label-md text-on-primary/70 hover:text-on-primary aria-[current=true]:text-on-primary focus-visible:outline-on-primary"
             data-hero-dot
-            aria-label={slide.caption}
-            aria-selected={i === 0 ? 'true' : 'false'}
+            aria-label={`${hero.carousel.slideLabel} ${pad(i + 1)} : ${slide.caption}`}
+            aria-current={i === 0 ? 'true' : 'false'}
           >
-            <span
-              class={`block h-2 w-2 transition-colors${i === 0 ? ' bg-tertiary' : ' bg-on-primary/40 group-hover:bg-on-primary/70'}`}
-            ></span>
+            {pad(i + 1)}
+            <span class="block h-px w-6 bg-on-primary/40 group-hover:bg-on-primary/70 group-aria-[current=true]:h-0.5 group-aria-[current=true]:bg-on-primary"></span>
           </button>
         ))}
       </div>
+
       <div class="grid justify-items-center">
         {hero.slides.map((slide, i) => (
           <span
-            class={`col-start-1 row-start-1 text-center text-sm font-semibold uppercase tracking-[0.05em] text-on-primary/80 transition-opacity duration-300 motion-reduce:transition-none${i === 0 ? '' : ' opacity-0'}`}
+            class={`col-start-1 row-start-1 text-center label-md text-on-primary/80 transition-opacity duration-300 motion-reduce:transition-none${i === 0 ? '' : ' opacity-0'}`}
             data-hero-caption
           >
             {slide.caption}
@@ -96,38 +119,257 @@ import LogoPlate from '../ui/LogoPlate.astro';
   </div>
 </section>
 
+<style is:global>
+  @property --hero-r {
+    syntax: '<length>';
+    inherits: true;
+    initial-value: 0px;
+  }
+
+  [data-hero] {
+    --hero-duration: 8s;
+    --hero-wipe: 900ms;
+    --hero-spot: 15rem;
+    --mx: -100vmax;
+    --my: -100vmax;
+    transition: --hero-r 400ms ease-out;
+  }
+
+  [data-hero][data-spot] {
+    --hero-r: var(--hero-spot);
+  }
+
+  [data-hero] .hero-slide {
+    clip-path: inset(0 100% 0 0);
+    z-index: 0;
+  }
+  [data-hero] .hero-slide[data-state='leaving'] {
+    clip-path: inset(0);
+    z-index: 1;
+  }
+  [data-hero] .hero-slide[data-state='active'] {
+    clip-path: inset(0);
+    z-index: 2;
+    transition: clip-path var(--hero-wipe) cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  [data-hero] .hero-slide[data-state='active'] img {
+    animation: hero-kenburns var(--hero-duration) linear forwards;
+  }
+  [data-hero] .hero-slide[data-state='leaving'] img {
+    transform: scale(1.06);
+  }
+
+  [data-hero] .hero-reveal {
+    mask-image: radial-gradient(
+      circle at var(--mx) var(--my),
+      transparent 0,
+      transparent var(--hero-r),
+      black calc(var(--hero-r) * 1.4)
+    );
+  }
+  [data-hero] .hero-scrim {
+    mask-image: radial-gradient(
+      circle at var(--mx) var(--my),
+      color-mix(in srgb, black 55%, transparent) 0,
+      color-mix(in srgb, black 55%, transparent) var(--hero-r),
+      black calc(var(--hero-r) * 1.4)
+    );
+  }
+  [data-hero] .hero-desaturate {
+    backdrop-filter: grayscale(0.85) contrast(1.06);
+  }
+  [data-hero] .hero-veil {
+    mix-blend-mode: color;
+    opacity: 0.5;
+  }
+
+  @supports not (backdrop-filter: grayscale(1)) {
+    [data-hero] .hero-desaturate {
+      display: none;
+    }
+    [data-hero] .hero-reveal,
+    [data-hero] .hero-scrim {
+      mask-image: none;
+    }
+    [data-hero] .hero-slide img {
+      filter: grayscale(0.85) contrast(1.06);
+    }
+  }
+
+  [data-hero] .hero-progress {
+    transform: scaleX(0);
+  }
+  [data-hero] .hero-progress.is-running {
+    animation: hero-progress var(--hero-duration) linear forwards;
+  }
+  [data-hero][data-hold] .hero-progress,
+  [data-hero][data-hold] .hero-slide img {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-hero] .hero-rise {
+      animation: hero-rise 400ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+      animation-delay: calc(var(--i) * 75ms);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-hero] .hero-slide[data-state='active'] {
+      transition: none;
+    }
+    [data-hero] .hero-slide img {
+      animation: none !important;
+      transform: none !important;
+    }
+    [data-hero] [data-hero-track] {
+      display: none;
+    }
+  }
+
+  @keyframes hero-kenburns {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+  }
+  @keyframes hero-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(var(--spacing-space-md, 1rem)); }
+    to { opacity: 1; transform: none; }
+  }
+</style>
+
 <script>
-  const images = [...document.querySelectorAll('[data-hero-image]')] as HTMLElement[];
-  const dots = [...document.querySelectorAll('[data-hero-dot]')] as HTMLElement[];
-  const captions = [...document.querySelectorAll('[data-hero-caption]')] as HTMLElement[];
+  const section = document.querySelector('[data-hero]') as HTMLElement;
+  const slides = [...section.querySelectorAll('[data-hero-slide]')] as HTMLElement[];
+  const images = [...section.querySelectorAll('[data-hero-image]')] as HTMLImageElement[];
+  const dots = [...section.querySelectorAll('[data-hero-dot]')] as HTMLElement[];
+  const captions = [...section.querySelectorAll('[data-hero-caption]')] as HTMLElement[];
+  const controls = section.querySelector('[data-hero-controls]') as HTMLElement;
+  const status = section.querySelector('[data-hero-status]') as HTMLElement;
+  const toggle = section.querySelector('[data-hero-toggle]') as HTMLButtonElement;
+  const progress = section.querySelector('[data-hero-progress]') as HTMLElement;
+  const current = section.querySelector('[data-hero-current]') as HTMLElement;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canSpotlight =
+    !reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   let index = 0;
-  let timer: ReturnType<typeof setInterval>;
+  let userPaused = false;
+  let engaged = false;
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+
+  function restartProgress() {
+    progress.classList.remove('is-running');
+    if (reduceMotion || userPaused) return;
+    void progress.offsetWidth;
+    progress.classList.add('is-running');
+  }
 
   function show(i: number) {
+    const prev = index;
     index = i;
-    images.forEach((el, j) => el.classList.toggle('opacity-0', j !== i));
-    captions.forEach((el, j) => el.classList.toggle('opacity-0', j !== i));
-    dots.forEach((el, j) => {
-      el.setAttribute('aria-selected', String(j === i));
-      const square = el.firstElementChild as HTMLElement;
-      square.classList.toggle('bg-tertiary', j === i);
-      square.classList.toggle('bg-on-primary/40', j !== i);
-      square.classList.toggle('group-hover:bg-on-primary/70', j !== i);
+    slides.forEach((el, j) => {
+      const leaving = j === prev && prev !== i && !reduceMotion;
+      el.dataset.state = j === i ? 'active' : leaving ? 'leaving' : 'idle';
+      if (j === i) el.removeAttribute('aria-hidden');
+      else el.setAttribute('aria-hidden', 'true');
     });
+    captions.forEach((el, j) => el.classList.toggle('opacity-0', j !== i));
+    dots.forEach((el, j) => el.setAttribute('aria-current', String(j === i)));
+    current.textContent = pad(i + 1);
+    restartProgress();
   }
 
-  function startAuto() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    timer = setInterval(() => show((index + 1) % images.length), 8000);
+  function applyHold() {
+    section.toggleAttribute('data-hold', userPaused || engaged);
   }
 
-  dots.forEach((dot, i) =>
-    dot.addEventListener('click', () => {
-      clearInterval(timer);
-      show(i);
-      startAuto();
+  function renderToggle() {
+    const { pauseLabel, resumeLabel, pauseAria, resumeAria } = toggle.dataset;
+    toggle.textContent = userPaused ? resumeLabel! : pauseLabel!;
+    toggle.setAttribute('aria-label', userPaused ? resumeAria! : pauseAria!);
+  }
+
+  slides.forEach((slide) =>
+    slide.addEventListener('transitionend', (e) => {
+      if (e.propertyName !== 'clip-path' || slide.dataset.state !== 'active') return;
+      slides.forEach((el) => {
+        if (el.dataset.state === 'leaving') el.dataset.state = 'idle';
+      });
     })
   );
 
-  startAuto();
+  dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
+
+  toggle.addEventListener('click', () => {
+    userPaused = !userPaused;
+    engaged = false;
+    renderToggle();
+    applyHold();
+    if (!userPaused && !progress.classList.contains('is-running')) restartProgress();
+  });
+
+  status.addEventListener('mouseenter', () => {
+    engaged = true;
+    applyHold();
+  });
+  controls.addEventListener('mouseenter', () => {
+    engaged = true;
+    applyHold();
+  });
+  [status, controls].forEach((el) => {
+    el.addEventListener('mouseleave', () => {
+      engaged = false;
+      applyHold();
+    });
+    el.addEventListener('focusin', () => {
+      engaged = el.matches(':has(:focus-visible)');
+      applyHold();
+    });
+    el.addEventListener('focusout', () => {
+      engaged = false;
+      applyHold();
+    });
+  });
+
+  progress.addEventListener('animationend', () => show((index + 1) % slides.length));
+
+  const loadDeferred = () =>
+    images.forEach((img) => {
+      const src = img.dataset.src;
+      if (src) img.src = src;
+    });
+  if (document.readyState === 'complete') loadDeferred();
+  else window.addEventListener('load', loadDeferred, { once: true });
+
+  if (canSpotlight) {
+    let frame = 0;
+    let x = 0;
+    let y = 0;
+    section.addEventListener('pointerenter', (e) => {
+      if (e.pointerType === 'mouse') section.setAttribute('data-spot', '');
+    });
+    section.addEventListener('pointerleave', () => section.removeAttribute('data-spot'));
+    section.addEventListener('pointermove', (e) => {
+      const rect = section.getBoundingClientRect();
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
+      section.setAttribute('data-spot', '');
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        section.style.setProperty('--mx', `${x}px`);
+        section.style.setProperty('--my', `${y}px`);
+        frame = 0;
+      });
+    });
+  }
+
+  if (reduceMotion) {
+    toggle.hidden = true;
+  } else {
+    restartProgress();
+  }
 </script>

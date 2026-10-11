@@ -1,0 +1,37 @@
+---
+// Bloc d'action : devis, appel d'offres. Texte + liste optionnelle + note + CTA(s).
+import type { Lien } from '../../../data/home';
+import Card from '../../ui/Card.astro';
+import SquareList from '../../ui/SquareList.astro';
+import Button from '../../ui/Button.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  text: string;
+  items?: string[];
+  ordered?: boolean;
+  note?: string;
+  /** Le premier CTA est primaire, les suivants secondaires. */
+  ctas: Lien[];
+}
+
+const { eyebrow, title, text, items, ordered = false, note, ctas } = Astro.props;
+---
+
+<Card as="div" class="gap-space-lg">
+  <span class="label-md text-on-surface">[{eyebrow}]</span>
+  <h2 class="font-display text-headline-md text-on-surface">{title}</h2>
+  <p class="text-body-lg text-on-surface-editorial">{text}</p>
+  {items && items.length > 0 && <SquareList items={items} ordered={ordered} />}
+  {note && <p class="border-l border-obsidian pl-space-md text-body-sm text-on-surface-variant">{note}</p>}
+  <div class="mt-auto flex flex-wrap gap-space-md pt-space-md">
+    {
+      ctas.map((cta, i) => (
+        <Button href={cta.href} variant={i === 0 ? 'primary' : 'secondary'} icon={i === 0 ? 'arrow-right' : undefined}>
+          {cta.label}
+        </Button>
+      ))
+    }
+  </div>
+</Card>

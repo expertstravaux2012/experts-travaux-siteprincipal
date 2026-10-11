@@ -1,0 +1,57 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import PageIntro from '../../components/sections/page/PageIntro.astro';
+import MetierContent from '../../components/sections/page/MetierContent.astro';
+import PrestationsGrid from '../../components/sections/page/PrestationsGrid.astro';
+import CtaBand from '../../components/sections/page/CtaBand.astro';
+import { corpsMetier } from '../../data/corps-metier';
+import { seo } from '../../data/seo';
+import { ciblesDe, metierPage, silos } from '../../data/pages';
+import { breadcrumbNode, serviceNode } from '../../lib/jsonld';
+
+export function getStaticPaths() {
+  return corpsMetier.map((metier, index) => ({
+    params: { slug: metier.slug },
+    props: { metier, index },
+  }));
+}
+
+const { metier, index } = Astro.props;
+
+const path = `/metiers/${metier.slug}/`;
+const { title, description } = seo.metiers[metier.slug];
+const jsonLd = [
+  breadcrumbNode(path, [{ name: metier.nom, path }]),
+  serviceNode(path, { name: metier.nom, description }),
+];
+
+// Maillage : 3 métiers suivants (rotation déterministe).
+const autres = [1, 2, 3].map((offset) => {
+  const m = corpsMetier[(index + offset) % corpsMetier.length];
+  return { titre: m.nom, description: m.description, metierSlug: m.slug };
+});
+
+const [primaire, secondaire] = ciblesDe(metier.page.cibles).map((cible) => silos[cible]);
+const cta = { ...metierPage.cta, label: primaire.label, href: primaire.href };
+---
+
+<Layout {title} {description} {path} {jsonLd}>
+  <Header />
+  <main id="main">
+    <PageIntro eyebrow={metierPage.eyebrow} title={metier.page.h1} intro={metier.page.intro}>
+      <Breadcrumb slot="breadcrumb" items={[{ label: metier.nom }]} />
+    </PageIntro>
+    <MetierContent page={metier.page} />
+    <PrestationsGrid
+      eyebrow={metierPage.autresHeading.eyebrow}
+      title={metierPage.autresHeading.title}
+      items={autres}
+      tone="low"
+    />
+    <CtaBand cta={cta} secondary={secondaire} />
+  </main>
+  <Footer />
+</Layout>

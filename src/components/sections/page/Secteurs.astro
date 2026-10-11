@@ -1,0 +1,36 @@
+---
+import type { Secteur } from '../../../data/professionnels';
+import Section from '../../ui/Section.astro';
+import SectionHeading from '../../ui/SectionHeading.astro';
+import Card from '../../ui/Card.astro';
+import SquareList from '../../ui/SquareList.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  items: Secteur[];
+}
+
+const { eyebrow, title, intro, items } = Astro.props;
+---
+
+<Section tone="low">
+  <div class="mb-space-xl flex flex-col gap-space-md">
+    <SectionHeading eyebrow={eyebrow} title={title} />
+    <p class="max-w-2xl text-body-lg text-on-surface-variant">{intro}</p>
+  </div>
+  <ul class="grid grid-cols-1 gap-gutter md:grid-cols-2 desktop:grid-cols-3">
+    {
+      items.map((secteur) => (
+        <li>
+          <Card>
+            <h3 class="font-sans text-headline-sm text-on-surface">{secteur.titre}</h3>
+            <p class="text-body-md text-on-surface-variant">{secteur.description}</p>
+            <SquareList items={secteur.enjeux} class="mt-auto border-t border-hairline pt-space-md" />
+          </Card>
+        </li>
+      ))
+    }
+  </ul>
+</Section>

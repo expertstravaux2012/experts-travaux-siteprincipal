@@ -1,8 +1,46 @@
 export const site = {
   name: 'Experts Travaux',
+  /** Domaine de production (sans slash final). À CONFIRMER : déduit de l'email. */
+  url: 'https://experts-travaux.fr',
+  /**
+   * Interrupteur unique d'indexation. false = noindex, nofollow sur toutes les pages,
+   * robots.txt en `Disallow: /`, sitemap non référencé. Passer à true au lancement.
+   */
+  indexable: false,
+  /** Zone d'intervention : Toulouse + rayon en km (valeur du brief client, à confirmer). */
+  areaServed: { city: 'Toulouse', radiusKm: 100 },
+  /** Image Open Graph par défaut (1200×630, tirée du visuel Hero maison-toulousaine). */
+  ogImage: {
+    src: '/assets/og-default.jpg',
+    width: 1200,
+    height: 630,
+    alt: 'Maison de maître en brique rose rénovée avec extension cubique noire vitrée, Toulouse',
+  },
   logo: {
-    full: '/assets/rebranding/logo.svg',
-    mark: '/assets/rebranding/logo_nu.svg',
+    mark: '/assets/rebranding/logo-mark.png',
+    markDark: '/assets/rebranding/logo-mark-dark.png',
+  },
+  description:
+    'Rénovation & bâtiment à Toulouse. Un seul interlocuteur, du devis à la remise des clés.',
+  legalLine: 'Rénovation & Bâtiment · Toulouse',
+  /** Année de fondation (affichée discrètement dans le logo d'en-tête). */
+  foundedYear: 2012,
+  labels: {
+    since: 'Depuis',
+    trade: 'Neuf & rénovation',
+    skipToContent: 'Aller au contenu',
+    homeAria: 'Experts Travaux — accueil',
+    mainNav: 'Navigation principale',
+    mobileNav: 'Navigation principale mobile',
+    menu: 'Menu',
+    openMenu: 'Ouvrir le menu',
+    closeMenu: 'Fermer le menu',
+    submenuToggle: 'afficher les métiers',
+    metiersMenu: 'Nos métiers',
+    contactTitle: 'Nous contacter',
+    footerNav: 'Plan du site',
+    footerNavTitle: 'Navigation',
+    footerContactTitle: 'Contact',
   },
   email: 'contact@experts-travaux.fr',
   phone: {

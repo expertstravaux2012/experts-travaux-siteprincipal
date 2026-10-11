@@ -1,61 +1,60 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/ui/Icon.astro';
+import Logo from '../components/ui/Logo.astro';
 import { site } from '../data/site';
 ---
 
-<Layout title="Experts Travaux — Site en construction">
-  <main class="grid min-h-screen grid-cols-1 lg:grid-cols-2">
+<Layout
+  title="Experts Travaux — Site en construction"
+  path="/maintenance/"
+  robots="noindex, nofollow"
+  jsonLd={false}
+>
+  <main id="main" class="grid min-h-screen grid-cols-1 desktop:grid-cols-2">
     <!-- Colonne contenu -->
     <section
-      class="order-2 flex flex-col justify-between gap-12 px-4 py-12 sm:px-8 lg:order-1 lg:px-16 lg:py-16"
+      class="order-2 flex flex-col justify-between gap-12 px-margin py-12 desktop:order-1 desktop:py-16"
     >
-      <img
-        src={site.logo.full}
-        alt={site.name}
-        width="320"
-        height="80"
-        class="h-auto w-48 self-start sm:w-64"
-        decoding="async"
-      />
+      <Logo class="self-start text-2xl text-on-surface sm:text-3xl" />
 
       <div class="flex max-w-xl flex-col gap-6">
         <span
-          class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.05em] text-on-surface"
+          class="flex items-center gap-3 label-md text-on-surface"
         >
-          <span class="h-2 w-2 bg-tertiary" aria-hidden="true"></span>
+          <span class="h-2 w-2 bg-obsidian" aria-hidden="true"></span>
           Site en construction
         </span>
         <h1
-          class="font-display text-4xl font-extrabold leading-tight tracking-tight text-on-surface sm:text-5xl lg:text-6xl"
+          class="font-display text-display-xl-mobile text-on-surface md:text-display-xl"
         >
           Notre site fait peau neuve.
         </h1>
-        <p class="text-lg leading-relaxed text-on-surface-variant">
+        <p class="text-body-lg text-on-surface-variant">
           Nous préparons une nouvelle vitrine à la hauteur de nos réalisations en
           rénovation et bâtiment. Elle sera disponible très prochainement.
         </p>
 
         <!-- Contact -->
-        <div class="mt-2 flex flex-col gap-5 border-l-2 border-primary pl-4">
+        <div class="mt-2 flex flex-col gap-5 border-l border-obsidian pl-4">
           <span
-            class="text-sm font-semibold uppercase tracking-[0.05em] text-on-surface"
+            class="label-md text-on-surface"
           >
             Une question, un projet&nbsp;?
           </span>
 
           <a
             href={`mailto:${site.email}`}
-            class="inline-flex w-fit items-center gap-3 bg-primary px-5 py-3 text-on-primary transition-colors hover:bg-primary-container"
+            class="inline-flex w-fit items-center gap-3 border border-obsidian bg-obsidian px-5 py-3 text-on-primary transition-colors hover:border-hairline-inverse hover:bg-hairline-inverse"
           >
             <Icon name="mail" class="h-5 w-5" />
-            <span class="text-base">{site.email}</span>
+            <span class="text-body-md">{site.email}</span>
           </a>
 
-          <div class="flex flex-col gap-3 text-base text-on-surface-variant">
+          <div class="flex flex-col gap-3 text-body-md text-on-surface-variant">
             <a
               href={site.phone.href}
-              class="inline-flex w-fit items-center gap-3 transition-colors hover:text-primary"
+              class="inline-flex min-h-11 w-fit items-center gap-3 transition-colors hover:text-primary"
             >
               <Icon name="phone" class="h-5 w-5 text-primary" />
               {site.phone.display}
@@ -82,7 +81,7 @@ import { site } from '../data/site';
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.name}
-                    class="flex h-10 w-10 items-center justify-center rounded-full border-2 border-primary text-primary transition-colors hover:bg-primary hover:text-on-primary"
+                    class="flex h-11 w-11 items-center justify-center rounded-full border border-obsidian text-obsidian transition-colors hover:bg-obsidian hover:text-on-primary"
                   >
                     <Icon name={social.icon} class="h-5 w-5" />
                   </a>
@@ -93,14 +92,14 @@ import { site } from '../data/site';
         </div>
       </div>
 
-      <p class="text-sm text-on-surface-variant">
+      <p class="text-body-sm text-on-surface-variant">
         © 2026 {site.name} — Rénovation &amp; Bâtiment
       </p>
     </section>
 
     <!-- Colonne illustration -->
     <section
-      class="order-1 relative h-56 overflow-hidden sm:h-80 lg:order-2 lg:h-full lg:min-h-screen lg:border-l lg:border-outline-variant"
+      class="order-1 relative h-56 overflow-hidden sm:h-80 desktop:order-2 desktop:h-full desktop:min-h-screen desktop:border-l desktop:border-hairline"
     >
       <img
         src="/assets/maintenance.webp"

@@ -1,0 +1,15 @@
+---
+// Enveloppe de section pour 1 à 2 ActionPanel côte à côte (contenu via le slot).
+import Section from '../../ui/Section.astro';
+
+interface Props {
+  tone?: 'surface' | 'low';
+}
+const { tone = 'low' } = Astro.props;
+---
+
+<Section tone={tone}>
+  <div class="grid grid-cols-1 gap-gutter desktop:grid-cols-2 desktop:has-[>:only-child]:grid-cols-1">
+    <slot />
+  </div>
+</Section>

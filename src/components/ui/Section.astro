@@ -1,0 +1,23 @@
+---
+// Enveloppe de section : conteneur site, marges et rythme vertical communs.
+interface Props {
+  tone?: 'surface' | 'low' | 'inverse';
+  id?: string;
+  labelledby?: string;
+  class?: string;
+}
+
+const { tone = 'surface', id, labelledby, class: className = '' } = Astro.props;
+
+const tones = {
+  surface: 'bg-surface text-on-surface',
+  low: 'bg-surface-container-low text-on-surface',
+  inverse: 'bg-obsidian text-on-primary',
+};
+---
+
+<section id={id} aria-labelledby={labelledby} class={`${tones[tone]} border-b border-hairline`}>
+  <div class={`mx-auto max-w-site px-margin py-space-xl desktop:py-space-2xl ${className}`}>
+    <slot />
+  </div>
+</section>

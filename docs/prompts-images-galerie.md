@@ -1,6 +1,6 @@
 # Prompts génération d'images — Galerie défilante
 
-Prompts en anglais, prêts à copier-coller. Style commun : photographie architecturale ultra-réaliste, palette Onyx Black / Slate Grey / touche Ochre, heure bleue ou lumière chaude intérieure, aucune personne, aucun texte/logo.
+Prompts en anglais, prêts à copier-coller. Style commun : photographie architecturale ultra-réaliste, palette Onyx Black / Slate Grey / pierre calcaire chaude (sans ochre depuis la charte client d'octobre 2026), heure bleue ou lumière chaude intérieure, aucune personne, aucun texte/logo.
 
 **Négatif commun (si l'outil le permet) :**
 `people, text, watermark, logo, cartoon, illustration, oversaturated, HDR halo, fisheye distortion, cluttered composition`
