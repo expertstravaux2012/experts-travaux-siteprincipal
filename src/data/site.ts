@@ -44,8 +44,8 @@ export const site = {
   },
   email: 'contact@experts-travaux.fr',
   phone: {
-    display: '09 83 61 05 66',
-    href: 'tel:+33983610566',
+    display: '06 08 52 24 22',
+    href: 'tel:+33608522422',
   },
   address: {
     street: '31 Rue du Rempart Matabiau',
