@@ -25,6 +25,8 @@ export interface Prestation {
   description: string;
   /** Slug d'une page /metiers/{slug} associée, si pertinent. */
   metierSlug?: string;
+  /** Lien explicite vers une autre page (prioritaire sur `metierSlug`). */
+  href?: string;
 }
 
 export interface FaqItem {
@@ -78,7 +80,7 @@ export const hero: HeroContent = {
   title:
     'Votre partenaire expert en travaux de rénovation à Toulouse, pour Particuliers et Professionnels',
   subtitle:
-    'Maîtrise d’œuvre, délais tenus, qualité d’exécution : un seul interlocuteur, de la conception à la livraison, à Toulouse et dans un rayon de 100 km.',
+    'Maîtrise d’œuvre, délais tenus, qualité d’exécution : un seul interlocuteur et assureur unique du chantier, de la conception à la livraison, à Toulouse et dans un rayon de 100 km.',
   ctas: {
     particuliers: { label: 'Espace Particuliers', href: '/particuliers/' },
     professionnels: { label: 'Espace Professionnels', href: '/professionnels/' },
@@ -185,8 +187,10 @@ export const presentation: PresentationContent = {
     ],
     [
       {
-        text: 'Pour les particuliers, nous concevons des projets sur-mesure : rénovation complète, extension, cuisine, salle de bain, aménagement de combles. Vous pouvez ',
+        text: 'Pour les particuliers, nous concevons des projets sur-mesure : rénovation complète, extension, cuisine, salle de bain, aménagement de combles, décoration ou ',
       },
+      { text: 'construction neuve', href: '/particuliers/construction-neuve/' },
+      { text: '. Vous pouvez ' },
       { text: 'découvrir nos solutions de rénovation', href: '/particuliers/' },
       {
         text: ' pour votre maison ou votre appartement, puis demander un devis gratuit. Chaque intervention est menée dans le respect des normes en vigueur et des règles d’urbanisme qui s’appliquent à votre bien.',
@@ -222,6 +226,7 @@ export const presentation: PresentationContent = {
   keywords: [
     'Coordination de travaux',
     'Artisans qualifiés',
+    'Assureur unique du chantier',
     'Gestion de projet',
     'Sur-mesure',
     'Respect du budget',

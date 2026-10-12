@@ -46,7 +46,7 @@ export const particuliers: ParticuliersContent = {
   h1: 'Rénovation et Travaux pour Particuliers : Votre projet sur-mesure',
   eyebrow: 'ESPACE PARTICULIERS',
   intro:
-    'Rénovation complète, extension, cuisine, salle de bain ou aménagement de combles : Experts Travaux conçoit et coordonne votre projet à Toulouse et dans un rayon de 100 km. Un seul interlocuteur, un devis détaillé, un chantier suivi jusqu’à la livraison.',
+    'Rénovation complète, extension, cuisine, salle de bain, aménagement de combles, décoration ou construction neuve : Experts Travaux conçoit et coordonne votre projet à Toulouse et dans un rayon de 100 km. Un seul interlocuteur et assureur unique du chantier, un devis détaillé, un chantier suivi jusqu’à la livraison.',
 
   prestationsHeading: {
     eyebrow: 'PRESTATIONS',
@@ -88,6 +88,18 @@ export const particuliers: ParticuliersContent = {
       description:
         'Ravalement, enduit et isolation par l’extérieur : protéger les murs et redonner à la maison son caractère.',
       metierSlug: 'facade-ravalement',
+    },
+    {
+      titre: 'Décoration',
+      description:
+        'Peinture, tapisserie et finitions décoratives : l’ambiance de chaque pièce, exécutée proprement et coordonnée avec le reste du chantier.',
+      metierSlug: 'platrerie-peinture-carrelage',
+    },
+    {
+      titre: 'Construction neuve',
+      description:
+        'De l’achat du terrain à la livraison de la maison, un seul interlocuteur vous accompagne à chaque étape de votre projet.',
+      href: '/particuliers/construction-neuve/',
     },
   ],
 

@@ -51,7 +51,7 @@ export const professionnels: ProfessionnelsContent = {
   h1: 'Aménagement de Bureaux et Travaux pour Professionnels',
   eyebrow: 'ESPACE PROFESSIONNELS',
   intro:
-    'Experts Travaux intervient comme contractant général sur vos locaux professionnels à Toulouse et dans un rayon de 100 km : aménagement de bureaux, rénovation de locaux commerciaux, hôtellerie, restauration et entrepôts. Un interlocuteur unique, des plannings tenus, une exploitation préservée.',
+    'Experts Travaux intervient comme contractant général sur vos locaux professionnels à Toulouse et dans un rayon de 100 km : aménagement de bureaux, rénovation de locaux commerciaux, hôtellerie, restauration et entrepôts. Un interlocuteur unique, un assureur unique du chantier, des plannings tenus, une exploitation préservée.',
 
   prestationsHeading: {
     eyebrow: 'PRESTATIONS',

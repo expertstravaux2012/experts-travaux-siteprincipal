@@ -10,11 +10,29 @@ export interface SeoContent {
   home: PageSeo;
   particuliers: PageSeo;
   professionnels: PageSeo;
+  mentionsLegales: PageSeo;
+  cgu: PageSeo;
+  constructionNeuve: PageSeo;
   /** Clé = `slug` d'une entrée de corps-metier.ts. */
   metiers: Record<string, PageSeo>;
 }
 
 export const seo: SeoContent = {
+  constructionNeuve: {
+    title: 'Construction de maison neuve à Toulouse | Experts Travaux',
+    description:
+      'Construction neuve à Toulouse et dans un rayon de 100 km : de l’achat du terrain à la livraison de la maison, un seul interlocuteur et un devis détaillé.',
+  },
+  mentionsLegales: {
+    title: 'Mentions légales | Experts Travaux',
+    description:
+      'Mentions légales du site Experts Travaux : éditeur, hébergeur, propriété intellectuelle, protection des données personnelles et gestion des cookies.',
+  },
+  cgu: {
+    title: 'Conditions générales d’utilisation | Experts Travaux',
+    description:
+      'Conditions générales d’utilisation du site Experts Travaux : accès au site, propriété intellectuelle, responsabilité, données personnelles et droit applicable.',
+  },
   home: {
     title: 'Experts Travaux | Rénovation et bâtiment à Toulouse',
     description:
@@ -23,7 +41,7 @@ export const seo: SeoContent = {
   particuliers: {
     title: 'Rénovation maison à Toulouse : travaux sur-mesure',
     description:
-      'Rénovation de maison, extension, cuisine, salle de bain : Experts Travaux conçoit et pilote votre projet à Toulouse, du devis gratuit à la livraison.',
+      'Rénovation, extension, cuisine, salle de bain, décoration, construction neuve : Experts Travaux pilote votre projet à Toulouse, du devis gratuit à la livraison.',
   },
   professionnels: {
     title: 'Contractant général et aménagement de bureaux | Toulouse',

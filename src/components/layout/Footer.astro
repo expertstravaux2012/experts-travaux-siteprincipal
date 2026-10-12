@@ -3,6 +3,8 @@ import { navigation } from '../../data/navigation';
 import { site } from '../../data/site';
 import Icon from '../ui/Icon.astro';
 import Logo from '../ui/Logo.astro';
+import { legalLinks } from '../../data/legal';
+import { cookieTexts } from '../../data/cookies';
 
 const year = new Date().getFullYear();
 const { labels } = site;
@@ -81,8 +83,28 @@ const linkClass =
       </div>
     </div>
 
-    <p class="mt-12 border-t border-hairline-inverse pt-8 text-body-sm text-inverse-on-surface/80">
-      © {year} {site.name} - {site.legalLine}
-    </p>
+    <div
+      class="mt-12 flex flex-col gap-space-md border-t border-hairline-inverse pt-8 md:flex-row md:items-center md:justify-between"
+    >
+      <p class="text-body-sm text-inverse-on-surface/80">
+        © {year} {site.name} - {site.legalLine}
+      </p>
+      <ul class="flex flex-wrap gap-x-space-lg">
+        {
+          legalLinks.map((link) => (
+            <li>
+              <a href={link.href} class={linkClass}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <button type="button" data-cookie-action="open-settings" class={linkClass}>
+            {cookieTexts.footerButton}
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
 </footer>

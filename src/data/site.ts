@@ -7,6 +7,12 @@ export const site = {
    * robots.txt en `Disallow: /`, sitemap non référencé. Passer à true au lancement.
    */
   indexable: false,
+  /**
+   * Gestionnaire de cookies. enabled = false : le bandeau ne s'affiche pas (aucun traceur à consentir).
+   * Passer à true au branchement d'un outil de mesure d'audience (via onConsent, src/lib/consent.ts).
+   * Le bouton « Gérer mes cookies » du footer reste actif dans tous les cas.
+   */
+  consent: { enabled: false },
   /** Zone d'intervention : Toulouse + rayon en km (valeur du brief client, à confirmer). */
   areaServed: { city: 'Toulouse', radiusKm: 100 },
   /** Image Open Graph par défaut (1200×630, tirée du visuel Hero maison-toulousaine). */
@@ -44,8 +50,8 @@ export const site = {
   },
   email: 'contact@experts-travaux.fr',
   phone: {
-    display: '06 08 52 24 22',
-    href: 'tel:+33608522422',
+    display: '05 82 95 14 32',
+    href: 'tel:+33582951432',
   },
   address: {
     street: '31 Rue du Rempart Matabiau',

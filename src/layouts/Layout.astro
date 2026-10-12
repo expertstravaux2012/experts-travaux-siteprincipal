@@ -11,6 +11,7 @@ import anton400 from '@fontsource/anton/files/anton-latin-400-normal.woff2?url';
 import jetbrains500 from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2?url';
 import '../styles/global.css';
 import { site } from '../data/site';
+import CookieConsent from '../components/layout/CookieConsent.astro';
 import { absoluteUrl } from '../lib/url';
 import {
   buildGraph,
@@ -93,6 +94,7 @@ const graph = jsonLd === false ? null : buildGraph([organizationNode(), ...jsonL
     >
       {site.labels.skipToContent}
     </a>
+    <CookieConsent />
     <slot />
   </body>
 </html>
