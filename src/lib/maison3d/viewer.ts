@@ -1,7 +1,7 @@
-// Viewer Three.js de la maison : rendu à la demande, rotation limitée, survol/sélection par corps de métier.
+// Viewer Three.js de la maison : rendu à la demande, rotation libre à 360°, zoom/déplacement, survol/sélection par corps de métier.
 import { Color, DirectionalLight, HemisphereLight, PerspectiveCamera, Raycaster, Scene, Vector2, Vector3, WebGLRenderer } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { applyMix, buildHouse, HOUSE_FRAME, type Palette } from './house-model';
+import { applyMix, buildHouse, HOUSE_FRAME, type Palette } from './house-model-v2';
 
 export interface HouseViewer {
   /** Surbrillance temporaire (ex. survol d'un élément de la légende). */
@@ -22,7 +22,6 @@ export interface HouseViewerOptions {
 const FOV = 28;
 const START_AZIMUTH = 0.35;
 const START_POLAR = 1.38;
-const AZIMUTH_LIMIT = 0.9;
 const CLICK_TOLERANCE_PX = 6;
 const MIX_SPEED = 0.25;
 const SWAY_LIMIT = 0.55;
@@ -34,8 +33,10 @@ const MAX_PIXEL_RATIO = 2;
 const CAMERA_NEAR = 0.5;
 const CAMERA_FAR = 200;
 const FIT_MARGIN = 1.05;
-const POLAR_MIN = 1.2;
-const POLAR_MAX = 1.5;
+const POLAR_MIN = 0.2;
+const POLAR_MAX = 1.75;
+const ZOOM_MIN = 0.3;
+const ZOOM_MAX = 1.5;
 const SKY_INTENSITY = 1.6;
 const SUN_INTENSITY = 1.9;
 const SUN_POSITION: [number, number, number] = [6, 12, 9];
@@ -74,16 +75,20 @@ export function createHouseViewer(host: HTMLElement, { onHover, onSelect, onInte
 
   const target = new Vector3(...HOUSE_FRAME.center);
   const camera = new PerspectiveCamera(FOV, 1, CAMERA_NEAR, CAMERA_FAR);
+  // Molette : le scroll de la page reste natif sauf avec Ctrl/⌘ (zoom). Doit précéder OrbitControls.
+  canvas.addEventListener(
+    'wheel',
+    (e) => {
+      if (!e.ctrlKey && !e.metaKey) e.stopImmediatePropagation();
+    },
+    { capture: true },
+  );
   const controls = new OrbitControls(camera, canvas);
   controls.target.copy(target);
-  controls.enablePan = false;
-  controls.enableZoom = false;
   controls.enableDamping = !reducedMotion;
-  controls.minAzimuthAngle = -AZIMUTH_LIMIT;
-  controls.maxAzimuthAngle = AZIMUTH_LIMIT;
   controls.minPolarAngle = POLAR_MIN;
   controls.maxPolarAngle = POLAR_MAX;
-  // Le scroll vertical de la page reste natif ; seul le glissement horizontal fait tourner la maison.
+  // Le glissement vertical d'un doigt fait défiler la page ; pincement et glissement horizontal pilotent la maquette.
   canvas.style.touchAction = 'pan-y';
 
   // Un métier est affiché en surbrillance s'il est survolé, à défaut s'il est sélectionné.
@@ -149,6 +154,8 @@ export function createHouseViewer(host: HTMLElement, { onHover, onSelect, onInte
     const dir = camera.position.lengthSq() ? camera.position.clone().sub(target).normalize() : null;
     const offset = dir ?? new Vector3().setFromSphericalCoords(1, START_POLAR, START_AZIMUTH);
     camera.position.copy(target).addScaledVector(offset, distance);
+    controls.minDistance = distance * ZOOM_MIN;
+    controls.maxDistance = distance * ZOOM_MAX;
     camera.updateProjectionMatrix();
     controls.autoRotate = false;
     controls.update();

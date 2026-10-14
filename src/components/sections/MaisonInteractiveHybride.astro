@@ -159,10 +159,10 @@ const labelFor = (id: string) => byId[id].nom;
       return false;
     }
   };
-  const start3d = async () => {
+  const start3d = async (): Promise<boolean> => {
     const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-    if (!host || !photo || saveData) return;
-    if (!hasWebGL()) return;
+    if (!host || !photo || saveData) return false;
+    if (!hasWebGL()) return false;
     try {
       const { createHouseViewer } = await import('../../lib/maison3d/viewer');
       viewer = createHouseViewer(host.querySelector<HTMLElement>('.viewer3d-canvas') as HTMLElement, {
@@ -178,24 +178,26 @@ const labelFor = (id: string) => byId[id].nom;
       });
       host.hidden = false;
       photo.hidden = true;
+      return true;
     } catch {
       host.hidden = true;
+      return false;
     }
   };
 
-  // Image de la coupe (172 Ko) hors premier écran : chargée à l'approche de la section.
+  // Image de la coupe (172 Ko) hors premier écran : chargée à l'approche de la section, uniquement si la 3D ne la remplace pas.
   const house = document.querySelector<SVGSVGElement>('#expertises .hybride .wrap svg');
   if (house) {
     const load = () =>
       house.querySelectorAll<SVGImageElement>('image[data-href]').forEach((img) => {
         img.setAttribute('href', img.dataset.href as string);
       });
+    const reveal = () => void start3d().then((ok) => ok || load());
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(
         (entries) => {
           if (entries.some((e) => e.isIntersecting)) {
-            load();
-            start3d();
+            reveal();
             io.disconnect();
           }
         },
@@ -203,8 +205,7 @@ const labelFor = (id: string) => byId[id].nom;
       );
       io.observe(house);
     } else {
-      load();
-      start3d();
+      reveal();
     }
   }
   const Z = Array.from(document.querySelectorAll<HTMLElement>('#expertises .zone'));
