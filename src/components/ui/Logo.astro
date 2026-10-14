@@ -42,10 +42,10 @@ const verticalClass = '[writing-mode:vertical-rl] rotate-180';
       {
         variant !== 'on-dark' && (
           <img
-            src={site.logo.mark}
+            src={site.logo.markWebp}
             alt=""
-            width="192"
-            height="192"
+            width="144"
+            height="144"
             class="logo-on-light h-[2.5em] w-auto"
             decoding="async"
           />
@@ -54,11 +54,12 @@ const verticalClass = '[writing-mode:vertical-rl] rotate-180';
       {
         variant !== 'on-light' && (
           <img
-            src={site.logo.markDark}
+            src={site.logo.markDarkWebp}
             alt=""
-            width="192"
-            height="192"
+            width="144"
+            height="144"
             class:list={['h-[2.5em] w-auto', variant === 'adaptive' && 'logo-adaptive-dark']}
+            loading="lazy"
             decoding="async"
           />
         )

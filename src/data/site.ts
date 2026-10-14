@@ -25,6 +25,9 @@ export const site = {
   logo: {
     mark: '/assets/rebranding/logo-mark.png',
     markDark: '/assets/rebranding/logo-mark-dark.png',
+    /** Variantes 144 px WebP servies dans l'en-tête (le PNG 192 px reste la référence JSON-LD). */
+    markWebp: '/assets/rebranding/logo-mark.webp',
+    markDarkWebp: '/assets/rebranding/logo-mark-dark.webp',
   },
   description:
     'Rénovation & bâtiment à Toulouse. Un seul interlocuteur, du devis à la remise des clés.',

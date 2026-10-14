@@ -312,7 +312,12 @@ const pad = (n: number) => String(n).padStart(2, '0');
     })
   );
 
-  dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
+  dots.forEach((dot, i) =>
+    dot.addEventListener('click', () => {
+      loadDeferred();
+      show(i);
+    })
+  );
 
   toggle.addEventListener('click', () => {
     userPaused = !userPaused;
@@ -347,14 +352,21 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
   progress.addEventListener('animationend', () => show((index + 1) % slides.length));
 
-  const loadDeferred = () =>
+  // Slides 2+ : chargées quelques secondes après `load` (la 2e n'est visible qu'à 8 s) pour rester hors du chemin du LCP.
+  const DEFERRED_DELAY_MS = 3000;
+  let deferredLoaded = false;
+  const loadDeferred = () => {
+    if (deferredLoaded) return;
+    deferredLoaded = true;
     images.forEach((img) => {
       const { src, srcset } = img.dataset;
       if (srcset) img.srcset = srcset;
       if (src) img.src = src;
     });
-  if (document.readyState === 'complete') loadDeferred();
-  else window.addEventListener('load', loadDeferred, { once: true });
+  };
+  const scheduleDeferred = () => setTimeout(loadDeferred, DEFERRED_DELAY_MS);
+  if (document.readyState === 'complete') scheduleDeferred();
+  else window.addEventListener('load', scheduleDeferred, { once: true });
 
   if (canSpotlight) {
     let frame = 0;
