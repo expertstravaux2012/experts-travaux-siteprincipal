@@ -9,6 +9,11 @@ Site vitrine pour **Experts Travaux**, entreprise de rénovation et bâtiment po
 - **Aucune valeur de style magique** : couleurs, tailles, espacements viennent exclusivement des tokens du design system. Pas de hex/px en dur.
 - **Incrémental** : on avance par étapes validées. On ne dévie pas de l'architecture figée ci-dessous sans validation explicite de Hery.
 
+## Registre de mots-clés (2026-10-15) — RÉFÉRENCE de la stratégie de contenu
+
+`docs/Experts Travaux - mon registre de mots-clés.pdf`, validé par le client : **prévaut sur `docs/cahier-des-charges-seo.md`** (H1 home sans « Particuliers/Professionnels », silo pros = « rénovation locaux professionnels », plus de « contractant général »). Un mot-clé principal par page, « Toulouse » dans chaque expression ; title ≤ 60 car., description 145–157, H1 unique ; pages métier 450–600 mots + 3 Q/R.
+Décisions appliquées **par défaut** (aucune case cochée) : pas de « contractant général », construction neuve reformulée (« maison sur mesure »), « Depuis 2013 », mentions légales sans SIREN, rayon 100 km (`site.areaServed`, jamais en dur), « assureur unique du chantier » maintenu partout (argument de vente, décision Hery) ; aucune autre garantie/label/« gratuit »/prix/délai sans justificatif (décennale, RGE, NF C 15-100, domotique, pompe à chaleur, entrepôts masqués). Toute évolution = mise à jour de `seo.ts`, `corps-metier.ts`, `metiers-contenu.ts` et des data de silo.
+
 ## Retours client (2026-10-11) — sources de vérité
 
 - `DESIGN.md` : design system **client** (Newsreader / Hanken Grotesk / JetBrains Mono, palette monochrome pierre, sans ochre) + section « Intégration projet ».
@@ -23,14 +28,14 @@ Site vitrine pour **Experts Travaux**, entreprise de rénovation et bâtiment po
 ```
 src/
   styles/global.css        tokens Tailwind v4 (@theme) issus de DESIGN.md
-  data/                    site, navigation, home, particuliers, professionnels, corps-metier, seo, pages, methode, realisations
+  data/                    site, navigation, home, particuliers, professionnels, corps-metier, metiers-contenu (sections + FAQ), seo, pages, methode, realisations
   lib/                     url (absoluteUrl, metierPath), jsonld, faq-jsonld
   lib/maison3d/            maquette 3D Three.js (house-model, house-materials, viewer) — chargée en lazy par MaisonInteractiveHybride
   components/
     ui/                    Button, Icon, Logo, SectionHeading, Section, Card, Chip, SquareList, Breadcrumb, RichParagraph
     layout/                Header, Footer
     sections/              Hero, Presentation, MaisonInteractiveHybride, Realisations, Methode, APropos, Contact
-    sections/page/         PageIntro, PrestationsGrid, ActionPanel(s), AvantApres, Secteurs, Argumentaire, Faq, CtaBand, MetierContent
+    sections/page/         PageIntro, PrestationsGrid, ActionPanel(s), AvantApres, Secteurs, Argumentaire, Faq, CtaBand, MetierContent, MetierArticle
   layouts/Layout.astro     head, polices @fontsource, SEO (canonical, OG, JSON-LD), <slot/>
   pages/                   index, particuliers/, professionnels/, metiers/[slug], maintenance, robots.txt.ts
 ```

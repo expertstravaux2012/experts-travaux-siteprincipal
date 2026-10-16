@@ -1,9 +1,11 @@
 // Contenu de la page /professionnels/ (tunnel B2B).
-// Mot-clé principal : contractant général / aménagement de bureaux (Toulouse).
+// Mot-clé principal : rénovation locaux professionnels Toulouse (registre de mots-clés du 15/10/2026).
+// « Contractant général » et « entrepôts » : exclus tant que non validés (décisions 1 et 3).
 // Types partagés importés de home.ts.
 
 import type { AvantApres } from './particuliers';
 import type { FaqItem, Lien, PageCta, Prestation } from './home';
+import { communesLabel, site } from './site';
 
 export interface Secteur {
   id: string;
@@ -48,10 +50,10 @@ export interface ProfessionnelsContent {
 }
 
 export const professionnels: ProfessionnelsContent = {
-  h1: 'Aménagement de Bureaux et Travaux pour Professionnels',
+  h1: 'Rénovation de locaux professionnels à Toulouse : bureaux, commerces, restaurants',
   eyebrow: 'ESPACE PROFESSIONNELS',
   intro:
-    'Experts Travaux intervient comme contractant général sur vos locaux professionnels à Toulouse et dans un rayon de 100 km : aménagement de bureaux, rénovation de locaux commerciaux, hôtellerie, restauration et entrepôts. Un interlocuteur unique, un assureur unique du chantier, des plannings tenus, une exploitation préservée.',
+    `Experts Travaux, entreprise tous corps d’état et maître d’œuvre, rénove vos locaux professionnels à Toulouse et dans un rayon de ${site.areaServed.radiusKm} km : aménagement de bureaux, rénovation de commerces, hôtellerie et restauration. Un interlocuteur unique, un assureur unique du chantier, des plannings tenus, une exploitation préservée.`,
 
   prestationsHeading: {
     eyebrow: 'PRESTATIONS',
@@ -91,7 +93,7 @@ export const professionnels: ProfessionnelsContent = {
     {
       titre: 'Toiture & couverture',
       description:
-        'Réfection de couverture et d’étanchéité de bâtiments tertiaires, commerciaux ou d’entrepôts.',
+        'Réfection de couverture et d’étanchéité de bâtiments tertiaires ou commerciaux.',
       metierSlug: 'toiture-couverture',
     },
   ],
@@ -128,15 +130,8 @@ export const professionnels: ProfessionnelsContent = {
       id: 'restaurants',
       titre: 'Restaurants',
       description:
-        'Salle, comptoir, cuisine professionnelle et réseaux : des lieux conçus pour le service et l’expérience des clients.',
+        'Salle, comptoir et réseaux techniques : des lieux conçus pour le service et l’expérience des clients.',
       enjeux: ['Fermeture la plus courte possible', 'Réseaux techniques', 'Exigences d’hygiène'],
-    },
-    {
-      id: 'entrepots',
-      titre: 'Entrepôts',
-      description:
-        'Aménagement, mise en conformité des locaux, réfection de toiture et de sols : des bâtiments fonctionnels et durables.',
-      enjeux: ['Flux logistiques', 'Sols et structures', 'Couverture et étanchéité'],
     },
   ],
 
@@ -185,7 +180,7 @@ export const professionnels: ProfessionnelsContent = {
     {
       titre: 'Interlocuteur unique',
       texte:
-        'En tant que contractant général, nous coordonnons les corps d’état et restons votre point d’entrée unique sur l’ensemble des travaux, de la conception à la livraison.',
+        'En tant qu’entreprise tous corps d’état et maître d’œuvre, nous coordonnons les métiers et restons votre point d’entrée unique sur l’ensemble des travaux, de la conception à la livraison.',
     },
   ],
 
@@ -209,7 +204,7 @@ export const professionnels: ProfessionnelsContent = {
   },
   faq: [
     {
-      question: 'Que signifie intervenir en tant que contractant général ?',
+      question: 'Que signifie confier ses travaux à une entreprise tous corps d’état ?',
       reponse:
         'Nous prenons en charge l’ensemble des travaux auprès du maître d’ouvrage : coordination des corps d’état, planning, suivi de chantier et livraison, avec un seul interlocuteur et une responsabilité d’ensemble.',
     },
@@ -226,7 +221,7 @@ export const professionnels: ProfessionnelsContent = {
     {
       question: 'Quels types de locaux professionnels rénovez-vous à Toulouse ?',
       reponse:
-        'Bureaux, commerces, hôtels, restaurants et entrepôts, à Toulouse et dans un rayon de 100 km. Pour une typologie particulière, contactez-nous afin d’étudier votre demande.',
+        `Bureaux, commerces, hôtels et restaurants, à Toulouse et dans un rayon de ${site.areaServed.radiusKm} km, notamment à ${communesLabel}. Pour une typologie particulière, contactez-nous afin d’étudier votre demande.`,
     },
     {
       question: 'Comment répondre à un appel d’offres avec Experts Travaux ?',
@@ -238,7 +233,7 @@ export const professionnels: ProfessionnelsContent = {
   cta: {
     eyebrow: 'VOTRE PROJET',
     title: 'Parlons de vos locaux',
-    text: 'Bureaux, commerce, hôtel, restaurant ou entrepôt : présentez-nous votre besoin et votre calendrier, nous vous proposons une organisation de chantier adaptée.',
+    text: 'Bureaux, commerce, hôtel ou restaurant : présentez-nous votre besoin et votre calendrier, nous vous proposons une organisation de chantier adaptée.',
     label: 'Contacter l’équipe',
     href: '#contact',
   },

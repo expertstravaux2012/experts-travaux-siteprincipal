@@ -1,7 +1,8 @@
 // Contenu de la page /particuliers/ (tunnel B2C).
-// Mot-clé principal : rénovation maison (Toulouse). Types partagés importés de home.ts.
+// Mot-clé principal : rénovation maison Toulouse (registre de mots-clés du 15/10/2026). Types partagés importés de home.ts.
 
 import type { FaqItem, Lien, PageCta, Prestation } from './home';
+import { communesLabel, site } from './site';
 
 export interface AvantApresImage {
   /** Chemin de l'image ; absent tant que la paire réelle n'est pas fournie. */
@@ -43,10 +44,10 @@ export interface ParticuliersContent {
 }
 
 export const particuliers: ParticuliersContent = {
-  h1: 'Rénovation et Travaux pour Particuliers : Votre projet sur-mesure',
+  h1: 'Rénovation maison à Toulouse : votre projet sur-mesure',
   eyebrow: 'ESPACE PARTICULIERS',
   intro:
-    'Rénovation complète, extension, cuisine, salle de bain, aménagement de combles, décoration ou construction neuve : Experts Travaux conçoit et coordonne votre projet à Toulouse et dans un rayon de 100 km. Un seul interlocuteur et assureur unique du chantier, un devis détaillé, un chantier suivi jusqu’à la livraison.',
+    `Rénovation de maison ou d’appartement, extension, cuisine, salle de bain, aménagement de combles ou construction neuve : Experts Travaux conçoit et coordonne votre projet à Toulouse et dans un rayon de ${site.areaServed.radiusKm} km, de la maison toulousaine en brique rose à la construction récente. Un seul interlocuteur et assureur unique du chantier, un devis de rénovation détaillé, un chantier suivi jusqu’à la livraison.`,
 
   prestationsHeading: {
     eyebrow: 'PRESTATIONS',
@@ -56,7 +57,7 @@ export const particuliers: ParticuliersContent = {
     {
       titre: 'Rénovation complète',
       description:
-        'Reprise d’un logement de la structure aux finitions : distribution des pièces, réseaux, isolation, sols, menuiseries et décoration, coordonnés sur un seul planning.',
+        'Reprise d’une maison ou d’un appartement de la structure aux finitions : distribution des pièces, réseaux, isolation, sols, menuiseries et décoration, coordonnés sur un seul planning.',
       metierSlug: 'maconnerie-gros-oeuvre',
     },
     {
@@ -98,7 +99,7 @@ export const particuliers: ParticuliersContent = {
     {
       titre: 'Construction neuve',
       description:
-        'De l’achat du terrain à la livraison de la maison, un seul interlocuteur vous accompagne à chaque étape de votre projet.',
+        'Un projet de maison sur mesure, de l’étude de faisabilité à la remise des clés, avec un seul interlocuteur à chaque étape.',
       href: '/particuliers/construction-neuve/',
     },
   ],
@@ -127,7 +128,7 @@ export const particuliers: ParticuliersContent = {
   ],
 
   devis: {
-    eyebrow: 'DEVIS GRATUIT',
+    eyebrow: 'DEVIS DÉTAILLÉ',
     title: 'Un devis détaillé, ligne par ligne',
     text: 'Après une visite sur place, nous chiffrons chaque poste de votre projet pour que le budget soit lisible avant tout démarrage.',
     etapes: [
@@ -135,7 +136,7 @@ export const particuliers: ParticuliersContent = {
       'Nous visitons le bien et évaluons la faisabilité technique.',
       'Vous recevez un devis détaillé et un planning de chantier.',
     ],
-    cta: { label: 'Demander un devis gratuit', href: '#contact' },
+    cta: { label: 'Demander un devis', href: '#contact' },
   },
 
   faqHeading: {
@@ -146,7 +147,7 @@ export const particuliers: ParticuliersContent = {
     {
       question: 'Dans quelle zone intervenez-vous pour une rénovation de maison ?',
       reponse:
-        'Nous intervenons à Toulouse et dans un rayon d’environ 100 km autour de la ville. Pour un projet situé en limite de zone, contactez-nous : nous étudions la demande au cas par cas.',
+        `Nous intervenons à Toulouse et dans un rayon d’environ ${site.areaServed.radiusKm} km autour de la ville, notamment à ${communesLabel}. Pour un projet situé en limite de zone, contactez-nous : nous étudions la demande au cas par cas.`,
     },
     {
       question: 'Comment est établi le budget d’une rénovation ?',
@@ -174,7 +175,7 @@ export const particuliers: ParticuliersContent = {
     eyebrow: 'VOTRE PROJET',
     title: 'Parlons de votre rénovation',
     text: 'Une visite sur place, un devis détaillé, un interlocuteur unique : décrivez-nous votre projet à Toulouse ou dans les environs.',
-    label: 'Demander un devis gratuit',
+    label: 'Demander un devis',
     href: '#contact',
   },
 };

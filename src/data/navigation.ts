@@ -56,5 +56,5 @@ const menus: Record<MenuId, MegaMenuContent> = {
 export const navigation = {
   links,
   menus,
-  cta: { label: 'Devis gratuit', href: '/#contact' },
+  cta: { label: 'Demander un devis', href: '/#contact' },
 } as const;

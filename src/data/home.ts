@@ -1,6 +1,7 @@
 // Contenu éditorial de la home (`/`) : Hero, bloc sémantique SEO, À propos, preuves, contact.
 // Types partagés (TextSegment, Prestation, FaqItem, PageCta, Cible) exportés d'ici
 // et réutilisés par particuliers.ts, professionnels.ts et corps-metier.ts.
+import { communesLabel, site } from './site';
 
 /** Segment de texte : simple si `href` absent, lien interne si `href` présent. */
 export interface TextSegment {
@@ -78,9 +79,9 @@ export interface HeroContent {
 export const hero: HeroContent = {
   eyebrow: 'RÉNOVATION & BÂTIMENT · TOULOUSE',
   title:
-    'Votre partenaire expert en travaux de rénovation à Toulouse, pour Particuliers et Professionnels',
+    'Entreprise de rénovation à Toulouse, maître d’œuvre de vos travaux de la conception à la livraison',
   subtitle:
-    'Maîtrise d’œuvre, délais tenus, qualité d’exécution : un seul interlocuteur et assureur unique du chantier, de la conception à la livraison, à Toulouse et dans un rayon de 100 km.',
+    `Entreprise tous corps d’état pour particuliers et professionnels : un seul interlocuteur et assureur unique du chantier, à Toulouse et dans un rayon de ${site.areaServed.radiusKm} km.`,
   ctas: {
     particuliers: { label: 'Espace Particuliers', href: '/particuliers/' },
     professionnels: { label: 'Espace Professionnels', href: '/professionnels/' },
@@ -177,7 +178,7 @@ export const presentation: PresentationContent = {
   paragraphs: [
     [
       {
-        text: 'Experts Travaux est une entreprise de rénovation et de bâtiment basée à Toulouse, qui intervient dans un rayon de 100 km autour de la ville. Notre métier : coordonner l’ensemble des corps de métier d’un chantier, du gros œuvre aux finitions, pour que vous n’ayez qu’un seul interlocuteur, de la conception à la livraison.',
+        text: `Experts Travaux est une entreprise de rénovation et de bâtiment basée à Toulouse, qui intervient dans un rayon de ${site.areaServed.radiusKm} km autour de la ville, notamment à ${communesLabel}. Entreprise de travaux tous corps d’état et maître d’œuvre, notre métier est de coordonner l’ensemble des corps de métier d’un chantier, du gros œuvre aux finitions, pour que vous n’ayez qu’un seul interlocuteur, de la conception à la livraison.`,
       },
     ],
     [
@@ -193,15 +194,15 @@ export const presentation: PresentationContent = {
       { text: '. Vous pouvez ' },
       { text: 'découvrir nos solutions de rénovation', href: '/particuliers/' },
       {
-        text: ' pour votre maison ou votre appartement, puis demander un devis gratuit. Chaque intervention est menée dans le respect des normes en vigueur et des règles d’urbanisme qui s’appliquent à votre bien.',
+        text: ' pour votre maison ou votre appartement, puis demander un devis. Chaque intervention est menée dans le respect des normes en vigueur et des règles d’urbanisme qui s’appliquent à votre bien.',
       },
     ],
     [
       {
-        text: 'Pour les entreprises, nous intervenons en qualité de contractant général sur des bureaux, commerces, hôtels, restaurants et entrepôts. Les chantiers sont phasés pour préserver la continuité d’activité et tenus dans des plannings stricts. Notre offre d’',
+        text: 'Pour les entreprises, nous intervenons en tant qu’entreprise tous corps d’état et maître d’œuvre, sur des bureaux, commerces, hôtels et restaurants. Les chantiers sont phasés pour préserver la continuité d’activité et tenus dans des plannings stricts. Notre offre de ',
       },
       {
-        text: 'aménagement de bureaux et de travaux pour professionnels',
+        text: 'rénovation de locaux professionnels à Toulouse',
         href: '/professionnels/',
       },
       {
@@ -219,7 +220,7 @@ export const presentation: PresentationContent = {
     ],
     [
       {
-        text: 'Qu’il s’agisse d’une maison toulousaine à transformer ou d’un site professionnel à aménager, la méthode reste la même : un cahier des charges clair, des matériaux choisis avec soin, un chantier propre et une réception sans zone d’ombre. Parlez-nous de votre projet : la première étude est gratuite.',
+        text: 'Qu’il s’agisse d’une maison toulousaine à transformer ou d’un site professionnel à aménager, la méthode reste la même : un cahier des charges clair, des matériaux choisis avec soin, un chantier propre et une réception sans zone d’ombre. Parlez-nous de votre projet.',
       },
     ],
   ],
@@ -255,7 +256,6 @@ export const apropos: AproposContent = {
   ],
   stats: [
     { valeur: '12', label: 'corps de métier' },
-    { valeur: '100%', label: 'chantiers suivis' },
     { valeur: 'Toulouse', label: 'et sa métropole' },
   ],
 };
@@ -318,7 +318,7 @@ export const ctaContact: CtaContactContent = {
   eyebrow: 'CONTACT',
   title: 'Parlons de votre projet',
   text: 'Décrivez-nous votre chantier : nous revenons vers vous pour une première visite et un devis détaillé, sans engagement.',
-  label: 'Demander un devis gratuit',
+  label: 'Demander un devis',
   href: '/#contact',
   cibles: {
     particuliers: {

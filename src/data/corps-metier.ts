@@ -5,6 +5,7 @@
 // Les balises <title>/<meta description> vivent dans seo.ts.
 
 import type { Cible } from './home';
+import { site } from './site';
 
 export type { Cible };
 
@@ -38,9 +39,9 @@ export const corpsMetier: CorpsMetier[] = [
     description: 'Couverture, zinguerie et étanchéité : la première barrière de votre maison contre les intempéries.',
     zoneId: 'toiture',
     page: {
-      h1: 'Travaux de toiture et de couverture à Toulouse',
+      h1: 'Travaux de toiture à Toulouse : réfection et couverture',
       intro:
-        'La toiture protège l’ensemble du bâtiment : son état conditionne la durabilité de la charpente, de l’isolation et des intérieurs. Experts Travaux réalise la réfection et l’entretien de couvertures pour les maisons comme pour les bâtiments professionnels, à Toulouse et dans un rayon de 100 km.',
+        `La toiture protège l’ensemble du bâtiment : son état conditionne la durabilité de la charpente, de l’isolation et des intérieurs. Experts Travaux réalise la réfection et l’entretien de couvertures pour les maisons comme pour les bâtiments professionnels, à Toulouse et dans un rayon de ${site.areaServed.radiusKm} km.`,
       prestations: [
         'Réfection et remplacement de couverture',
         'Zinguerie : gouttières, noues, rives et solins',
@@ -150,7 +151,7 @@ export const corpsMetier: CorpsMetier[] = [
     description: 'Fenêtres, portes et baies : performance thermique et apport de lumière au millimètre.',
     zoneId: 'menuiseries',
     page: {
-      h1: 'Menuiseries extérieures : fenêtres, portes et baies à Toulouse',
+      h1: 'Changement de fenêtres à Toulouse : menuiseries extérieures, portes et baies',
       intro:
         'Fenêtres, portes d’entrée et baies vitrées structurent les façades, la lumière et le confort thermique d’un bâtiment. Experts Travaux assure la fourniture et la pose, avec un soin particulier apporté aux joints, aux raccords et à l’étanchéité.',
       prestations: [
@@ -172,7 +173,7 @@ export const corpsMetier: CorpsMetier[] = [
     description: 'Gagnez des m² sans déménager, en accord avec le PLU de Toulouse et votre voisinage.',
     zoneId: 'extension',
     page: {
-      h1: 'Extension et surélévation de maison à Toulouse',
+      h1: 'Extension de maison à Toulouse : agrandissement et surélévation',
       intro:
         'Étendre ou surélever une maison permet de gagner de la surface sans déménager. Experts Travaux étudie la faisabilité technique avec vous, puis conduit le chantier depuis le gros œuvre jusqu’aux finitions, en harmonie avec le bâti existant.',
       prestations: [
@@ -190,11 +191,11 @@ export const corpsMetier: CorpsMetier[] = [
   {
     id: 'cuisine',
     slug: 'cuisine',
-    nom: 'Cuisine & plomberie',
+    nom: 'Cuisine',
     description: 'Conception, réseaux d’eau et pose : une cuisine pensée pour durer, du plan 3D à la mise en service.',
     zoneId: 'cuisine',
     page: {
-      h1: 'Rénovation de cuisine et plomberie à Toulouse',
+      h1: 'Rénovation de cuisine à Toulouse',
       intro:
         'Une cuisine réussie tient autant à son implantation qu’à la qualité de ses réseaux. Experts Travaux conçoit et réalise votre cuisine, des arrivées d’eau et d’électricité jusqu’à la pose du mobilier et des finitions.',
       prestations: [
@@ -212,11 +213,11 @@ export const corpsMetier: CorpsMetier[] = [
   {
     id: 'salle-de-bain',
     slug: 'salle-de-bain',
-    nom: 'Salle de bain & étanchéité',
+    nom: 'Salle de bain',
     description: 'Douches à l’italienne étanchéifiées dans les règles, carrelage et meubles posés au millimètre.',
     zoneId: 'salle-de-bain',
     page: {
-      h1: 'Rénovation de salle de bain et étanchéité à Toulouse',
+      h1: 'Rénovation de salle de bain à Toulouse',
       intro:
         'La salle de bain est la pièce la plus exposée à l’eau : l’étanchéité et la plomberie y sont déterminantes. Experts Travaux la rénove entièrement ou partiellement, avec une exécution soignée des supports et des finitions.',
       prestations: [
@@ -234,17 +235,16 @@ export const corpsMetier: CorpsMetier[] = [
   {
     id: 'chauffage',
     slug: 'chauffage-climatisation',
-    nom: 'Chauffage & climatisation',
-    description: 'Pompe à chaleur, radiateurs et climatisation : un confort thermique maîtrisé toute l’année.',
+    nom: 'Climatisation & chauffage',
+    description: 'Climatisation, chauffage et ventilation : un confort thermique maîtrisé toute l’année.',
     zoneId: 'chauffage',
     page: {
-      h1: 'Chauffage et climatisation à Toulouse',
+      h1: 'Installation de climatisation et chauffage à Toulouse',
       intro:
         'Le choix d’un système de chauffage et de rafraîchissement dépend du bâtiment, de son isolation et de ses usages. Experts Travaux installe et remplace les équipements de chauffage et de climatisation, pour des logements comme pour des locaux professionnels.',
       prestations: [
-        'Installation de pompe à chaleur',
+        'Installation de climatisation réversible',
         'Radiateurs et réseau de distribution',
-        'Climatisation réversible',
         'Remplacement de chaudière ou de générateur',
         'Ventilation associée aux équipements',
       ],
@@ -257,17 +257,16 @@ export const corpsMetier: CorpsMetier[] = [
     id: 'electricite',
     slug: 'electricite',
     nom: 'Électricité',
-    description: 'Mise aux normes NF C 15-100, tableau, réseaux et domotique pour une installation sûre.',
+    description: 'Mise aux normes électriques, tableau, réseaux et éclairage pour une installation sûre.',
     zoneId: 'electricite',
     page: {
-      h1: 'Travaux d’électricité et mise en conformité à Toulouse',
+      h1: 'Mise aux normes électriques à Toulouse : tableau et installation',
       intro:
         'Une installation électrique doit être sûre, lisible et adaptée à vos usages actuels. Experts Travaux réalise des installations neuves et des rénovations complètes, pour des logements comme pour des locaux professionnels.',
       prestations: [
         'Remplacement et mise en conformité du tableau électrique',
         'Reprise ou création de circuits et de prises',
         'Éclairage intérieur et extérieur',
-        'Domotique et pilotage des équipements',
         'Alimentation des équipements de cuisine, de chauffage et de climatisation',
       ],
       pourquoi:
@@ -278,11 +277,11 @@ export const corpsMetier: CorpsMetier[] = [
   {
     id: 'finitions',
     slug: 'platrerie-peinture-carrelage',
-    nom: 'Plâtrerie, carrelage & peinture',
+    nom: 'Peinture, plâtrerie & carrelage',
     description: 'Cloisons, sols et finitions : le second œuvre qui donne à votre intérieur son aspect final.',
     zoneId: 'finitions',
     page: {
-      h1: 'Plâtrerie, carrelage et peinture à Toulouse',
+      h1: 'Peinture et plâtrerie à Toulouse : cloisons, plafonds et carrelage',
       intro:
         'Les finitions donnent à un intérieur son aspect définitif et révèlent la qualité du chantier. Experts Travaux réalise cloisons, plafonds, sols et peintures avec le soin du second œuvre, pour des logements et des locaux professionnels.',
       prestations: [

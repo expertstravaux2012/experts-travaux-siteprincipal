@@ -1,5 +1,11 @@
-// Textes SEO par page (title ≤ 60 caractères, description 140–160 caractères).
+// Textes SEO par page (title ≤ 60 caractères, description 145–157 caractères).
 // Textes uniquement : le JSON-LD est construit ailleurs.
+// Mots-clés principaux : registre de mots-clés du 15/10/2026 (docs/Experts Travaux - mon registre de mots-clés.pdf),
+// référence de la stratégie de contenu. Un mot-clé principal par page, titres et descriptions uniques.
+
+import { site } from './site';
+
+const km = site.areaServed.radiusKm;
 
 export interface PageSeo {
   title: string;
@@ -19,9 +25,8 @@ export interface SeoContent {
 
 export const seo: SeoContent = {
   constructionNeuve: {
-    title: 'Construction de maison neuve à Toulouse | Experts Travaux',
-    description:
-      'Construction neuve à Toulouse et dans un rayon de 100 km : de l’achat du terrain à la livraison de la maison, un seul interlocuteur et un devis détaillé.',
+    title: 'Maison sur mesure à Toulouse | Experts Travaux',
+    description: `Maison sur mesure à Toulouse et dans un rayon de ${km} km : étude de faisabilité sur votre terrain, devis détaillé et chantier coordonné par un interlocuteur.`,
   },
   mentionsLegales: {
     title: 'Mentions légales | Experts Travaux',
@@ -34,80 +39,79 @@ export const seo: SeoContent = {
       'Conditions générales d’utilisation du site Experts Travaux : accès au site, propriété intellectuelle, responsabilité, données personnelles et droit applicable.',
   },
   home: {
-    title: 'Experts Travaux | Rénovation et bâtiment à Toulouse',
-    description:
-      'Entreprise de rénovation à Toulouse et dans un rayon de 100 km : particuliers et professionnels, un seul interlocuteur de la conception à la livraison.',
+    title: 'Entreprise de rénovation à Toulouse | Experts Travaux',
+    description: `Entreprise de rénovation à Toulouse et dans un rayon de ${km} km : maître d’œuvre de vos travaux, pour particuliers et professionnels, du devis à la livraison.`,
   },
   particuliers: {
     title: 'Rénovation maison à Toulouse : travaux sur-mesure',
     description:
-      'Rénovation, extension, cuisine, salle de bain, décoration, construction neuve : Experts Travaux pilote votre projet à Toulouse, du devis gratuit à la livraison.',
+      'Rénovation de maison et d’appartement à Toulouse : extension, cuisine, salle de bain, construction neuve. Votre projet piloté du devis à la livraison.',
   },
   professionnels: {
-    title: 'Contractant général et aménagement de bureaux | Toulouse',
+    title: 'Rénovation locaux professionnels à Toulouse',
     description:
-      'Contractant général à Toulouse : bureaux, locaux commerciaux, restaurants, entrepôts. Continuité d’activité, plannings tenus et respect des normes ERP.',
+      'Rénovation de locaux professionnels à Toulouse : bureaux, commerces, hôtels, restaurants. Entreprise tous corps d’état, plannings tenus, normes ERP.',
   },
   metiers: {
     'toiture-couverture': {
-      title: 'Toiture et couverture à Toulouse | Experts Travaux',
+      title: 'Travaux de toiture à Toulouse | Experts Travaux',
       description:
-        'Couverture, zinguerie, étanchéité et réfection de toiture à Toulouse et alentours : conception, coordination des artisans et suivi jusqu’à la réception.',
+        'Réfection de toiture, couverture, zinguerie et étanchéité à Toulouse et alentours : diagnostic, devis détaillé et chantier coordonné jusqu’à la réception.',
     },
     charpente: {
       title: 'Charpente à Toulouse | Experts Travaux',
       description:
-        'Charpente traditionnelle, fermettes, renforcement et réparation à Toulouse et alentours : un seul interlocuteur, un chantier mené jusqu’à la livraison.',
+        'Charpente à Toulouse : charpente traditionnelle, fermettes, réparation et renforcement. Un seul interlocuteur, du diagnostic à la réception du chantier.',
     },
     'isolation-thermique': {
       title: 'Isolation thermique à Toulouse | Experts Travaux',
       description:
-        'Isolation thermique des combles, murs et sols à Toulouse et alentours : étude sur place, devis détaillé et chantier piloté par un seul interlocuteur.',
+        'Isolation thermique à Toulouse : combles, murs et sols. Étude sur place, devis détaillé et chantier piloté par un seul interlocuteur, pour un vrai confort.',
     },
     'facade-ravalement': {
-      title: 'Façade et ravalement à Toulouse | Experts Travaux',
+      title: 'Ravalement de façade à Toulouse | Experts Travaux',
       description:
-        'Ravalement, enduit de façade et isolation thermique par l’extérieur à Toulouse et alentours : un seul interlocuteur, un chantier mené jusqu’à la livraison.',
+        'Ravalement de façade à Toulouse : enduit, brique, isolation par l’extérieur. Étude sur place, devis détaillé et chantier mené par un seul interlocuteur.',
     },
     'maconnerie-gros-oeuvre': {
-      title: 'Maçonnerie et gros œuvre à Toulouse | Experts Travaux',
+      title: 'Maçonnerie gros œuvre à Toulouse | Experts Travaux',
       description:
-        'Fondations, murs porteurs, dalles et ouvertures dans le bâti à Toulouse et alentours : conception, coordination des artisans et suivi jusqu’à la réception.',
+        'Maçonnerie et gros œuvre à Toulouse : fondations, ouverture de mur porteur, dalles et reprises en bâti ancien, coordonnés par un seul interlocuteur.',
     },
     'menuiseries-exterieures': {
-      title: 'Menuiseries extérieures à Toulouse | Experts Travaux',
+      title: 'Changement de fenêtres à Toulouse | Experts Travaux',
       description:
-        'Pose et remplacement de fenêtres, portes, baies vitrées et volets à Toulouse et alentours : un seul interlocuteur, un chantier mené jusqu’à la livraison.',
+        'Changement de fenêtres à Toulouse : fenêtres, baies vitrées, portes et volets. Fourniture et pose soignées, devis détaillé et réception avec vous sur place.',
     },
     'extension-surelevation': {
-      title: 'Extension et surélévation à Toulouse | Experts Travaux',
+      title: 'Extension maison à Toulouse | Experts Travaux',
       description:
-        'Extension et surélévation de maison, étude de faisabilité incluse, à Toulouse et alentours : un seul interlocuteur, un chantier mené jusqu’à la livraison.',
+        'Extension de maison à Toulouse : étude de faisabilité, agrandissement et surélévation, du gros œuvre aux finitions, sous la conduite d’un seul interlocuteur.',
     },
     cuisine: {
-      title: 'Cuisine et plomberie à Toulouse | Experts Travaux',
+      title: 'Rénovation de cuisine à Toulouse | Experts Travaux',
       description:
-        'Conception, plomberie, électricité et pose de cuisine à Toulouse et alentours : étude sur place, devis détaillé et chantier piloté par un seul interlocuteur.',
+        'Rénovation de cuisine à Toulouse : conception, pose de cuisine, réseaux d’eau et d’électricité, finitions. Un devis détaillé, un seul interlocuteur.',
     },
     'salle-de-bain': {
-      title: 'Salle de bain et étanchéité à Toulouse | Experts Travaux',
+      title: 'Rénovation salle de bain à Toulouse | Experts Travaux',
       description:
-        'Douche à l’italienne, étanchéité, carrelage et plomberie à Toulouse et alentours : conception, coordination des artisans et suivi jusqu’à la réception.',
+        'Rénovation de salle de bain à Toulouse : douche à l’italienne, étanchéité, carrelage et plomberie. Un devis détaillé, un seul interlocuteur de bout en bout.',
     },
     'chauffage-climatisation': {
-      title: 'Chauffage et climatisation à Toulouse | Experts Travaux',
+      title: 'Installation climatisation à Toulouse | Experts Travaux',
       description:
-        'Pompe à chaleur, radiateurs et climatisation à Toulouse et alentours : étude sur place, devis détaillé et chantier piloté par un seul interlocuteur.',
+        'Installation de climatisation à Toulouse : climatisation réversible, chauffage et ventilation. Étude sur place, devis détaillé et mise en service suivie.',
     },
     electricite: {
-      title: 'Électricité à Toulouse | Experts Travaux',
+      title: 'Mise aux normes électriques à Toulouse | Experts Travaux',
       description:
-        'Installation, mise en conformité, tableau électrique et domotique à Toulouse et alentours : un seul interlocuteur, un chantier mené jusqu’à la livraison.',
+        'Mise aux normes électriques à Toulouse : tableau électrique, rénovation du circuit et éclairage. Électricité en rénovation, devis détaillé et chantier suivi.',
     },
     'platrerie-peinture-carrelage': {
-      title: 'Plâtrerie, carrelage, peinture à Toulouse | Experts Travaux',
+      title: 'Peinture et plâtrerie à Toulouse | Experts Travaux',
       description:
-        'Cloisons, faux plafonds, carrelage, peinture et finitions à Toulouse et alentours : un seul interlocuteur, un chantier mené jusqu’à la livraison.',
+        'Peinture et plâtrerie à Toulouse : cloisons, faux plafonds, carrelage et finitions. Un chantier propre, coordonné et réceptionné avec vous sur place.',
     },
   },
 };

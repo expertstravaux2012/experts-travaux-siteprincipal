@@ -13,6 +13,7 @@ export const metierPage = {
   prestationsHeading: { eyebrow: 'PRESTATIONS', title: 'Ce que comprend cette intervention' },
   pourquoiHeading: { eyebrow: 'NOTRE MÉTHODE', title: 'Un seul interlocuteur pour tout le chantier' },
   cibleHeading: { eyebrow: 'POUR QUI', title: 'Pour quels projets' },
+  faqHeading: { eyebrow: 'QUESTIONS FRÉQUENTES', title: 'Avant de lancer vos travaux' },
   autresHeading: { eyebrow: 'AUTRES MÉTIERS', title: 'Découvrir d’autres corps de métier' },
   cta: {
     eyebrow: 'VOTRE PROJET',

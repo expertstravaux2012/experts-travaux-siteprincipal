@@ -5,11 +5,15 @@ import Footer from '../../components/layout/Footer.astro';
 import Breadcrumb from '../../components/ui/Breadcrumb.astro';
 import PageIntro from '../../components/sections/page/PageIntro.astro';
 import MetierContent from '../../components/sections/page/MetierContent.astro';
+import MetierArticle from '../../components/sections/page/MetierArticle.astro';
+import Faq from '../../components/sections/page/Faq.astro';
 import PrestationsGrid from '../../components/sections/page/PrestationsGrid.astro';
 import CtaBand from '../../components/sections/page/CtaBand.astro';
 import { corpsMetier } from '../../data/corps-metier';
+import { metiersContenu } from '../../data/metiers-contenu';
 import { seo } from '../../data/seo';
 import { ciblesDe, metierPage, silos } from '../../data/pages';
+import { faqJsonLd } from '../../lib/faq-jsonld';
 import { breadcrumbNode, serviceNode } from '../../lib/jsonld';
 
 export function getStaticPaths() {
@@ -23,9 +27,11 @@ const { metier, index } = Astro.props;
 
 const path = `/metiers/${metier.slug}/`;
 const { title, description } = seo.metiers[metier.slug];
+const { sections, faq } = metiersContenu[metier.slug];
 const jsonLd = [
   breadcrumbNode(path, [{ name: metier.nom, path }]),
   serviceNode(path, { name: metier.nom, description }),
+  faqJsonLd(path, faq),
 ];
 
 // Maillage : 3 métiers suivants (rotation déterministe).
@@ -45,6 +51,8 @@ const cta = { ...metierPage.cta, label: primaire.label, href: primaire.href };
       <Breadcrumb slot="breadcrumb" items={[{ label: metier.nom }]} />
     </PageIntro>
     <MetierContent page={metier.page} />
+    <MetierArticle sections={sections} />
+    <Faq eyebrow={metierPage.faqHeading.eyebrow} title={metierPage.faqHeading.title} items={faq} />
     <PrestationsGrid
       eyebrow={metierPage.autresHeading.eyebrow}
       title={metierPage.autresHeading.title}

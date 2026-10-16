@@ -14,7 +14,23 @@ export const site = {
    */
   consent: { enabled: false },
   /** Zone d'intervention : Toulouse + rayon en km (valeur du brief client, à confirmer). */
-  areaServed: { city: 'Toulouse', radiusKm: 100 },
+  areaServed: {
+    city: 'Toulouse',
+    radiusKm: 100,
+    /** Communes citées dans les textes (registre de mots-clés, décision 4) : une seule mention par page de zone, pas de page par commune. */
+    communes: [
+      'Blagnac',
+      'Colomiers',
+      'Tournefeuille',
+      'Balma',
+      'L’Union',
+      'Labège',
+      'Ramonville-Saint-Agne',
+      'Muret',
+      'Saint-Orens-de-Gameville',
+      'Castanet-Tolosan',
+    ],
+  },
   /** Image Open Graph par défaut (1200×630, tirée du visuel Hero maison-toulousaine). */
   ogImage: {
     src: '/assets/og-default.jpg',
@@ -33,7 +49,7 @@ export const site = {
     'Rénovation & bâtiment à Toulouse. Un seul interlocuteur, du devis à la remise des clés.',
   legalLine: 'Rénovation & Bâtiment · Toulouse',
   /** Année de fondation (affichée discrètement dans le logo d'en-tête). */
-  foundedYear: 2012,
+  foundedYear: 2013,
   labels: {
     since: 'Depuis',
     trade: 'Neuf & rénovation',
@@ -75,3 +91,6 @@ export const site = {
     },
   ],
 } as const;
+
+/** « Blagnac, Colomiers, … et Castanet-Tolosan ». */
+export const communesLabel = new Intl.ListFormat('fr', { type: 'conjunction' }).format(site.areaServed.communes);

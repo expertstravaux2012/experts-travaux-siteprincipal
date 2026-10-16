@@ -1,8 +1,10 @@
 // Contenu de la page /particuliers/construction-neuve/.
-// Textes rédigés depuis le descriptif client (« accompagnement de l’achat du terrain à la livraison
-// de la maison ») : à faire relire par le client avant lancement (étapes, engagements, FAQ).
+// Registre de mots-clés (décision 1, option par défaut) : page reformulée autour de « maison sur mesure Toulouse »,
+// sans promesse de construction complète « de l’achat du terrain à la livraison ». « Assureur unique » conservé (argument de vente validé par Hery).
+// À faire relire par le client avant lancement (étapes, engagements, FAQ).
 
 import type { FaqItem, Lien, PageCta, Prestation } from './home';
+import { site } from './site';
 
 export interface ConstructionNeuveContent {
   /** Nom court du service (carte, fil d'Ariane, JSON-LD). */
@@ -27,14 +29,14 @@ export interface ConstructionNeuveContent {
 
 export const constructionNeuve: ConstructionNeuveContent = {
   nom: 'Construction neuve',
-  h1: 'Construction de maison neuve à Toulouse',
+  h1: 'Maison sur mesure à Toulouse : votre projet de construction neuve',
   eyebrow: 'CONSTRUCTION NEUVE',
   intro:
-    'Experts Travaux vous accompagne de l’achat du terrain à la livraison de votre maison, à Toulouse et dans un rayon de 100 km. Un seul interlocuteur et assureur unique du chantier, un devis détaillé, un chantier coordonné jusqu’à la remise des clés.',
+    `Experts Travaux étudie et conduit votre projet de construction neuve à Toulouse et dans un rayon de ${site.areaServed.radiusKm} km : faisabilité sur votre terrain, devis détaillé, chantier coordonné jusqu’à la remise des clés, avec un seul interlocuteur et assureur unique du chantier.`,
 
   accompagnementHeading: {
     eyebrow: 'ACCOMPAGNEMENT',
-    title: 'De l’achat du terrain à la remise des clés',
+    title: 'De l’étude du projet à la remise des clés',
   },
   accompagnement: [
     {
@@ -95,7 +97,7 @@ export const constructionNeuve: ConstructionNeuveContent = {
     {
       question: 'Dans quelle zone construisez-vous ?',
       reponse:
-        'Nous intervenons à Toulouse et dans un rayon d’environ 100 km autour de la ville. Pour un terrain en limite de zone, contactez-nous : nous étudions la demande au cas par cas.',
+        `Nous intervenons à Toulouse et dans un rayon d’environ ${site.areaServed.radiusKm} km autour de la ville. Pour un terrain en limite de zone, contactez-nous : nous étudions la demande au cas par cas.`,
     },
     {
       question: 'Comment est établi le budget d’une construction ?',
@@ -113,7 +115,7 @@ export const constructionNeuve: ConstructionNeuveContent = {
     eyebrow: 'VOTRE PROJET',
     title: 'Parlons de votre construction',
     text: 'Un devis détaillé, un interlocuteur unique, un chantier suivi de bout en bout : décrivez-nous votre projet à Toulouse ou dans les environs.',
-    label: 'Demander un devis gratuit',
+    label: 'Demander un devis',
     href: '#contact',
   },
 };
