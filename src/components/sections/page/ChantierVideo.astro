@@ -1,0 +1,55 @@
+---
+// Vidéo de chantier en boucle, muette. La source n'est chargée qu'à l'approche du viewport ;
+// lecture automatique désactivée si l'utilisateur préfère moins d'animations. Commandes natives toujours visibles.
+import type { ChantierVideo } from '../../../data/particuliers';
+import Section from '../../ui/Section.astro';
+import SectionHeading from '../../ui/SectionHeading.astro';
+
+interface Props {
+  video: ChantierVideo;
+}
+
+const { video } = Astro.props;
+---
+
+<Section>
+  <div class="grid grid-cols-1 gap-space-lg desktop:grid-cols-12 desktop:gap-gutter">
+    <div class="flex flex-col gap-space-md desktop:col-span-4">
+      <SectionHeading eyebrow={video.eyebrow} title={video.title} />
+      <p class="text-body-md text-on-surface-variant">{video.legende}</p>
+    </div>
+    <figure class="border border-hairline desktop:col-span-8">
+      <video
+        data-src={video.src}
+        poster={video.poster}
+        width={video.width}
+        height={video.height}
+        aria-label={video.label}
+        muted
+        loop
+        playsinline
+        controls
+        preload="none"
+        class="block h-auto w-full"
+      >
+      </video>
+    </figure>
+  </div>
+</Section>
+
+<script>
+  document.querySelectorAll<HTMLVideoElement>('video[data-src]').forEach((video) => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) return;
+        observer.disconnect();
+        video.src = video.dataset.src ?? '';
+        if (!reducedMotion) video.play().catch(() => {});
+      },
+      { rootMargin: '200px' },
+    );
+    observer.observe(video);
+  });
+</script>

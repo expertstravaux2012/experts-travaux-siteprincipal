@@ -19,11 +19,16 @@ export interface SeoContent {
   mentionsLegales: PageSeo;
   cgu: PageSeo;
   constructionNeuve: PageSeo;
+  piscine: PageSeo;
   /** Clé = `slug` d'une entrée de corps-metier.ts. */
   metiers: Record<string, PageSeo>;
 }
 
 export const seo: SeoContent = {
+  piscine: {
+    title: 'Construction de piscine à Toulouse | Experts Travaux',
+    description: `Construction de piscine à Toulouse et dans un rayon de ${km} km : terrassement, bassin, local technique et finitions, devis détaillé et un seul interlocuteur.`,
+  },
   constructionNeuve: {
     title: 'Maison sur mesure à Toulouse | Experts Travaux',
     description: `Maison sur mesure à Toulouse et dans un rayon de ${km} km : étude de faisabilité sur votre terrain, devis détaillé et chantier coordonné par un interlocuteur.`,

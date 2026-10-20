@@ -21,6 +21,18 @@ export interface AvantApres {
   ratio?: string;
 }
 
+export interface ChantierVideo {
+  eyebrow: string;
+  title: string;
+  legende: string;
+  /** Libellé accessible du lecteur. */
+  label: string;
+  src: string;
+  poster: string;
+  width: number;
+  height: number;
+}
+
 export interface DevisBlock {
   eyebrow: string;
   title: string;
@@ -103,6 +115,12 @@ export const particuliers: ParticuliersContent = {
       description:
         'Un projet de maison sur mesure, de l’étude de faisabilité à la remise des clés, avec un seul interlocuteur à chaque étape.',
       href: '/particuliers/construction-neuve/',
+    },
+    {
+      titre: 'Piscine',
+      description:
+        'Le chantier de votre piscine, de la fouille au bassin terminé, coordonné par un seul interlocuteur.',
+      href: '/particuliers/piscine/',
     },
   ],
 
