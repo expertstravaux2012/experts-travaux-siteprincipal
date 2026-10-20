@@ -17,6 +17,8 @@ export interface AvantApres {
   legende: string;
   avant: AvantApresImage;
   apres: AvantApresImage;
+  /** Ratio CSS du comparateur (`largeur / hauteur`) ; 16 / 9 par défaut. */
+  ratio?: string;
 }
 
 export interface DevisBlock {
@@ -108,7 +110,7 @@ export const particuliers: ParticuliersContent = {
     eyebrow: 'AVANT / APRÈS',
     title: 'La transformation, vue de l’intérieur',
     intro:
-      'Deux exemples de transformation, avant et après intervention.',
+      'Trois exemples de transformation, avant et après intervention.',
   },
   avantApres: [
     {
@@ -117,6 +119,14 @@ export const particuliers: ParticuliersContent = {
       legende: 'D’une pièce mise à nu à une cuisine ouverte avec îlot central, sous les poutres d’origine.',
       avant: { src: '/assets/avant-apres/cuisine-avant.webp', alt: 'Pièce en chantier avec cloisons ouvertes, câbles apparents et poutres au plafond, fenêtre sur les toits de Toulouse' },
       apres: { src: '/assets/avant-apres/cuisine-apres.webp', alt: 'Cuisine rénovée avec îlot en bois et pierre, façades noires, poutres apparentes et vue sur les toits de Toulouse' },
+    },
+    {
+      id: 'sejour',
+      titre: 'Séjour',
+      legende: 'D’une pièce dépouillée jusqu’aux solives à un séjour fini : plafond refait, éclairage encastré et parquet.',
+      ratio: '4 / 3',
+      avant: { src: '/assets/avant-apres/sejour-avant.webp', alt: 'Pièce en chantier aux solives apparentes, câbles pendants, rouleaux d’isolant et échafaudage sur un sol brut' },
+      apres: { src: '/assets/avant-apres/sejour-apres.webp', alt: 'Même pièce rénovée : cheminée en marbre noir, grand miroir doré, spots au plafond, parquet clair et canapé vert' },
     },
     {
       id: 'extension',

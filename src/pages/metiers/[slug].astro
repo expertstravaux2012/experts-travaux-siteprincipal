@@ -6,11 +6,13 @@ import Breadcrumb from '../../components/ui/Breadcrumb.astro';
 import PageIntro from '../../components/sections/page/PageIntro.astro';
 import MetierContent from '../../components/sections/page/MetierContent.astro';
 import MetierArticle from '../../components/sections/page/MetierArticle.astro';
+import MetierGalerie from '../../components/sections/page/MetierGalerie.astro';
 import Faq from '../../components/sections/page/Faq.astro';
 import PrestationsGrid from '../../components/sections/page/PrestationsGrid.astro';
 import CtaBand from '../../components/sections/page/CtaBand.astro';
 import { corpsMetier } from '../../data/corps-metier';
 import { metiersContenu } from '../../data/metiers-contenu';
+import { galeriesMetier } from '../../data/galeries';
 import { seo } from '../../data/seo';
 import { ciblesDe, metierPage, silos } from '../../data/pages';
 import { faqJsonLd } from '../../lib/faq-jsonld';
@@ -28,6 +30,7 @@ const { metier, index } = Astro.props;
 const path = `/metiers/${metier.slug}/`;
 const { title, description } = seo.metiers[metier.slug];
 const { sections, faq } = metiersContenu[metier.slug];
+const galerie = galeriesMetier[metier.slug];
 const jsonLd = [
   breadcrumbNode(path, [{ name: metier.nom, path }]),
   serviceNode(path, { name: metier.nom, description }),
@@ -52,6 +55,7 @@ const cta = { ...metierPage.cta, label: primaire.label, href: primaire.href };
     </PageIntro>
     <MetierContent page={metier.page} />
     <MetierArticle sections={sections} />
+    {galerie && <MetierGalerie galerie={galerie} />}
     <Faq eyebrow={metierPage.faqHeading.eyebrow} title={metierPage.faqHeading.title} items={faq} />
     <PrestationsGrid
       eyebrow={metierPage.autresHeading.eyebrow}

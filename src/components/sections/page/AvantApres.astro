@@ -31,7 +31,7 @@ const paires = items.filter((item) => item.avant.src && item.apres.src);
             </div>
             <div
               data-compare
-              style="--pos: 50%"
+              style={`--pos: 50%;${paire.ratio ? ` aspect-ratio: ${paire.ratio};` : ''}`}
               class="relative aspect-video w-full select-none overflow-hidden border border-hairline desktop:col-span-8 has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-on-surface"
             >
               <img

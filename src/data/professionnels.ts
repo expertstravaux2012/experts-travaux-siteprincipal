@@ -4,6 +4,7 @@
 // Types partagés importés de home.ts.
 
 import type { AvantApres } from './particuliers';
+import type { Photo } from './galeries';
 import type { FaqItem, Lien, PageCta, Prestation } from './home';
 import { communesLabel, site } from './site';
 
@@ -41,6 +42,7 @@ export interface ProfessionnelsContent {
   secteurs: Secteur[];
   avantApresHeading: { eyebrow: string; title: string; intro: string };
   avantApres: AvantApres[];
+  chantier: { eyebrow: string; title: string; legende: string; photo: Photo };
   argumentaireHeading: { eyebrow: string; title: string };
   argumentaire: Argument[];
   appelOffres: AppelOffresBlock;
@@ -138,7 +140,7 @@ export const professionnels: ProfessionnelsContent = {
   avantApresHeading: {
     eyebrow: 'AVANT / APRÈS',
     title: 'Des locaux transformés',
-    intro: 'Deux exemples de transformation de locaux professionnels, avant et après intervention.',
+    intro: 'Trois exemples de chantiers de locaux professionnels, avant et après intervention.',
   },
   avantApres: [
     {
@@ -149,6 +151,13 @@ export const professionnels: ProfessionnelsContent = {
       apres: { src: '/assets/avant-apres/bureaux-apres.webp', alt: 'Bâtiment tertiaire contemporain à façades vitrées et bardage noir, parvis minéral éclairé' },
     },
     {
+      id: 'hangar',
+      titre: 'Bâtiment d’activité',
+      legende: 'D’une structure métallique en cours de montage à un bâtiment à bardage noir, voirie et stationnement compris.',
+      avant: { src: '/assets/avant-apres/hangar-avant.webp', alt: 'Vue aérienne d’un chantier de bâtiment d’activité : poteaux et poutres métalliques en cours de montage, grues et nacelles sur un terrain nu' },
+      apres: { src: '/assets/avant-apres/hangar-apres.webp', alt: 'Même emplacement en vue aérienne : bâtiment d’activité à bardage noir et toiture grise, voie d’accès et parking enrobés' },
+    },
+    {
       id: 'restaurant',
       titre: 'Restaurant & bar',
       legende: 'Une salle de bar-restaurant repensée : comptoir, éclairage et ambiance retravaillés.',
@@ -156,6 +165,18 @@ export const professionnels: ProfessionnelsContent = {
       apres: { src: '/assets/avant-apres/restaurant-apres.webp', alt: 'Même salle rénovée avec comptoir éclairé, suspensions cuivrées et mur de briques rétroéclairé' },
     },
   ],
+
+  chantier: {
+    eyebrow: 'SUR LE TERRAIN',
+    title: 'Un chantier livré, signé de notre nom',
+    legende: 'Bâtiment d’activité à bardage noir livré : panneau de chantier et affichage du permis de construire sur la clôture.',
+    photo: {
+      src: '/assets/realisations/hangar-chantier-experts-travaux.webp',
+      alt: 'Bâtiment industriel à bardage noir derrière une clôture, avec le panneau de chantier Experts Travaux et le panneau du permis de construire',
+      width: 1600,
+      height: 1200,
+    },
+  },
 
   argumentaireHeading: {
     eyebrow: 'NOTRE APPROCHE',

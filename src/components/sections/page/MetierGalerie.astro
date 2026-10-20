@@ -1,0 +1,35 @@
+---
+// Galerie de photos de chantiers d'une page métier : colonnes, ratios d'origine conservés.
+import type { Galerie } from '../../../data/galeries';
+import Section from '../../ui/Section.astro';
+import SectionHeading from '../../ui/SectionHeading.astro';
+
+interface Props {
+  galerie: Galerie;
+}
+
+const { galerie } = Astro.props;
+---
+
+<Section>
+  <div class="mb-space-xl">
+    <SectionHeading eyebrow={galerie.eyebrow} title={galerie.title} />
+  </div>
+  <ul class="columns-1 gap-gutter md:columns-2 desktop:columns-3">
+    {
+      galerie.photos.map((photo) => (
+        <li class="mb-gutter break-inside-avoid border border-hairline">
+          <img
+            src={photo.src}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            loading="lazy"
+            decoding="async"
+            class="block h-auto w-full"
+          />
+        </li>
+      ))
+    }
+  </ul>
+</Section>

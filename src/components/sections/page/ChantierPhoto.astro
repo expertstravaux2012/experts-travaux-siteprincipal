@@ -1,0 +1,35 @@
+---
+// Photo de chantier réel pleine largeur avec légende, introduite par un titre de section.
+import type { Photo } from '../../../data/galeries';
+import Section from '../../ui/Section.astro';
+import SectionHeading from '../../ui/SectionHeading.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  legende: string;
+  photo: Photo;
+}
+
+const { eyebrow, title, legende, photo } = Astro.props;
+---
+
+<Section>
+  <div class="grid grid-cols-1 gap-space-lg desktop:grid-cols-12 desktop:gap-gutter">
+    <div class="flex flex-col gap-space-md desktop:col-span-4">
+      <SectionHeading {eyebrow} {title} />
+      <p class="text-body-md text-on-surface-variant">{legende}</p>
+    </div>
+    <figure class="border border-hairline desktop:col-span-8">
+      <img
+        src={photo.src}
+        alt={photo.alt}
+        width={photo.width}
+        height={photo.height}
+        loading="lazy"
+        decoding="async"
+        class="block h-auto w-full"
+      />
+    </figure>
+  </div>
+</Section>
