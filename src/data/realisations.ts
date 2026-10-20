@@ -19,6 +19,8 @@ export interface Realisation {
   surface: string | null;
   annee: string | null;
   duree: string | null;
+  /** Page détaillée de la réalisation ; absent tant qu'il n'y en a pas. */
+  href?: string;
 }
 
 export const realisations: Realisation[] = [
@@ -141,5 +143,6 @@ export const realisations: Realisation[] = [
     surface: null,
     annee: null,
     duree: null,
+    href: '/particuliers/piscine/',
   },
 ];
