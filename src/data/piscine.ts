@@ -42,7 +42,7 @@ export const piscine: PiscineContent = {
     legende:
       'Un chantier réel suivi du terrassement à la livraison : fouille, dalle, murs en blocs, local technique, puis bassin terminé.',
     label: 'Vidéo en accéléré d’un chantier de piscine, de la fouille au bassin terminé',
-    src: 'https://sipbbsi1c6f8dcwa.public.blob.vercel-storage.com/chantier_piscine.mp4',
+    src: 'https://7xqrcuu3askjl1ah.public.blob.vercel-storage.com/chantier_piscine.mp4',
     poster: '/assets/realisations/piscine-chantier-poster.webp',
     width: 1280,
     height: 720,
