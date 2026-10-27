@@ -1,12 +1,12 @@
 export const site = {
   name: 'Experts Travaux',
-  /** Domaine de production (sans slash final). À CONFIRMER : déduit de l'email. */
-  url: 'https://experts-travaux.fr',
+  /** Domaine de production (sans slash final). Confirmé : experts-travaux.com. */
+  url: 'https://experts-travaux.com',
   /**
    * Interrupteur unique d'indexation. false = noindex, nofollow sur toutes les pages,
    * robots.txt en `Disallow: /`, sitemap non référencé. Passer à true au lancement.
    */
-  indexable: false,
+  indexable: true,
   /**
    * Gestionnaire de cookies. enabled = false : le bandeau ne s'affiche pas (aucun traceur à consentir).
    * Passer à true au branchement d'un outil de mesure d'audience (via onConsent, src/lib/consent.ts).
