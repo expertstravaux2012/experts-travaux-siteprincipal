@@ -7,24 +7,20 @@ export const legalPlaceholder = 'À COMPLÉTER';
 
 export const legal = {
   /** Date de dernière mise à jour des textes (ISO). */
-  updatedAt: '2026-10-12',
+  updatedAt: '2026-10-27',
   editeur: {
-    raisonSociale: legalPlaceholder,
-    formeJuridique: legalPlaceholder,
-    capital: legalPlaceholder,
-    siret: legalPlaceholder,
-    rcs: legalPlaceholder,
-    tvaIntracommunautaire: legalPlaceholder,
-    directeurPublication: legalPlaceholder,
+    raisonSociale: 'SEGARD Ugo',
+    formeJuridique: 'SARL',
+    capital: '10 890 €',
+    siret: '790 215 792 00017',
+    rcs: '790 215 792 R.C.S. Toulouse',
+    tvaIntracommunautaire: 'FR77790215792',
+    directeurPublication: 'Ugo Segard',
   },
   hebergeur: {
-    nom: legalPlaceholder,
-    adresse: legalPlaceholder,
-    contact: legalPlaceholder,
-  },
-  mediateur: {
-    nom: legalPlaceholder,
-    siteWeb: legalPlaceholder,
+    nom: 'Vercel Inc.',
+    adresse: '440 N Barranca Ave #4133, Covina, CA 91723, États-Unis',
+    contact: 'https://vercel.com/contact',
   },
   /** Durée de conservation des données de contact après le dernier échange. */
   conservationDonnees: 'trois ans',
@@ -57,7 +53,6 @@ export interface LegalDocument {
 
 const e = legal.editeur;
 const h = legal.hebergeur;
-const m = legal.mediateur;
 const host = site.url.replace(/^https?:\/\//, '');
 
 export const mentionsLegales: LegalDocument = {
@@ -95,7 +90,7 @@ export const mentionsLegales: LegalDocument = {
       paragraphs: [
         `Le responsable du traitement est ${e.raisonSociale}, dont les coordonnées figurent ci-dessus.`,
         'Les données saisies dans le formulaire de contact (nom, adresse e-mail, téléphone, description du projet) sont utilisées uniquement pour répondre à votre demande et, le cas échéant, établir un devis. La base légale est l’exécution de mesures précontractuelles prises à votre demande.',
-        `Elles sont conservées le temps nécessaire au traitement de votre demande, puis au plus ${legal.conservationDonnees} à compter du dernier échange. Elles ne sont ni vendues ni cédées à des tiers ; seuls ${site.name} et ses prestataires techniques y ont accès.`,
+        `Elles sont conservées le temps nécessaire au traitement de votre demande, puis au plus ${legal.conservationDonnees} à compter du dernier échange. Elles ne sont ni vendues ni cédées à des tiers ; seuls ${site.name} et ses prestataires techniques y ont accès : ${h.nom}, qui héberge le site, et Mailjet, service d’envoi d’e-mails qui achemine les demandes du formulaire.`,
         `Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation, d’opposition et de portabilité de vos données. Pour l’exercer, écrivez à ${site.email}. Vous pouvez aussi introduire une réclamation auprès de la CNIL (www.cnil.fr).`,
       ],
     },
@@ -107,13 +102,6 @@ export const mentionsLegales: LegalDocument = {
         'Votre choix est conservé six mois ; vous pouvez le modifier à tout moment.',
       ],
       cookieSettings: true,
-    },
-    {
-      id: 'mediation',
-      title: 'Médiation de la consommation',
-      paragraphs: [
-        `Conformément aux articles L.611-1 et suivants du Code de la consommation, tout consommateur peut recourir gratuitement à un médiateur de la consommation pour la résolution amiable d’un litige. Médiateur : ${m.nom} — ${m.siteWeb}.`,
-      ],
     },
   ],
 };

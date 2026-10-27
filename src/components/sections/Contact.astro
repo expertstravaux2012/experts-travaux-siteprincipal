@@ -1,11 +1,11 @@
 ---
 import { site } from '../../data/site';
 import { ctaContact } from '../../data/home';
+import { contactLimits } from '../../lib/contact';
 import SectionHeading from '../ui/SectionHeading.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 
-// Champs du formulaire de devis. Traitement back à brancher ultérieurement.
 interface Props {
   /** Variante d'en-tête selon la page ; défaut : texte générique de la home. */
   cible?: 'particuliers' | 'professionnels';
@@ -21,7 +21,7 @@ const {
   title = intro.title,
   text = intro.text,
 } = Astro.props;
-const { fields, submit, tool } = ctaContact.form;
+const { fields, submit, status, tool } = ctaContact.form;
 // WebMCP déclaratif : expose le formulaire comme outil aux agents IA (Lighthouse « Agentic browsing »).
 const toolDescription = tool.description[cible ?? 'defaut'];
 
@@ -60,29 +60,63 @@ const fieldClass =
 
     <!-- Formulaire -->
     <form
+      data-contact-form
+      data-sending={status.sending}
+      data-success={status.success}
+      data-error={status.error}
       class="flex flex-col gap-5 border border-hairline bg-surface-container-lowest p-6 sm:p-8"
       toolname={tool.name}
       tooldescription={toolDescription}
     >
       <div class="flex flex-col gap-2">
         <label for="nom" class="label-md text-on-surface">{fields.nom.label}</label>
-        <input id="nom" name="nom" type="text" autocomplete="name" required class={fieldClass} placeholder={fields.nom.placeholder} toolparamdescription={fields.nom.agentHint} />
+        <input id="nom" name="nom" type="text" autocomplete="name" maxlength={contactLimits.nom} required class={fieldClass} placeholder={fields.nom.placeholder} toolparamdescription={fields.nom.agentHint} />
       </div>
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div class="flex flex-col gap-2">
           <label for="email" class="label-md text-on-surface">{fields.email.label}</label>
-          <input id="email" name="email" type="email" autocomplete="email" required class={fieldClass} placeholder={fields.email.placeholder} toolparamdescription={fields.email.agentHint} />
+          <input id="email" name="email" type="email" autocomplete="email" maxlength={contactLimits.email} required class={fieldClass} placeholder={fields.email.placeholder} toolparamdescription={fields.email.agentHint} />
         </div>
         <div class="flex flex-col gap-2">
           <label for="tel" class="label-md text-on-surface">{fields.tel.label}</label>
-          <input id="tel" name="tel" type="tel" autocomplete="tel" class={fieldClass} placeholder={fields.tel.placeholder} toolparamdescription={fields.tel.agentHint} />
+          <input id="tel" name="tel" type="tel" autocomplete="tel" maxlength={contactLimits.tel} class={fieldClass} placeholder={fields.tel.placeholder} toolparamdescription={fields.tel.agentHint} />
         </div>
       </div>
       <div class="flex flex-col gap-2">
         <label for="projet" class="label-md text-on-surface">{fields.projet.label}</label>
-        <textarea id="projet" name="projet" rows="4" required class={fieldClass} placeholder={fields.projet.placeholder} toolparamdescription={fields.projet.agentHint}></textarea>
+        <textarea id="projet" name="projet" rows="4" maxlength={contactLimits.projet} required class={fieldClass} placeholder={fields.projet.placeholder} toolparamdescription={fields.projet.agentHint}></textarea>
       </div>
+      <input type="text" name="website" tabindex="-1" autocomplete="off" hidden />
       <Button variant="primary" type="submit" class="w-full">{submit}</Button>
+      <p data-contact-status role="status" aria-live="polite" class="text-body-md text-on-surface"></p>
     </form>
   </div>
 </section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-contact-status]');
+    const submit = form.querySelector<HTMLButtonElement>('[type="submit"]');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!status || !submit) return;
+      submit.disabled = true;
+      status.textContent = form.dataset.sending ?? '';
+
+      const body = { ...Object.fromEntries(new FormData(form)), page: location.pathname };
+      const ok = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(15_000),
+      })
+        .then((response) => response.ok)
+        .catch(() => false);
+
+      status.textContent = (ok ? form.dataset.success : form.dataset.error) ?? '';
+      if (ok) form.reset();
+      submit.disabled = false;
+    });
+  });
+</script>

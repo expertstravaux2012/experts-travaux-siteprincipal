@@ -310,6 +310,8 @@ export interface ContactFormContent {
     projet: ContactField;
   };
   submit: string;
+  /** Messages affichés après l'envoi (région aria-live). */
+  status: { sending: string; success: string; error: string };
   tool: ContactFormTool;
 }
 
@@ -373,6 +375,11 @@ export const ctaContact: CtaContactContent = {
       },
     },
     submit: 'Envoyer ma demande',
+    status: {
+      sending: 'Envoi en cours…',
+      success: 'Merci, votre demande a bien été envoyée. Nous revenons vers vous rapidement.',
+      error: `Votre demande n’a pas pu être envoyée. Réessayez ou écrivez-nous à ${site.email}.`,
+    },
     tool: {
       name: 'demande_devis',
       description: {

@@ -82,12 +82,17 @@ export const site = {
     {
       name: 'LinkedIn',
       icon: 'linkedin',
-      url: 'https://www.linkedin.com/company/experts-travaux/about/',
+      url: 'https://www.linkedin.com/company/experts-travaux/home/',
     },
     {
       name: 'Instagram',
       icon: 'instagram',
       url: 'https://www.instagram.com/expertstravaux/',
+    },
+    {
+      name: 'Facebook',
+      icon: 'facebook',
+      url: 'https://www.facebook.com/profile.php?id=61573614201560',
     },
   ],
 } as const;
