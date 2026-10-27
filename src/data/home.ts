@@ -287,14 +287,30 @@ export const chiffresCles: ChiffreCle[] = [
   },
 ];
 
+/** Champ du formulaire de devis. `agentHint` = toolparamdescription WebMCP (consigne lue par les agents IA). */
+export interface ContactField {
+  label: string;
+  placeholder: string;
+  agentHint: string;
+}
+
+/** Déclaration WebMCP du formulaire (attributs toolname / tooldescription), lue par les agents IA. */
+export interface ContactFormTool {
+  /** Nom court, orienté action, en snake_case. */
+  name: string;
+  /** Description selon la cible de la page ; `defaut` = home. */
+  description: { defaut: string; particuliers: string; professionnels: string };
+}
+
 export interface ContactFormContent {
   fields: {
-    nom: { label: string; placeholder: string };
-    email: { label: string; placeholder: string };
-    tel: { label: string; placeholder: string };
-    projet: { label: string; placeholder: string };
+    nom: ContactField;
+    email: ContactField;
+    tel: ContactField;
+    projet: ContactField;
   };
   submit: string;
+  tool: ContactFormTool;
 }
 
 export interface ContactIntro {
@@ -334,12 +350,37 @@ export const ctaContact: CtaContactContent = {
   },
   form: {
     fields: {
-      nom: { label: 'Nom', placeholder: 'Votre nom' },
-      email: { label: 'Email', placeholder: 'vous@exemple.fr' },
-      tel: { label: 'Téléphone', placeholder: '06 12 34 56 78' },
-      projet: { label: 'Votre projet', placeholder: 'Extension, rénovation, cuisine…' },
+      nom: {
+        label: 'Nom',
+        placeholder: 'Votre nom',
+        agentHint: 'Nom et prénom de la personne à recontacter.',
+      },
+      email: {
+        label: 'Email',
+        placeholder: 'vous@exemple.fr',
+        agentHint: 'Adresse email à laquelle envoyer la réponse et le devis.',
+      },
+      tel: {
+        label: 'Téléphone',
+        placeholder: '06 12 34 56 78',
+        agentHint: 'Numéro de téléphone pour être rappelé (facultatif).',
+      },
+      projet: {
+        label: 'Votre projet',
+        placeholder: 'Extension, rénovation, cuisine…',
+        agentHint:
+          'Nature des travaux, commune du chantier, surface approximative et délai souhaité.',
+      },
     },
     submit: 'Envoyer ma demande',
+    tool: {
+      name: 'demande_devis',
+      description: {
+        defaut: `Envoie une demande de devis à Experts Travaux, entreprise de rénovation et de bâtiment à ${site.areaServed.city} et dans un rayon de ${site.areaServed.radiusKm} km, pour particuliers et professionnels.`,
+        particuliers: `Envoie une demande de devis à Experts Travaux pour un projet de particulier (rénovation de maison ou d’appartement, extension, cuisine, salle de bain, maison sur mesure, piscine) à ${site.areaServed.city} et dans un rayon de ${site.areaServed.radiusKm} km.`,
+        professionnels: `Envoie une demande de devis à Experts Travaux pour la rénovation de locaux professionnels (bureaux, commerces, hôtels, restaurants) à ${site.areaServed.city} et dans un rayon de ${site.areaServed.radiusKm} km.`,
+      },
+    },
   },
 };
 

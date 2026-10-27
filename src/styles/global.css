@@ -76,6 +76,12 @@
   --color-hairline-inverse: #393737; /* filet 1px sur surfaces sombres (footer, inverse) */
   --color-on-surface-editorial: #393737; /* texte long-form (text-on-surface-editorial) */
 
+  /* Exception assumée à la charte monochrome : logo « G » Google, couleurs imposées par les règles de marque. */
+  --color-google-blue: #4285f4;
+  --color-google-green: #34a853;
+  --color-google-yellow: #fbbc05;
+  --color-google-red: #ea4335;
+
   /* Familles — Newsreader : display/headline-lg/md ; Hanken Grotesk : headline-sm/title/body ;
      JetBrains Mono : label-*, tags, coordonnées (MAJUSCULES + tracking positif). */
   --font-display: 'Newsreader', serif;

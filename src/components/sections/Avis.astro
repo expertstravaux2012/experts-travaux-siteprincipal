@@ -1,0 +1,77 @@
+---
+import { avis, avisSection, noteGoogle } from '../../data/avis';
+import Section from '../ui/Section.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import Button from '../ui/Button.astro';
+import RatingSquares from '../ui/RatingSquares.astro';
+import GoogleMark from '../ui/GoogleMark.astro';
+
+const formatMonth = (iso: string) =>
+  new Date(iso).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const formatDay = (iso: string) =>
+  new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const ratingLabel = (note: number) => avisSection.ratingAria.replace('{note}', formatNote(note));
+const formatNote = (note: number) => note.toFixed(1).replace('.', ',');
+---
+
+{
+  avis.length > 0 && (
+    <Section id="avis" tone="low">
+      <div class="grid grid-cols-1 gap-space-xl desktop:grid-cols-12 desktop:gap-gutter">
+        <div class="flex flex-col gap-space-lg desktop:col-span-4">
+          <SectionHeading eyebrow={avisSection.eyebrow} title={avisSection.title} />
+          {noteGoogle && (
+            <div class="flex flex-col gap-space-md border-t border-hairline pt-space-lg">
+              <span class="flex items-center gap-3 label-md text-on-surface">
+                <GoogleMark class="h-6 w-6" />
+                {avisSection.source}
+              </span>
+              <p class="flex items-baseline gap-3">
+                <span class="font-display text-display-xl-mobile md:text-display-xl text-on-surface">
+                  {formatNote(noteGoogle.note)}
+                </span>
+                <span class="label-md text-on-surface-variant">{avisSection.sur5}</span>
+              </p>
+              <RatingSquares note={noteGoogle.note} label={ratingLabel(noteGoogle.note)} />
+              <p class="label-md text-on-surface-variant">
+                {noteGoogle.nombre} {avisSection.avisLabel} · {avisSection.noteLabel} {formatDay(noteGoogle.releveLe)}
+              </p>
+              <Button
+                variant="secondary"
+                href={noteGoogle.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                icon="arrow-right"
+                class="self-start"
+              >
+                {avisSection.cta}
+                <span class="sr-only">{avisSection.newTab}</span>
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <ul class="flex flex-col border-t border-hairline desktop:col-span-8">
+          {avis.map((a) => (
+            <li class="grid grid-cols-1 gap-space-md border-b border-hairline py-space-lg md:grid-cols-12 md:gap-gutter">
+              <div class="flex flex-col gap-3 md:col-span-4">
+                <div class="flex items-center gap-3">
+                  <RatingSquares note={a.note} label={ratingLabel(a.note)} />
+                  <GoogleMark class="h-4 w-4" />
+                </div>
+                <div class="flex flex-col gap-1 label-md text-on-surface">
+                  <span>{a.auteur}</span>
+                  <span class="text-on-surface-variant">
+                    {formatMonth(a.date)}
+                    {a.metier && ` · ${a.metier}`}
+                  </span>
+                </div>
+              </div>
+              <blockquote class="text-body-lg text-on-surface-editorial md:col-span-8">{a.texte}</blockquote>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Section>
+  )
+}

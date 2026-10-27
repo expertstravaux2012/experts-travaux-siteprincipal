@@ -29,7 +29,7 @@ Décisions appliquées **par défaut** (aucune case cochée) : pas de « contrac
 src/
   styles/global.css        tokens Tailwind v4 (@theme) issus de DESIGN.md
   data/                    site, navigation, home, particuliers, professionnels, corps-metier, metiers-contenu (sections + FAQ), seo, pages, methode, realisations
-  lib/                     url (absoluteUrl, metierPath), jsonld, faq-jsonld
+  lib/                     url (absoluteUrl, metierPath), jsonld, faq-jsonld, llms (buildLlmsTxt, fonction pure testée)
   lib/maison3d/            maquette 3D Three.js (house-model, house-materials, viewer) — chargée en lazy par MaisonInteractiveHybride
   components/
     ui/                    Button, Icon, Logo, SectionHeading, Section, Card, Chip, SquareList, Breadcrumb, RichParagraph
@@ -37,8 +37,10 @@ src/
     sections/              Hero, Presentation, MaisonInteractiveHybride, Realisations, Methode, APropos, Contact
     sections/page/         PageIntro, PrestationsGrid, ActionPanel(s), AvantApres, Secteurs, Argumentaire, Faq, CtaBand, MetierContent, MetierArticle
   layouts/Layout.astro     head, polices @fontsource, SEO (canonical, OG, JSON-LD), <slot/>
-  pages/                   index, particuliers/, professionnels/, metiers/[slug], maintenance, robots.txt.ts
+  pages/                   index, particuliers/, professionnels/, metiers/[slug], maintenance, robots.txt.ts, llms.txt.ts
 ```
+
+Navigation agentique (Lighthouse « Agentic browsing ») : formulaire de devis déclaré en WebMCP (`toolname`/`tooldescription`/`toolparamdescription`, textes dans `ctaContact.form` de `data/home.ts`, description selon la cible) ; `/llms.txt` généré depuis `data/llms.ts` (site, seo, corps-metier) et servi, avec son `<link rel="describedby">`, uniquement si `site.indexable`. `ai-catalog.json` volontairement non implémenté (spec instable, pas de serveur MCP).
 
 Mise en ligne : `indexable: false` dans `src/data/site.ts` (noindex + robots Disallow). Passer à `true` au lancement après confirmation du domaine (`site.url`) et du rayon « 100 km » (étendu depuis le brief). Écart assumé : H1 du Hero en `headline-lg` (96 caractères). `sections/MaisonInteractive.astro` = legacy volontairement conservé, non importé.
 

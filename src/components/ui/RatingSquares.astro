@@ -1,0 +1,19 @@
+---
+// Note sur 5 en carrés (angles 0, cohérent avec les marqueurs de section). Accessible : un seul label.
+interface Props {
+  note: number;
+  label: string;
+  class?: string;
+}
+
+const { note, label, class: className = '' } = Astro.props;
+const filled = Math.round(note);
+---
+
+<span role="img" aria-label={label} class={`flex gap-1 ${className}`}>
+  {
+    Array.from({ length: 5 }, (_, i) => (
+      <span class={`h-2 w-2 ${i < filled ? 'bg-obsidian' : 'bg-hairline'}`} aria-hidden="true" />
+    ))
+  }
+</span>

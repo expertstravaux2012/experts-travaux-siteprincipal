@@ -66,6 +66,8 @@ const graph = jsonLd === false ? null : buildGraph([organizationNode(), ...jsonL
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <!-- Résumé du site pour les agents IA (llms.txt), servi seulement une fois le site indexable. -->
+    {site.indexable && <link rel="describedby" href="/llms.txt" type="text/markdown" />}
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:site_name" content={site.name} />
