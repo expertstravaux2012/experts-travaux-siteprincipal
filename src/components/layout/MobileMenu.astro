@@ -1,0 +1,222 @@
+---
+// Burger + drawer plein écran (< desktop). Accordéons pour les liens à sous-menu.
+import { navigation } from '../../data/navigation';
+import { site } from '../../data/site';
+import { metierPath } from '../../lib/url';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import IndexLabel from '../ui/IndexLabel.astro';
+import Logo from '../ui/Logo.astro';
+import MetierCell from '../ui/MetierCell.astro';
+
+interface Props {
+  ariaCurrent: (href: string) => 'page' | undefined;
+}
+
+const { ariaCurrent } = Astro.props;
+const { labels, phone, email } = site;
+const contactLink =
+  'inline-flex min-h-11 items-center gap-space-sm label-md text-on-surface hover:underline hover:underline-offset-4';
+---
+
+<button
+  type="button"
+  id="menu-open"
+  class="flex h-12 w-12 items-center justify-center self-center text-(--nav-fg) focus-visible:outline-(--nav-fg) desktop:hidden"
+  aria-label={labels.openMenu}
+  aria-controls="mobile-menu"
+  aria-expanded="false"
+>
+  <Icon name="menu" class="h-7 w-7" />
+</button>
+
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-50 hidden flex-col overflow-y-auto bg-surface-container-lowest desktop:hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label={labels.menu}
+>
+  <div class="flex h-20 shrink-0 items-center justify-between border-b border-hairline px-margin">
+    <a href="/" class="text-lg text-on-surface" aria-label={labels.homeAria}>
+      <Logo />
+    </a>
+    <button
+      type="button"
+      id="menu-close"
+      class="flex h-12 w-12 items-center justify-center text-on-surface"
+      aria-label={labels.closeMenu}
+    >
+      <Icon name="close" class="h-7 w-7" />
+    </button>
+  </div>
+
+  <nav class="flex flex-1 flex-col px-margin pt-space-md" aria-label={labels.mobileNav}>
+    <ol class="flex flex-col">
+      {
+        navigation.links.map((link, i) => {
+          const menu = link.menu ? navigation.menus[link.menu] : undefined;
+          return (
+            <li class="drawer-item border-b border-hairline" style={`--i:${i}`}>
+              <div class="flex items-center gap-space-md">
+                <IndexLabel index={i} class="label-md w-6 shrink-0 text-on-surface-variant" />
+                <a
+                  href={link.href}
+                  aria-current={ariaCurrent(link.href)}
+                  data-menu-link
+                  class="flex-1 py-space-md font-display text-headline-lg-mobile text-on-surface md:text-headline-lg aria-[current=page]:underline aria-[current=page]:underline-offset-4"
+                >
+                  {link.label}
+                </a>
+                {menu && (
+                  <button
+                    type="button"
+                    data-accordion-toggle
+                    aria-expanded="false"
+                    aria-controls={`mobile-sub-${link.menu}`}
+                    aria-label={`${link.label} — ${labels.submenuToggle}`}
+                    class="group flex h-12 w-12 shrink-0 items-center justify-center text-on-surface"
+                  >
+                    <Icon
+                      name="chevron-down"
+                      class="h-6 w-6 transition-transform group-aria-expanded:rotate-180 motion-reduce:transition-none"
+                    />
+                  </button>
+                )}
+              </div>
+              {menu && (
+                <ul id={`mobile-sub-${link.menu}`} hidden class="mb-space-md ml-space-lg flex flex-col border-t border-hairline">
+                  {menu.metiers.map((metier, j) => (
+                    <li>
+                      <MetierCell
+                        href={metierPath(metier.slug)}
+                        index={j}
+                        nom={metier.nom}
+                        variant="row"
+                        data-menu-link
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          );
+        })
+      }
+    </ol>
+
+    <div class="drawer-item mt-space-lg" style={`--i:${navigation.links.length}`}>
+      <Button variant="primary" href={navigation.cta.href} class="w-full" data-menu-link>
+        {navigation.cta.label}
+      </Button>
+    </div>
+  </nav>
+
+  <div
+    class="drawer-item mt-space-lg flex shrink-0 flex-col border-t border-hairline px-margin py-space-md"
+    style={`--i:${navigation.links.length + 1}`}
+  >
+    <a href={phone.href} class={contactLink}>
+      <Icon name="phone" class="h-5 w-5" />
+      {phone.display}
+    </a>
+    <a href={`mailto:${email}`} class={contactLink}>
+      <Icon name="mail" class="h-5 w-5" />
+      {email}
+    </a>
+  </div>
+</div>
+
+<style>
+  .drawer-item {
+    opacity: 0;
+  }
+  #mobile-menu.is-open .drawer-item {
+    animation: drawer-in 320ms ease-out both;
+    animation-delay: calc(var(--i) * 60ms);
+  }
+  @keyframes drawer-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .drawer-item {
+      opacity: 1;
+    }
+    #mobile-menu.is-open .drawer-item {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const menu = document.getElementById('mobile-menu');
+  const openBtn = document.getElementById('menu-open');
+  const closeBtn = document.getElementById('menu-close');
+  const desktop = window.matchMedia('(min-width: 75rem)');
+
+  const isOpen = () => !!menu && !menu.classList.contains('hidden');
+
+  const setOpen = (open: boolean) => {
+    if (!menu) return;
+    menu.classList.toggle('hidden', !open);
+    menu.classList.toggle('flex', open);
+    menu.classList.toggle('is-open', open);
+    openBtn?.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('overflow-hidden', open);
+    if (open) closeBtn?.focus();
+    else openBtn?.focus();
+  };
+
+  openBtn?.addEventListener('click', () => setOpen(true));
+  closeBtn?.addEventListener('click', () => setOpen(false));
+  menu
+    ?.querySelectorAll('[data-menu-link]')
+    .forEach((link) => link.addEventListener('click', () => setOpen(false)));
+
+  menu?.querySelectorAll<HTMLButtonElement>('[data-accordion-toggle]').forEach((btn) => {
+    const panel = document.getElementById(btn.getAttribute('aria-controls') ?? '');
+    btn.addEventListener('click', () => {
+      const expand = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', String(expand));
+      if (panel) panel.hidden = !expand;
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen()) setOpen(false);
+  });
+
+  desktop.addEventListener('change', (e) => {
+    if (e.matches && isOpen()) {
+      menu?.classList.add('hidden');
+      menu?.classList.remove('flex', 'is-open');
+      openBtn?.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('overflow-hidden');
+    }
+  });
+
+  // Focus trap : maintient le focus dans le drawer ouvert (aria-modal).
+  menu?.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const items = [...menu.querySelectorAll<HTMLElement>('a, button')].filter(
+      (el) => el.getClientRects().length > 0,
+    );
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+</script>

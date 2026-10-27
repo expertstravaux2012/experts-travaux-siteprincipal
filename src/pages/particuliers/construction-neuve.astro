@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import PageIntro from '../../components/sections/page/PageIntro.astro';
+import PrestationsGrid from '../../components/sections/page/PrestationsGrid.astro';
+import ActionPanel from '../../components/sections/page/ActionPanel.astro';
+import ActionPanels from '../../components/sections/page/ActionPanels.astro';
+import Faq from '../../components/sections/page/Faq.astro';
+import CtaBand from '../../components/sections/page/CtaBand.astro';
+import Contact from '../../components/sections/Contact.astro';
+import { constructionNeuve as c, constructionNeuvePath as path } from '../../data/construction-neuve';
+import { seo } from '../../data/seo';
+import { silos } from '../../data/pages';
+import { faqJsonLd } from '../../lib/faq-jsonld';
+import { breadcrumbNode, serviceNode } from '../../lib/jsonld';
+
+const { title, description } = seo.constructionNeuve;
+const jsonLd = [
+  breadcrumbNode(path, [
+    { name: silos.particuliers.label, path: silos.particuliers.href },
+    { name: c.nom, path },
+  ]),
+  serviceNode(path, { name: c.nom, description }),
+  faqJsonLd(path, c.faq),
+];
+---
+
+<Layout {title} {description} {path} {jsonLd}>
+  <Header />
+  <main id="main">
+    <PageIntro eyebrow={c.eyebrow} title={c.h1} intro={c.intro}>
+      <Breadcrumb
+        slot="breadcrumb"
+        items={[{ label: silos.particuliers.label, href: silos.particuliers.href }, { label: c.nom }]}
+      />
+    </PageIntro>
+    <PrestationsGrid
+      eyebrow={c.accompagnementHeading.eyebrow}
+      title={c.accompagnementHeading.title}
+      items={c.accompagnement}
+    />
+    <ActionPanels>
+      <ActionPanel
+        eyebrow={c.parcours.eyebrow}
+        title={c.parcours.title}
+        text={c.parcours.text}
+        items={c.parcours.etapes}
+        ordered
+        ctas={[c.parcours.cta]}
+      />
+    </ActionPanels>
+    <Faq eyebrow={c.faqHeading.eyebrow} title={c.faqHeading.title} items={c.faq} />
+    <CtaBand cta={c.cta} />
+    <Contact cible="particuliers" />
+  </main>
+  <Footer />
+</Layout>

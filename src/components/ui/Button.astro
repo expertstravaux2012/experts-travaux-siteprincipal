@@ -1,9 +1,15 @@
 ---
-// Bouton DESIGN.md — blocs rectangulaires, 0px radius, label Montserrat MAJUSCULES.
+// Bouton DESIGN.md — blocs rectangulaires, 0px radius, label JetBrains Mono MAJUSCULES (label-md).
 // Polymorphe : rend un <a> si `href`, sinon un <button>.
 import Icon from './Icon.astro';
 
-type Variant = 'primary' | 'secondary' | 'secondary-light' | 'accent';
+type Variant =
+  | 'primary'
+  | 'primary-light'
+  | 'primary-adaptive'
+  | 'secondary'
+  | 'secondary-light'
+  | 'ghost';
 
 interface Props {
   variant?: Variant;
@@ -24,16 +30,22 @@ const {
 } = Astro.props;
 
 const base =
-  'inline-flex items-center justify-center gap-3 px-6 py-4 font-display text-sm font-semibold uppercase tracking-[0.05em] transition-colors';
+  'label-md inline-flex items-center justify-center gap-space-sm transition-colors disabled:cursor-not-allowed disabled:opacity-60';
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-primary text-on-primary hover:bg-primary-container',
+  primary:
+    'border border-obsidian bg-obsidian px-space-lg py-space-md text-on-primary hover:border-hairline-inverse hover:bg-hairline-inverse',
+  'primary-light':
+    'border border-on-primary bg-on-primary px-space-lg py-space-md text-obsidian hover:border-surface-container-high hover:bg-surface-container-high',
+  // Clair tant que le parent `.is-solid` est absent (header transparent sur hero), primary ensuite.
+  'primary-adaptive':
+    'border px-space-lg py-space-md not-in-[.is-solid]:border-on-primary not-in-[.is-solid]:bg-on-primary not-in-[.is-solid]:text-obsidian not-in-[.is-solid]:hover:border-surface-container-high not-in-[.is-solid]:hover:bg-surface-container-high in-[.is-solid]:border-obsidian in-[.is-solid]:bg-obsidian in-[.is-solid]:text-on-primary in-[.is-solid]:hover:border-hairline-inverse in-[.is-solid]:hover:bg-hairline-inverse',
   secondary:
-    'border-2 border-primary text-primary hover:bg-primary hover:text-on-primary',
+    'border border-obsidian bg-transparent px-space-lg py-space-md text-obsidian hover:bg-obsidian hover:text-on-primary',
   'secondary-light':
-    'border-2 border-on-primary text-on-primary hover:bg-on-primary hover:text-primary',
-  accent:
-    'bg-tertiary text-on-surface hover:bg-on-tertiary-container hover:text-inverse-on-surface',
+    'border border-on-primary bg-transparent px-space-lg py-space-md text-on-primary hover:bg-on-primary hover:text-obsidian',
+  ghost:
+    'relative py-space-xs text-obsidian after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform hover:after:scale-x-100 focus-visible:after:scale-x-100',
 };
 
 const cls = `${base} ${variants[variant]} ${className}`;

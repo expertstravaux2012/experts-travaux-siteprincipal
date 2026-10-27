@@ -1,0 +1,17 @@
+---
+// Carte éditoriale : hairline 1px, angles 0, hover = bordure obsidian (si interactive).
+interface Props {
+  as?: 'div' | 'article' | 'li';
+  interactive?: boolean;
+  class?: string;
+}
+
+const { as: Tag = 'div', interactive = false, class: className = '' } = Astro.props;
+const hover = interactive
+  ? 'transition-colors hover:border-obsidian focus-within:border-obsidian'
+  : '';
+---
+
+<Tag class={`relative flex h-full flex-col gap-space-md border border-hairline bg-surface-container-lowest p-space-lg ${hover} ${className}`}>
+  <slot />
+</Tag>

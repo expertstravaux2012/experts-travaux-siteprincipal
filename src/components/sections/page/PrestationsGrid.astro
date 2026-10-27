@@ -1,0 +1,49 @@
+---
+// Grille de cartes prestation / métier. Lien vers `href`, sinon /metiers/{slug} quand `metierSlug` est défini.
+import type { Prestation } from '../../../data/home';
+import SectionHeading from '../../ui/SectionHeading.astro';
+import Section from '../../ui/Section.astro';
+import Card from '../../ui/Card.astro';
+import Icon from '../../ui/Icon.astro';
+import { metierPath } from '../../../lib/url';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  items: Prestation[];
+  tone?: 'surface' | 'low';
+}
+
+const { eyebrow, title, items, tone = 'surface' } = Astro.props;
+---
+
+<Section tone={tone}>
+  <SectionHeading eyebrow={eyebrow} title={title} class="mb-space-xl" />
+  <ul class="grid grid-cols-1 gap-gutter md:grid-cols-2 desktop:grid-cols-3">
+    {
+      items.map((item) => {
+        const href = item.href ?? (item.metierSlug ? metierPath(item.metierSlug) : undefined);
+        return (
+        <li>
+          <Card interactive={Boolean(href)}>
+            <h3 class="text-headline-sm font-sans text-on-surface">
+              {href ? (
+                <a
+                  href={href}
+                  class="inline-flex items-center gap-space-sm after:absolute after:inset-0"
+                >
+                  {item.titre}
+                  <Icon name="arrow-right" class="h-4 w-4 shrink-0" />
+                </a>
+              ) : (
+                item.titre
+              )}
+            </h3>
+            <p class="text-body-md text-on-surface-variant">{item.description}</p>
+          </Card>
+        </li>
+        );
+      })
+    }
+  </ul>
+</Section>

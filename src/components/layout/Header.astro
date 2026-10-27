@@ -1,8 +1,13 @@
 ---
 import { navigation } from '../../data/navigation';
 import { site } from '../../data/site';
+import { signature } from '../../data/home';
 import Button from '../ui/Button.astro';
+import Logo from '../ui/Logo.astro';
+import NavCell from '../ui/NavCell.astro';
 import Icon from '../ui/Icon.astro';
+import MegaMenu from './MegaMenu.astro';
+import MobileMenu from './MobileMenu.astro';
 
 interface Props {
   // Pose le header transparent au-dessus d'un hero photo, solidifié au scroll.
@@ -11,159 +16,130 @@ interface Props {
 
 const { overHero = false } = Astro.props;
 
+const normalize = (path: string) => (path.endsWith('/') ? path : `${path}/`);
+const currentPath = normalize(Astro.url.pathname);
+const ariaCurrent = (href: string) =>
+  !href.includes('#') && normalize(href) === currentPath ? 'page' : undefined;
+const { labels } = site;
+
 const headerClass = overHero
-  ? 'fixed inset-x-0 top-0 z-50 transition-colors'
-  : 'sticky top-0 z-50 border-b border-outline-variant bg-surface-container-lowest transition-colors';
+  ? 'border-b border-transparent'
+  : 'is-solid border-b border-hairline bg-surface-container-lowest';
 ---
 
-<header id="site-header" data-over-hero={overHero ? '' : undefined} class={headerClass}>
-  <div
-    class="mx-auto flex h-20 max-w-[1280px] items-center justify-between gap-8 px-4 sm:px-8 lg:px-16"
+<!-- Le header est toujours fixe : la réserve h-20 évite tout saut de layout à la compaction. -->
+<div class:list={[!overHero && 'h-20']}>
+  <header
+    id="site-header"
+    data-over-hero={overHero ? '' : undefined}
+    class:list={['fixed inset-x-0 top-0 z-50 transition-colors duration-200', headerClass]}
   >
-    <a href="#top" class="shrink-0" aria-label={`${site.name} — accueil`}>
-      <img
-        src={site.logo.mark}
-        alt=""
-        width="48"
-        height="48"
-        class="header-logo h-12 w-auto"
-        decoding="async"
-      />
-    </a>
-
-    <!-- Navigation desktop -->
-    <nav class="hidden items-center gap-8 lg:flex" aria-label="Navigation principale">
-      {
-        navigation.links.map((link) => (
-          <a
-            href={link.href}
-            class="header-control text-sm font-semibold uppercase tracking-[0.05em] text-on-surface underline-offset-4 hover:underline hover:decoration-2"
-          >
-            {link.label}
-          </a>
-        ))
-      }
-    </nav>
-
-    <div class="hidden lg:block">
-      <Button variant="accent" href={navigation.cta.href}>{navigation.cta.label}</Button>
-    </div>
-
-    <!-- Burger mobile -->
-    <button
-      type="button"
-      id="menu-open"
-      class="header-control flex h-12 w-12 items-center justify-center text-on-surface lg:hidden"
-      aria-label="Ouvrir le menu"
-      aria-controls="mobile-menu"
-      aria-expanded="false"
+    <div
+      class="header-row mx-auto flex h-20 max-w-site wide:max-w-none items-stretch justify-between px-margin transition-[height] duration-200 motion-reduce:transition-none desktop:px-0 in-[.is-compact]:h-16"
     >
-      <Icon name="menu" class="h-7 w-7" />
-    </button>
-  </div>
-
-  <!-- Drawer mobile -->
-  <div
-    id="mobile-menu"
-    class="fixed inset-0 z-50 hidden bg-surface-container-lowest lg:hidden"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Menu"
-  >
-    <div class="flex h-20 items-center justify-between border-b border-outline-variant px-4 sm:px-8">
-      <img src={site.logo.mark} alt="" width="48" height="48" class="h-12 w-auto" />
-      <button
-        type="button"
-        id="menu-close"
-        class="flex h-12 w-12 items-center justify-center text-on-surface"
-        aria-label="Fermer le menu"
+      <a
+        href="/"
+        class="header-control flex shrink-0 items-center text-lg text-(--nav-fg) transition-[font-size] duration-200 focus-visible:outline-(--nav-fg) motion-reduce:transition-none desktop:border-r desktop:border-(--nav-line) desktop:pr-space-lg desktop:pl-margin in-[.is-compact]:text-base"
+        aria-label={labels.homeAria}
       >
-        <Icon name="close" class="h-7 w-7" />
-      </button>
-    </div>
+        <Logo
+          variant={overHero ? 'adaptive' : 'on-light'}
+          signature={{
+            trade: site.labels.trade,
+            slogan: signature.slogan,
+            since: `${site.labels.since} ${site.foundedYear}`,
+          }}
+        />
+      </a>
 
-    <nav class="flex flex-col px-4 sm:px-8" aria-label="Navigation principale mobile">
-      {
-        navigation.links.map((link) => (
-          <a
-            href={link.href}
-            class="border-b border-outline-variant py-5 font-display text-2xl font-bold text-on-surface"
-            data-menu-link
-          >
-            {link.label}
-          </a>
-        ))
-      }
-      <Button variant="accent" href={navigation.cta.href} class="mt-8 w-full" data-menu-link>
-        {navigation.cta.label}
-      </Button>
-    </nav>
-  </div>
-</header>
+      <nav class="hidden flex-1 desktop:flex" aria-label={labels.mainNav}>
+        {
+          navigation.links.map((link, i) => {
+            const menu = link.menu ? navigation.menus[link.menu] : undefined;
+            const panelId = `mega-${link.menu}`;
+            return (
+              <div
+                class="group/item flex min-w-fit flex-1 border-r border-(--nav-line)"
+                data-nav-item
+              >
+                <NavCell href={link.href} index={i} aria-current={ariaCurrent(link.href)} class="flex-1">
+                  {link.label}
+                </NavCell>
+                {menu && (
+                  <>
+                    <NavCell
+                      data-mega-toggle
+                      aria-expanded="false"
+                      aria-controls={panelId}
+                      aria-label={`${link.label} — ${labels.submenuToggle}`}
+                      class="w-11 shrink-0 justify-center px-0"
+                    >
+                      <Icon
+                        name="chevron-down"
+                        class="h-5 w-5 transition-transform duration-200 group-aria-expanded/cell:rotate-180 motion-reduce:transition-none"
+                      />
+                    </NavCell>
+                    <MegaMenu id={panelId} label={`${labels.metiersMenu} — ${link.label}`} menu={menu} />
+                  </>
+                )}
+              </div>
+            );
+          })
+        }
+      </nav>
+
+      <div class="hidden shrink-0 items-center pr-margin pl-space-md whitespace-nowrap desktop:flex">
+        <Button variant={overHero ? 'primary-adaptive' : 'primary'} href={navigation.cta.href}>
+          {navigation.cta.label}
+        </Button>
+      </div>
+
+      <MobileMenu ariaCurrent={ariaCurrent} />
+    </div>
+  </header>
+</div>
 
 <style>
-  /* Header au-dessus du hero : transparent sur la photo, contenu en blanc.
-     Solidifié au scroll via la classe .is-solid (ajoutée par le script). */
-  header[data-over-hero] .header-control {
-    color: var(--color-on-primary);
-    transition: color 0.2s ease;
+  header {
+    --nav-fg: var(--color-on-surface);
+    --nav-line: var(--color-hairline);
+    --nav-inv-bg: var(--color-obsidian);
+    --nav-inv-fg: var(--color-on-primary);
+  }
+  header[data-over-hero]:not(.is-solid) {
+    --nav-fg: var(--color-on-primary);
+    --nav-line: color-mix(in srgb, var(--color-on-primary) 30%, transparent);
+    --nav-inv-bg: var(--color-on-primary);
+    --nav-inv-fg: var(--color-obsidian);
   }
   header[data-over-hero].is-solid {
     background-color: var(--color-surface-container-lowest);
-    border-bottom: 1px solid var(--color-outline-variant);
+    border-bottom-color: var(--color-hairline);
   }
-  header[data-over-hero].is-solid .header-control {
-    color: var(--color-on-surface);
+  header[data-over-hero]:not(.is-solid) a.header-control :global(.logo-on-light) {
+    display: none;
   }
-  header[data-over-hero]:not(.is-solid) .header-logo {
-    filter: brightness(0) invert(1);
+  header[data-over-hero]:not(.is-solid) a.header-control :global(.logo-adaptive-dark) {
+    display: block;
   }
 </style>
 
 <script>
-  const menu = document.getElementById('mobile-menu');
-  const openBtn = document.getElementById('menu-open');
-  const closeBtn = document.getElementById('menu-close');
-
-  const setOpen = (open: boolean) => {
-    menu?.classList.toggle('hidden', !open);
-    openBtn?.setAttribute('aria-expanded', String(open));
-    document.body.classList.toggle('overflow-hidden', open);
-    if (open) closeBtn?.focus();
-    else openBtn?.focus();
-  };
-
-  openBtn?.addEventListener('click', () => setOpen(true));
-  closeBtn?.addEventListener('click', () => setOpen(false));
-  menu
-    ?.querySelectorAll('[data-menu-link]')
-    .forEach((link) => link.addEventListener('click', () => setOpen(false)));
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !menu?.classList.contains('hidden')) setOpen(false);
-  });
-
-  // Focus trap : maintient le focus dans le drawer ouvert (aria-modal).
-  menu?.addEventListener('keydown', (e) => {
-    if (e.key !== 'Tab') return;
-    const items = menu.querySelectorAll<HTMLElement>('a, button');
-    if (!items.length) return;
-    const first = items[0];
-    const last = items[items.length - 1];
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  });
-
-  // Header transparent → solidifié dès qu'on quitte le haut du hero.
+  // Header : compaction au scroll ; solide dès le scroll ou panneau ouvert (variante sur hero).
   const header = document.getElementById('site-header');
-  if (header?.hasAttribute('data-over-hero')) {
-    const onScroll = () => header.classList.toggle('is-solid', window.scrollY > 60);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
+  if (header) {
+    const overHero = header.hasAttribute('data-over-hero');
+    let panelOpen = false;
+    const update = () => {
+      const scrolled = window.scrollY > 60;
+      header.classList.toggle('is-compact', scrolled);
+      if (overHero) header.classList.toggle('is-solid', scrolled || panelOpen);
+    };
+    document.addEventListener('megamenu:change', (e) => {
+      panelOpen = (e as CustomEvent<{ open: boolean }>).detail.open;
+      update();
+    });
+    update();
+    window.addEventListener('scroll', update, { passive: true });
   }
 </script>

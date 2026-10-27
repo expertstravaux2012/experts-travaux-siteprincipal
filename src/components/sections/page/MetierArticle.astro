@@ -1,0 +1,30 @@
+---
+// Corps rédactionnel d'une page métier : sections H2 + paragraphes (contenu : data/metiers-contenu.ts).
+import type { MetierSection } from '../../../data/metiers-contenu';
+import Section from '../../ui/Section.astro';
+
+interface Props {
+  sections: MetierSection[];
+}
+
+const { sections } = Astro.props;
+---
+
+<Section tone="low">
+  <div class="flex flex-col gap-space-xl">
+    {
+      sections.map((section) => (
+        <article class="grid grid-cols-1 gap-space-lg desktop:grid-cols-12 desktop:gap-gutter">
+          <h2 class="font-display text-balance text-headline-lg-mobile text-on-surface md:text-headline-md desktop:col-span-5">
+            {section.titre}
+          </h2>
+          <div class="flex flex-col gap-space-md desktop:col-span-7 desktop:border-l desktop:border-hairline desktop:pl-gutter">
+            {section.paragraphes.map((p) => (
+              <p class="max-w-prose text-body-lg text-on-surface-editorial">{p}</p>
+            ))}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Section>

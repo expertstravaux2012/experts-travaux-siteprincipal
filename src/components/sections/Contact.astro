@@ -1,38 +1,56 @@
 ---
 import { site } from '../../data/site';
+import { ctaContact } from '../../data/home';
+import { contactLimits } from '../../lib/contact';
 import SectionHeading from '../ui/SectionHeading.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 
-// Champs du formulaire de devis. Traitement back à brancher ultérieurement.
+interface Props {
+  /** Variante d'en-tête selon la page ; défaut : texte générique de la home. */
+  cible?: 'particuliers' | 'professionnels';
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+}
+
+const { cible } = Astro.props;
+const intro = cible ? ctaContact.cibles[cible] : ctaContact;
+const {
+  eyebrow = intro.eyebrow,
+  title = intro.title,
+  text = intro.text,
+} = Astro.props;
+const { fields, submit, status, tool } = ctaContact.form;
+// WebMCP déclaratif : expose le formulaire comme outil aux agents IA (Lighthouse « Agentic browsing »).
+const toolDescription = tool.description[cible ?? 'defaut'];
+
 const fieldClass =
-  'w-full border border-outline bg-surface-container-lowest px-4 py-4 text-base text-on-surface placeholder:text-on-surface-variant focus:border-b-[3px] focus:border-b-tertiary';
+  'w-full border border-outline bg-surface-container-lowest px-4 py-4 text-body-md text-on-surface transition-colors placeholder:text-on-surface-variant focus:border-obsidian';
 ---
 
 <section id="contact" class="bg-surface">
-  <div class="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 px-4 py-16 sm:px-8 lg:grid-cols-2 lg:px-16 lg:py-24">
+  <div class="mx-auto grid max-w-site grid-cols-1 gap-space-lg px-margin py-space-xl desktop:grid-cols-2 desktop:gap-gutter desktop:py-space-2xl">
     <!-- Colonne info -->
     <div class="flex flex-col gap-8">
       <SectionHeading
-        eyebrow="Contact / Devis"
-        title="Parlons de votre projet. Devis gratuit sous 48 h."
+        eyebrow={eyebrow}
+        title={title}
       />
-      <p class="max-w-md text-lg leading-relaxed text-on-surface-variant">
-        Décrivez-nous votre projet : nous revenons vers vous rapidement pour une visite et un chiffrage clair, sans engagement.
-      </p>
+      <p class="max-w-md text-body-lg text-on-surface-variant">{text}</p>
 
-      <div class="flex flex-col gap-5 border-l-2 border-primary pl-4">
-        <a href={`mailto:${site.email}`} class="inline-flex w-fit items-center gap-3 text-base text-on-surface underline-offset-4 hover:underline">
+      <div class="flex flex-col gap-1 border-l border-obsidian pl-4">
+        <a href={`mailto:${site.email}`} class="inline-flex min-h-11 w-fit items-center gap-3 text-body-md text-on-surface underline-offset-4 hover:underline">
           <Icon name="mail" class="h-5 w-5 text-primary" />{site.email}
         </a>
-        <a href={site.phone.href} class="inline-flex w-fit items-center gap-3 text-base text-on-surface underline-offset-4 hover:underline">
+        <a href={site.phone.href} class="inline-flex min-h-11 w-fit items-center gap-3 text-body-md text-on-surface underline-offset-4 hover:underline">
           <Icon name="phone" class="h-5 w-5 text-primary" />{site.phone.display}
         </a>
         <a
           href={site.address.mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex w-fit items-start gap-3 text-base text-on-surface underline-offset-4 hover:underline"
+          class="inline-flex min-h-11 w-fit items-center gap-3 text-body-md text-on-surface underline-offset-4 hover:underline"
         >
           <Icon name="pin" class="mt-0.5 h-5 w-5 shrink-0 text-primary" />
           <span>{site.address.street}<br />{site.address.city}</span>
@@ -41,26 +59,64 @@ const fieldClass =
     </div>
 
     <!-- Formulaire -->
-    <form class="flex flex-col gap-5 border border-outline-variant bg-surface-container-lowest p-6 sm:p-8">
+    <form
+      data-contact-form
+      data-sending={status.sending}
+      data-success={status.success}
+      data-error={status.error}
+      class="flex flex-col gap-5 border border-hairline bg-surface-container-lowest p-6 sm:p-8"
+      toolname={tool.name}
+      tooldescription={toolDescription}
+    >
       <div class="flex flex-col gap-2">
-        <label for="nom" class="text-sm font-semibold uppercase tracking-[0.05em] text-on-surface">Nom</label>
-        <input id="nom" name="nom" type="text" autocomplete="name" required class={fieldClass} placeholder="Votre nom" />
+        <label for="nom" class="label-md text-on-surface">{fields.nom.label}</label>
+        <input id="nom" name="nom" type="text" autocomplete="name" maxlength={contactLimits.nom} required class={fieldClass} placeholder={fields.nom.placeholder} toolparamdescription={fields.nom.agentHint} />
       </div>
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div class="flex flex-col gap-2">
-          <label for="email" class="text-sm font-semibold uppercase tracking-[0.05em] text-on-surface">Email</label>
-          <input id="email" name="email" type="email" autocomplete="email" required class={fieldClass} placeholder="vous@exemple.fr" />
+          <label for="email" class="label-md text-on-surface">{fields.email.label}</label>
+          <input id="email" name="email" type="email" autocomplete="email" maxlength={contactLimits.email} required class={fieldClass} placeholder={fields.email.placeholder} toolparamdescription={fields.email.agentHint} />
         </div>
         <div class="flex flex-col gap-2">
-          <label for="tel" class="text-sm font-semibold uppercase tracking-[0.05em] text-on-surface">Téléphone</label>
-          <input id="tel" name="tel" type="tel" autocomplete="tel" class={fieldClass} placeholder="06 12 34 56 78" />
+          <label for="tel" class="label-md text-on-surface">{fields.tel.label}</label>
+          <input id="tel" name="tel" type="tel" autocomplete="tel" maxlength={contactLimits.tel} class={fieldClass} placeholder={fields.tel.placeholder} toolparamdescription={fields.tel.agentHint} />
         </div>
       </div>
       <div class="flex flex-col gap-2">
-        <label for="projet" class="text-sm font-semibold uppercase tracking-[0.05em] text-on-surface">Votre projet</label>
-        <textarea id="projet" name="projet" rows="4" required class={fieldClass} placeholder="Extension, rénovation, cuisine…"></textarea>
+        <label for="projet" class="label-md text-on-surface">{fields.projet.label}</label>
+        <textarea id="projet" name="projet" rows="4" maxlength={contactLimits.projet} required class={fieldClass} placeholder={fields.projet.placeholder} toolparamdescription={fields.projet.agentHint}></textarea>
       </div>
-      <Button variant="accent" type="submit" class="w-full">Envoyer ma demande</Button>
+      <input type="text" name="website" tabindex="-1" autocomplete="off" hidden />
+      <Button variant="primary" type="submit" class="w-full">{submit}</Button>
+      <p data-contact-status role="status" aria-live="polite" class="text-body-md text-on-surface"></p>
     </form>
   </div>
 </section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-contact-status]');
+    const submit = form.querySelector<HTMLButtonElement>('[type="submit"]');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!status || !submit) return;
+      submit.disabled = true;
+      status.textContent = form.dataset.sending ?? '';
+
+      const body = { ...Object.fromEntries(new FormData(form)), page: location.pathname };
+      const ok = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(15_000),
+      })
+        .then((response) => response.ok)
+        .catch(() => false);
+
+      status.textContent = (ok ? form.dataset.success : form.dataset.error) ?? '';
+      if (ok) form.reset();
+      submit.disabled = false;
+    });
+  });
+</script>

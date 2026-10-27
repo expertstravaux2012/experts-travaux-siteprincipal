@@ -1,0 +1,145 @@
+---
+// Galerie avant/après en comparateur à curseur. N'affiche que les paires dont les deux `src` sont définis ; sinon rien.
+import type { AvantApres } from '../../../data/particuliers';
+import Section from '../../ui/Section.astro';
+import SectionHeading from '../../ui/SectionHeading.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  items: AvantApres[];
+}
+
+const { eyebrow, title, intro, items } = Astro.props;
+const paires = items.filter((item) => item.avant.src && item.apres.src);
+---
+
+{
+  paires.length > 0 && (
+    <Section tone="low">
+      <div class="mb-space-xl flex flex-col gap-space-md">
+        <SectionHeading eyebrow={eyebrow} title={title} />
+        <p class="max-w-2xl text-body-lg text-on-surface-variant">{intro}</p>
+      </div>
+      <ul class="flex flex-col gap-space-xl">
+        {paires.map((paire) => (
+          <li class="grid grid-cols-1 gap-gutter desktop:grid-cols-12">
+            <div class="flex flex-col gap-space-sm desktop:col-span-4">
+              <h3 class="font-sans text-headline-sm text-on-surface">{paire.titre}</h3>
+              <p class="text-body-md text-on-surface-variant">{paire.legende}</p>
+            </div>
+            <div
+              data-compare
+              style={`--pos: 50%;${paire.ratio ? ` aspect-ratio: ${paire.ratio};` : ''}`}
+              class="relative aspect-video w-full select-none overflow-hidden border border-hairline desktop:col-span-8 has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-on-surface"
+            >
+              <img
+                src={paire.apres.src}
+                alt={paire.apres.alt}
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+              <img
+                src={paire.avant.src}
+                alt={paire.avant.alt}
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+                class="compare-before absolute inset-0 h-full w-full object-cover"
+              />
+              <span class="label-sm absolute left-space-md top-space-md bg-obsidian px-space-sm py-space-xs text-on-primary">
+                AVANT
+              </span>
+              <span class="label-sm absolute right-space-md top-space-md bg-obsidian px-space-sm py-space-xs text-on-primary">
+                APRÈS
+              </span>
+              <div
+                class="compare-handle pointer-events-none absolute inset-y-0 w-0.5 -translate-x-1/2 bg-surface-container-lowest"
+                aria-hidden="true"
+              >
+                <span class="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center border border-obsidian bg-surface-container-lowest text-obsidian">
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M9 7l-5 5 5 5M15 7l5 5-5 5" />
+                  </svg>
+                </span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="1"
+                value="50"
+                aria-label={`Comparer avant et après : ${paire.titre}`}
+                class="absolute inset-0 h-full w-full cursor-ew-resize touch-pan-y appearance-none opacity-0"
+              />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </Section>
+  )
+}
+
+<style>
+  .compare-before {
+    clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+  }
+  .compare-handle {
+    left: var(--pos);
+  }
+</style>
+
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const setPos = (el: HTMLElement, value: number) => {
+    el.style.setProperty('--pos', `${value}%`);
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-compare]').forEach((el) => {
+    const input = el.querySelector<HTMLInputElement>('input[type="range"]');
+    if (!input) return;
+
+    const sync = () => {
+      setPos(el, Number(input.value));
+      input.setAttribute('aria-valuetext', `${input.value} % avant visible`);
+    };
+    input.addEventListener('input', sync);
+    sync();
+
+    if (reducedMotion) return;
+
+    // Balayage d'introduction unique à l'entrée dans le viewport, interrompu par toute interaction.
+    let interrupted = false;
+    const stop = () => (interrupted = true);
+    input.addEventListener('pointerdown', stop, { once: true });
+    input.addEventListener('keydown', stop, { once: true });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) return;
+        observer.disconnect();
+        const start = performance.now();
+        const duration = 1600;
+        const frame = (now: number) => {
+          if (interrupted) return;
+          const t = Math.min((now - start) / duration, 1);
+          const value = 50 + 38 * Math.sin(t * Math.PI * 2) * (1 - t);
+          input.value = String(Math.round(value));
+          sync();
+          if (t < 1) requestAnimationFrame(frame);
+          else {
+            input.value = '50';
+            sync();
+          }
+        };
+        requestAnimationFrame(frame);
+      },
+      { threshold: 0.6 },
+    );
+    observer.observe(el);
+  });
+</script>

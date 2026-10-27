@@ -1,0 +1,227 @@
+---
+// Maison interactive — HYBRIDE (photo + calque vectoriel).
+// Source : _exploration-maison/ (zones.py + gen2.py).
+// 12 data-id = corps-metier.ts (DRY).
+import { corpsMetier } from '../../data/corps-metier';
+import { metierPath } from '../../lib/url';
+import { maisonInteractiveSection as section } from '../../data/home';
+import SectionHeading from '../ui/SectionHeading.astro';
+const byId = Object.fromEntries(corpsMetier.map((c) => [c.id, c]));
+const hrefFor = (id: string) => metierPath(byId[id].slug);
+const labelFor = (id: string) => byId[id].nom;
+---
+
+<section id="expertises" class="border-b border-hairline bg-surface">
+  <div class="mx-auto max-w-site px-margin py-space-xl desktop:py-space-2xl">
+    <SectionHeading eyebrow={section.eyebrow} title={section.title} class="mb-4" />
+    <p class="mb-12 max-w-2xl text-body-lg text-on-surface-variant">{section.intro}</p>
+
+    <div class="hybride mx-auto mb-10 max-w-5xl border border-hairline bg-surface-container-lowest p-0 md:p-8">
+      <div class="wrap">
+      <svg viewBox="290 170 1000 560" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="group" aria-label={section.coupeLabel}><defs><clipPath id="clip-toiture"><use href="#hit-toiture-0"/><use href="#hit-toiture-1"/></clipPath><clipPath id="clip-charpente"><use href="#hit-charpente-0"/><use href="#hit-charpente-1"/></clipPath><clipPath id="clip-isolation"><use href="#hit-isolation-0"/><use href="#hit-isolation-1"/><use href="#hit-isolation-2"/></clipPath><clipPath id="clip-facade"><use href="#hit-facade-0"/></clipPath><clipPath id="clip-menuiseries"><use href="#hit-menuiseries-0"/><use href="#hit-menuiseries-1"/><use href="#hit-menuiseries-2"/><use href="#hit-menuiseries-3"/></clipPath><clipPath id="clip-maconnerie"><use href="#hit-maconnerie-0"/></clipPath><clipPath id="clip-extension"><use href="#hit-extension-0"/></clipPath><clipPath id="clip-salle-de-bain"><use href="#hit-salle-de-bain-0"/></clipPath><clipPath id="clip-cuisine"><use href="#hit-cuisine-0"/></clipPath><clipPath id="clip-electricite"><use href="#hit-electricite-0"/></clipPath><clipPath id="clip-chauffage"><use href="#hit-chauffage-0"/><use href="#hit-chauffage-1"/><use href="#hit-chauffage-2"/><use href="#hit-chauffage-3"/><use href="#hit-chauffage-4"/><use href="#hit-chauffage-5"/><use href="#hit-chauffage-6"/><use href="#hit-chauffage-7"/><use href="#hit-chauffage-8"/><use href="#hit-chauffage-9"/></clipPath><clipPath id="clip-finitions"><use href="#hit-finitions-0"/></clipPath></defs><image class="maison-base" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet"/><rect class="maison-tint" x="290" y="170.9" width="1000" height="558.1" aria-hidden="true"/>
+      <a class="zone" data-id="toiture" href={hrefFor('toiture')} tabindex="-1" aria-hidden="true" aria-label={labelFor('toiture')}><title>{labelFor('toiture')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-toiture)" aria-hidden="true"/><polygon id="hit-toiture-0" class="hit" points="487.5,304.9 661.0,203.9 830.0,229.9 821.0,240.9 669.0,335.9 497.5,323.4"/><polygon id="hit-toiture-1" class="hit" points="854.0,231.9 1151.0,311.9 1154.0,319.9 1135.0,324.9 856.0,245.9"/></a>
+      <a class="zone" data-id="charpente" href={hrefFor('charpente')} tabindex="-1" aria-hidden="true" aria-label={labelFor('charpente')}><title>{labelFor('charpente')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-charpente)" aria-hidden="true"/><polygon id="hit-charpente-0" class="hit" points="670.0,335.9 820.0,240.9 818.0,329.9"/><polygon id="hit-charpente-1" class="hit" points="857.5,245.9 1072.5,320.9 857.5,331.9"/></a>
+      <a class="zone" data-id="isolation" href={hrefFor('isolation')} tabindex="-1" aria-hidden="true" aria-label={labelFor('isolation')}><title>{labelFor('isolation')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-isolation)" aria-hidden="true"/><polygon id="hit-isolation-0" class="hit" points="622.5,312.9 695.0,275.4 760.0,250.4 787.5,247.9 784.5,255.4 740.0,278.9 725.0,286.9 665.5,321.4 647.5,323.4"/><polygon id="hit-isolation-1" class="hit" points="687.5,325.9 740.0,308.4 805.0,311.9 804.0,323.4 686.0,330.9"/><polygon id="hit-isolation-2" class="hit" points="860.0,301.9 1064.0,319.9 1064.0,328.4 860.0,329.9"/></a>
+      <a class="zone" data-id="facade" href={hrefFor('facade')} tabindex="-1" aria-hidden="true" aria-label={labelFor('facade')}><title>{labelFor('facade')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-facade)" aria-hidden="true"/><polygon id="hit-facade-0" class="hit" points="499.0,319.9 665.0,344.9 666.0,645.9 505.0,585.9"/></a>
+      <a class="zone" data-id="menuiseries" href={hrefFor('menuiseries')} tabindex="-1" aria-hidden="true" aria-label={labelFor('menuiseries')}><title>{labelFor('menuiseries')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-menuiseries)" aria-hidden="true"/><polygon id="hit-menuiseries-0" class="hit" points="514.0,357.0 570.0,357.0 570.0,426.0 514.0,426.0"/><polygon id="hit-menuiseries-1" class="hit" points="585.0,357.0 639.0,357.0 639.0,426.0 585.0,426.0"/><polygon id="hit-menuiseries-2" class="hit" points="514.0,478.0 570.0,478.0 570.0,547.0 514.0,547.0"/><polygon id="hit-menuiseries-3" class="hit" points="585.0,478.0 639.0,478.0 639.0,547.0 585.0,547.0"/></a>
+      <a class="zone" data-id="maconnerie" href={hrefFor('maconnerie')} tabindex="-1" aria-hidden="true" aria-label={labelFor('maconnerie')}><title>{labelFor('maconnerie')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-maconnerie)" aria-hidden="true"/><polygon id="hit-maconnerie-0" class="hit" points="471.0,446.9 499.0,438.9 502.5,490.9 502.5,575.9 440.0,570.9 426.0,550.9 451.0,500.9"/></a>
+      <a class="zone" data-id="extension" href={hrefFor('extension')} tabindex="-1" aria-hidden="true" aria-label={labelFor('extension')}><title>{labelFor('extension')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-extension)" aria-hidden="true"/><polygon id="hit-extension-0" class="hit" points="1099.0,350.0 1143.0,356.0 1143.0,528.0 1099.0,522.0"/></a>
+      <a class="zone" data-id="salle-de-bain" href={hrefFor('salle-de-bain')} tabindex="-1" aria-hidden="true" aria-label={labelFor('salle-de-bain')}><title>{labelFor('salle-de-bain')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-salle-de-bain)" aria-hidden="true"/><polygon id="hit-salle-de-bain-0" class="hit" points="900.0,366.3 1080.0,371.9 1070.0,472.3 900.0,461.2"/></a>
+      <a class="zone" data-id="cuisine" href={hrefFor('cuisine')} tabindex="-1" aria-hidden="true" aria-label={labelFor('cuisine')}><title>{labelFor('cuisine')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-cuisine)" aria-hidden="true"/><polygon id="hit-cuisine-0" class="hit" points="880.0,494.6 1100.0,494.6 1090.0,600.7 880.0,589.5"/></a>
+      <a class="zone" data-id="electricite" href={hrefFor('electricite')} tabindex="-1" aria-hidden="true" aria-label={labelFor('electricite')}><title>{labelFor('electricite')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-electricite)" aria-hidden="true"/><polygon id="hit-electricite-0" class="hit" points="780.0,304.9 850.0,304.9 850.0,595.1 780.0,595.1"/></a>
+      <a class="zone" data-id="chauffage" href={hrefFor('chauffage')} tabindex="-1" aria-hidden="true" aria-label={labelFor('chauffage')}><title>{labelFor('chauffage')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-chauffage)" aria-hidden="true"/><polygon id="hit-chauffage-0" class="hit" points="455.0,573.4 507.5,573.4 507.5,619.4 455.0,619.4"/><polygon id="hit-chauffage-1" class="hit" points="364.0,608.9 422.5,608.9 440.0,623.4 452.5,653.4 451.0,663.4 420.0,663.4 409.0,623.4 364.0,613.9"/><polygon id="hit-chauffage-2" class="hit" points="495.0,629.9 540.0,633.4 570.0,641.9 640.0,663.4 640.0,670.9 570.0,651.9 542.5,651.9 495.0,638.4"/><polygon id="hit-chauffage-3" class="hit" points="494.0,638.4 517.5,638.4 517.5,690.9 494.0,690.9"/><polygon id="hit-chauffage-4" class="hit" points="819.0,576.9 849.0,576.9 849.0,601.9 819.0,601.9"/><polygon id="hit-chauffage-5" class="hit" points="819.0,601.9 847.5,601.9 849.0,620.9 880.0,623.4 881.0,648.4 870.0,649.9 840.0,633.4 835.0,643.4 800.0,648.4 797.5,638.4 819.0,633.4"/><polygon id="hit-chauffage-6" class="hit" points="680.0,633.4 740.0,618.4 782.5,620.9 790.0,626.9 727.5,645.9 685.0,643.4"/><polygon id="hit-chauffage-7" class="hit" points="897.5,617.4 1000.0,622.4 1021.0,633.4 1010.0,641.9 955.0,638.4 902.5,623.4"/><polygon id="hit-chauffage-8" class="hit" points="939.0,476.9 1030.0,472.4 1031.0,484.9 990.0,489.4 950.0,484.9"/><polygon id="hit-chauffage-9" class="hit" points="682.5,484.9 760.0,474.4 791.0,473.9 791.0,481.9 740.0,491.9 685.0,493.4"/></a>
+      <a class="zone" data-id="finitions" href={hrefFor('finitions')} tabindex="-1" aria-hidden="true" aria-label={labelFor('finitions')}><title>{labelFor('finitions')}</title><image class="maison-color" data-href="/assets/maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet" clip-path="url(#clip-finitions)" aria-hidden="true"/><polygon id="hit-finitions-0" class="hit" points="710.0,424.0 780.0,419.0 780.0,553.0 710.0,558.0"/></a>
+      </svg>
+      </div>
+      <div class="viewer3d" hidden>
+        <div class="viewer3d-canvas" role="img" aria-label={section.viewerLabel}></div>
+        <p class="viewer3d-hint label-md text-on-surface-variant" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4" /></svg>
+          {section.hint}
+        </p>
+        <div class="viewer3d-caption" hidden data-state="preview">
+          <button type="button" class="viewer3d-close label-md text-on-surface" data-caption-close aria-label={section.close}>×</button>
+          <p class="label-md text-on-surface" data-caption-name></p>
+          <div class="flex flex-col gap-2" data-caption-extra>
+            <p class="text-body-sm text-on-surface-variant" data-caption-desc></p>
+            <a class="inline-flex min-h-11 items-center label-md text-on-surface underline underline-offset-4" data-caption-link href="#">{section.cta}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="mb-6 label-md text-on-surface-variant">{section.prompt}</p>
+    <ul class="grid grid-cols-1 gap-px border border-hairline bg-hairline md:grid-cols-2 desktop:grid-cols-4">
+      {corpsMetier.map((c) => (
+        <li>
+          <a class="legend-item flex h-full flex-col gap-1 bg-surface-container-lowest p-4 transition-colors" data-id={c.id} href={metierPath(c.slug)}>
+            <span class="flex items-center gap-3 label-md text-on-surface" data-trade-name>
+              <span class="legend-dot h-2 w-2 shrink-0 bg-outline transition-colors" aria-hidden="true" />
+              {c.nom}
+            </span>
+            <span class="pl-5 text-body-sm text-on-surface-variant" data-trade-desc>{c.description}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+.hybride .wrap { position: relative; width: 100%; }
+.hybride svg { width: 100%; height: auto; display: block; overflow: visible; }
+.hit { fill: transparent; stroke: transparent; stroke-width: 2; cursor: pointer; transition: fill-opacity .15s, fill .15s, stroke .15s; }
+.hybride svg { isolation: isolate; }
+.maison-base { filter: grayscale(1); }
+.maison-tint { fill: var(--color-tertiary); mix-blend-mode: overlay; pointer-events: none; }
+.maison-color { opacity: 0; pointer-events: none; transition: opacity .3s ease; }
+.zone:hover .maison-color, .zone:focus-visible .maison-color, .zone.is-active .maison-color { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .maison-color, .viewer3d-hint { transition: none; } }
+.zone:focus-visible .hit { stroke: var(--color-obsidian); stroke-width: 3; }
+.hybride :global(svg a.zone:focus),
+.hybride :global(svg a.zone:active) { outline: none !important; }
+.legend-item:focus:not(:focus-visible) { outline: none; }
+.viewer3d { position: relative; width: 100%; }
+.viewer3d-canvas { width: 100%; aspect-ratio: 4 / 3; }
+.viewer3d-caption { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 0.5rem; width: 100%; padding: 0.75rem 1rem; background: var(--color-surface-container-lowest); border-top: 1px solid var(--color-hairline); }
+.viewer3d-caption[hidden] { display: none; }
+.viewer3d-caption[data-state='preview'] { pointer-events: none; }
+.viewer3d-caption[data-state='preview'] [data-caption-extra], .viewer3d-caption[data-state='preview'] [data-caption-close] { display: none; }
+.viewer3d-caption[data-state='selected'] [data-caption-name] { padding-right: 2.25rem; }
+.viewer3d-close { position: absolute; top: 0; right: 0; display: grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; line-height: 1; cursor: pointer; }
+@media (min-width: 48rem) { .viewer3d-caption { position: absolute; top: 1rem; left: 1rem; width: min(18rem, calc(100% - 2rem)); border: 1px solid var(--color-hairline); } }
+.viewer3d-hint { position: absolute; left: 50%; bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; max-width: calc(100% - 2rem); transform: translateX(-50%); padding: 0.5rem 0.75rem; background: var(--color-surface-container-lowest); border: 1px solid var(--color-hairline); pointer-events: none; transition: opacity .4s ease; }
+.viewer3d.is-engaged .viewer3d-hint { opacity: 0; }
+.hybride .viewer3d-hint svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+.viewer3d :global(canvas) { display: block; width: 100%; height: 100%; }
+@media (min-width: 48rem) { .viewer3d-canvas { aspect-ratio: 1000 / 560; } }
+
+.legend-item:hover .legend-dot, .legend-item:focus-visible .legend-dot, .legend-item.is-active .legend-dot { background-color: var(--color-obsidian); }
+.legend-item.is-active, .legend-item:hover { background-color: var(--color-surface-container); }
+</style>
+
+<script>
+  import type { HouseViewer } from '../../lib/maison3d/viewer';
+
+  // Maquette 3D : chargée à l'approche de la section, remplace la photo si WebGL est disponible.
+  // Photo + zones SVG restent le repli (WebGL absent, Save-Data, erreur de chargement).
+  let viewer: HouseViewer | undefined;
+  let selectedId: string | null = null;
+  const host = document.querySelector<HTMLElement>('#expertises .viewer3d');
+  // Nom, description et lien des métiers : lus dans la liste rendue (source unique, pas de duplication dans le HTML).
+  const tradesInfo: Record<string, { nom: string; description: string; href: string }> = {};
+  document.querySelectorAll<HTMLAnchorElement>('#expertises .legend-item').forEach((a) => {
+    const id = a.dataset.id;
+    if (!id) return;
+    tradesInfo[id] = {
+      nom: a.querySelector('[data-trade-name]')?.textContent?.trim() ?? '',
+      description: a.querySelector('[data-trade-desc]')?.textContent?.trim() ?? '',
+      href: a.getAttribute('href') ?? '',
+    };
+  });
+  const caption = host?.querySelector<HTMLElement>('.viewer3d-caption') ?? null;
+  const captionField = (selector: string) => caption?.querySelector<HTMLElement>(selector) ?? null;
+  const showCaption = (id: string, state: 'preview' | 'selected') => {
+    const info = tradesInfo[id];
+    if (!caption || !info) return;
+    (captionField('[data-caption-name]') as HTMLElement).textContent = info.nom;
+    (captionField('[data-caption-desc]') as HTMLElement).textContent = info.description;
+    (captionField('[data-caption-link]') as HTMLAnchorElement).href = info.href;
+    caption.dataset.state = state;
+    caption.hidden = false;
+    host?.classList.add('is-engaged');
+  };
+  const hideCaption = () => {
+    if (caption) caption.hidden = true;
+  };
+  // Sélection persistante (clic / toucher sur la maquette) : légende détaillée + lien vers la page métier.
+  const select = (id: string | null) => {
+    if (selectedId && selectedId !== id) set(selectedId, false);
+    selectedId = id;
+    if (id) {
+      set(id, true);
+      showCaption(id, 'selected');
+    } else hideCaption();
+    viewer?.setSelected(id);
+  };
+  caption?.querySelector('[data-caption-close]')?.addEventListener('click', () => select(null));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && selectedId) select(null);
+  });
+  const photo = document.querySelector<HTMLElement>('#expertises .hybride .wrap');
+  const hasWebGL = () => {
+    try {
+      const probe = document.createElement('canvas');
+      const gl = probe.getContext('webgl2') ?? probe.getContext('webgl');
+      gl?.getExtension('WEBGL_lose_context')?.loseContext();
+      return !!gl;
+    } catch {
+      return false;
+    }
+  };
+  const start3d = async (): Promise<boolean> => {
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    if (!host || !photo || saveData) return false;
+    if (!hasWebGL()) return false;
+    try {
+      const { createHouseViewer } = await import('../../lib/maison3d/viewer');
+      viewer = createHouseViewer(host.querySelector<HTMLElement>('.viewer3d-canvas') as HTMLElement, {
+        onInteract: () => host.classList.add('is-engaged'),
+        onHover: (id, previous) => {
+          if (previous && previous !== selectedId) set(previous, false);
+          if (id) {
+            set(id, true);
+            if (!selectedId) showCaption(id, 'preview');
+          } else if (!selectedId) hideCaption();
+        },
+        onSelect: select,
+      });
+      host.hidden = false;
+      photo.hidden = true;
+      return true;
+    } catch {
+      host.hidden = true;
+      return false;
+    }
+  };
+
+  // Image de la coupe (172 Ko) hors premier écran : chargée à l'approche de la section, uniquement si la 3D ne la remplace pas.
+  const house = document.querySelector<SVGSVGElement>('#expertises .hybride .wrap svg');
+  if (house) {
+    const load = () =>
+      house.querySelectorAll<SVGImageElement>('image[data-href]').forEach((img) => {
+        img.setAttribute('href', img.dataset.href as string);
+      });
+    const reveal = () => void start3d().then((ok) => ok || load());
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            reveal();
+            io.disconnect();
+          }
+        },
+        { rootMargin: '600px 0px' },
+      );
+      io.observe(house);
+    } else {
+      reveal();
+    }
+  }
+  const Z = Array.from(document.querySelectorAll<HTMLElement>('#expertises .zone'));
+  const I = Array.from(document.querySelectorAll<HTMLElement>('#expertises .legend-item'));
+  const set = (id: string, a: boolean) => { for (const el of [...Z, ...I]) if (el.dataset.id === id) el.classList.toggle('is-active', a); };
+  const highlight = (id: string, a: boolean) => { set(id, a || id === selectedId); viewer?.setActive(a ? id : null); };
+  // Clic souris : pas de focus persistant (Chrome dessine un rect bleu sur les <a> SVG).
+  for (const el of [...Z, ...I]) {
+    el.addEventListener('mousedown', (e) => { if (e.button === 0) e.preventDefault(); });
+  }
+  for (const el of [...Z, ...I]) {
+    const id = el.dataset.id;
+    if (!id) continue;
+    el.addEventListener('mouseenter', () => highlight(id, true));
+    el.addEventListener('mouseleave', () => highlight(id, false));
+    el.addEventListener('focus', () => highlight(id, true));
+    el.addEventListener('blur', () => highlight(id, false));
+  }
+</script>

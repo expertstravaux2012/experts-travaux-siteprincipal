@@ -9,38 +9,69 @@ Site vitrine pour **Experts Travaux**, entreprise de rénovation et bâtiment po
 - **Aucune valeur de style magique** : couleurs, tailles, espacements viennent exclusivement des tokens du design system. Pas de hex/px en dur.
 - **Incrémental** : on avance par étapes validées. On ne dévie pas de l'architecture figée ci-dessous sans validation explicite de Hery.
 
-## Architecture figée
+## Registre de mots-clés (2026-10-15) — RÉFÉRENCE de la stratégie de contenu
+
+`docs/Experts Travaux - mon registre de mots-clés.pdf`, validé par le client : **prévaut sur `docs/cahier-des-charges-seo.md`** (H1 home sans « Particuliers/Professionnels », silo pros = « rénovation locaux professionnels », plus de « contractant général »). Un mot-clé principal par page, « Toulouse » dans chaque expression ; title ≤ 60 car., description 145–157, H1 unique ; pages métier 450–600 mots + 3 Q/R.
+Décisions appliquées **par défaut** (aucune case cochée) : pas de « contractant général », construction neuve reformulée (« maison sur mesure »), « Depuis 2013 », mentions légales sans SIREN, rayon 100 km (`site.areaServed`, jamais en dur), « assureur unique du chantier » maintenu partout (argument de vente, décision Hery) ; aucune autre garantie/label/« gratuit »/prix/délai sans justificatif (décennale, RGE, NF C 15-100, domotique, pompe à chaleur, entrepôts masqués). Toute évolution = mise à jour de `seo.ts`, `corps-metier.ts`, `metiers-contenu.ts` et des data de silo.
+
+## Retours client (2026-10-11) — sources de vérité
+
+- `DESIGN.md` : design system **client** (Newsreader / Hanken Grotesk / JetBrains Mono, palette monochrome pierre, sans ochre) + section « Intégration projet ».
+- `docs/cahier-des-charges-seo.md` : stratégie SEO / arborescence `/`, `/particuliers/`, `/professionnels/`.
+- `docs/brief-client-ugo.md` : brief initial (mots-clés, zone Toulouse + 50 km au brief, étendue à 100 km depuis, objectif 30–50 appels/mois).
+- Logo définitif : `../feedback/logo_expert.jpeg` (pictogramme cube, sans wordmark) — à vectoriser avant intégration.
+
+## Architecture
+
+État actuel (2026-10-11, implémenté) :
 
 ```
 src/
   styles/global.css        tokens Tailwind v4 (@theme) issus de DESIGN.md
-  data/                    site.ts (contact + logos), navigation.ts, expertises.ts, projets.ts, temoignages.ts
+  data/                    site, navigation, home, particuliers, professionnels, corps-metier, metiers-contenu (sections + FAQ), seo, pages, methode, realisations
+  lib/                     url (absoluteUrl, metierPath), jsonld, faq-jsonld, llms (buildLlmsTxt, fonction pure testée)
+  lib/maison3d/            maquette 3D Three.js (house-model, house-materials, viewer) — chargée en lazy par MaisonInteractiveHybride
   components/
-    ui/                    Button.astro, Icon.astro, Card.astro
-    layout/                Header.astro, Footer.astro
-    sections/              Hero, Expertises, Pourquoi, Realisations, Temoignages
-  layouts/Layout.astro     head, fonts, SEO, <slot/>
-  pages/index.astro        assemble les sections
+    ui/                    Button, Icon, Logo, SectionHeading, Section, Card, Chip, SquareList, Breadcrumb, RichParagraph
+    layout/                Header, Footer
+    sections/              Hero, Presentation, MaisonInteractiveHybride, Realisations, Methode, APropos, Contact
+    sections/page/         PageIntro, PrestationsGrid, ActionPanel(s), AvantApres, Secteurs, Argumentaire, Faq, CtaBand, MetierContent, MetierArticle
+  layouts/Layout.astro     head, polices @fontsource, SEO (canonical, OG, JSON-LD), <slot/>
+  pages/                   index, particuliers/, professionnels/, metiers/[slug], maintenance, robots.txt.ts, llms.txt.ts
 ```
 
-Images réelles du portfolio dans `../assets/` (15 catégories, ~90 photos) — à utiliser pour les Réalisations via le composant Image d'Astro.
+Navigation agentique (Lighthouse « Agentic browsing ») : formulaire de devis déclaré en WebMCP (`toolname`/`tooldescription`/`toolparamdescription`, textes dans `ctaContact.form` de `data/home.ts`, description selon la cible) ; `/llms.txt` généré depuis `data/llms.ts` (site, seo, corps-metier) et servi, avec son `<link rel="describedby">`, uniquement si `site.indexable`. `ai-catalog.json` volontairement non implémenté (spec instable, pas de serveur MCP).
+
+Mise en ligne : `indexable: false` dans `src/data/site.ts` (noindex + robots Disallow). Passer à `true` au lancement après confirmation du domaine (`site.url`) et du rayon « 100 km » (étendu depuis le brief). Écart assumé : H1 du Hero en `headline-lg` (96 caractères). `sections/MaisonInteractive.astro` = legacy volontairement conservé, non importé.
+
+Maison interactive : `MaisonInteractiveHybride` charge `lib/maison3d/viewer` à l'approche de la section (hors bundle initial, Lighthouse inchangé) ; photo + zones SVG restent le repli (WebGL absent, Save-Data, erreur). Les couleurs de matériaux de la maquette vivent dans `lib/maison3d/house-materials.ts` (exception assumée aux tokens : maison grisée au repos, couleurs révélées au survol d'un métier).
+
+Images réelles du portfolio dans `../assets/` (15 catégories, ~90 photos) — à utiliser via le composant Image d'Astro (AVIF/WebP).
 
 ## Design system (résumé — détails dans DESIGN.md)
 
-- **Couleurs** par token : `primary` #000, `on-primary` #fff, accent ochre via famille `tertiary`, surfaces via `surface-container-*`.
-- **Typo** : Montserrat (titres `headline-*`), Inter (corps `body-*`, labels). Labels/eyebrows en MAJUSCULES.
-- **Espacement** : base 8px (multiples : 16/24/32/64). Gutter 24px, marge desktop 64px, mobile 16px, container 1280px.
-- **Formes** : angles **0px** partout (sauf icônes sociales rondes). **Pas d'ombres** — profondeur par couches tonales + bordures 1px/2px.
+- **Couleurs** par token : `primary` #000, `on-primary` #fff, surfaces `surface*` / `surface-container-*`, `tertiary` = pierre `#80777C` (annotations, jamais texte de corps : < AA). **Plus d'ochre.**
+- **Typo** : Newsreader (titres `display-*`/`headline-lg|md`, graisse 400), Hanken Grotesk (`headline-sm`, `title-md`, `body-*`), JetBrains Mono (`label-*`, MAJUSCULES, espacement positif).
+- **Espacement** : base 4px composants, sections en `space-xl`+ (≤ 8rem). Marges 1.5rem mobile / 2rem tablette / 4rem desktop ; gutters 1 / 1.5 / 2.5rem ; container 1280px.
+- **Formes** : angles **0px** partout (sauf icônes sociales rondes). Pas d'ombre sauf panneau flottant (ombre ambiante + hairline). Profondeur = couches tonales + hairlines 1px.
 - **Contraste** : viser 7:1 corps de texte, minimum AA partout.
-- **Logos** : Header — pictogramme blanc (`invert`) sans cadre ; Hero — lockup dans `LogoPlate` ; Footer — pictogramme blanc sur fond sombre.
+- **Logos** : `ui/Logo.astro` (pictogramme cube `mark`/`markDark` + nom en Anton, `font-wordmark`) ; pas de plaque logo (cf. DESIGN.md § Logos).
+
+## SEO (cahier client)
+
+- Un seul `<h1>` par page ; H1 home : proposition de valeur globale Particuliers + Professionnels.
+- Home : sous-titre ≤ 2 lignes, CTA « Espace Particuliers » / « Espace Professionnels », bloc texte 300–400 mots sous le fold avec liens internes vers les deux silos.
+- Silos : `/particuliers/` (rénovation maison, aménagement combles…) et `/professionnels/` (contractant général, locaux commerciaux, bureaux, ERP) — pas de cannibalisation de mots-clés.
+- JSON-LD `GeneralContractor`/`LocalBusiness`, Lighthouse 90+, ancres de maillage optimisées.
+- `robots` reste `noindex` par défaut jusqu'à décision de mise en ligne.
 
 ## Sous-agents (.claude/agents/)
 
-- **design-system** — porte DESIGN.md en tokens Tailwind, garde la charte (couleurs, typo, 8px, 0px).
-- **astro-builder** — crée les composants .astro atomiques (SOLID/DRY).
-- **content-fr** — copywriting français BTP/rénovation, centralisé dans src/data/.
-- **seo-perf** — meta, JSON-LD LocalBusiness, optimisation images, Lighthouse.
-- **qa-review** — vérification finale : build, contraste AA/AAA, responsive, conformité maquette.
+- **design-system** — porte DESIGN.md en tokens Tailwind, garde la charte (palette, typo, 4px, 0px).
+- **astro-builder** — crée les composants .astro atomiques et les pages (SOLID/DRY).
+- **content-fr** — copywriting français BTP/rénovation B2C/B2B, centralisé dans src/data/.
+- **seo-perf** — meta, JSON-LD, arborescence/maillage, optimisation images, Lighthouse.
+- **qa-review** — vérification finale : build, contraste AA/AAA, responsive, conformité DESIGN.md + cahier SEO.
 
 Termine toute tâche non triviale par une passe **qa-review**.
 

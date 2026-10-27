@@ -1,0 +1,66 @@
+---
+import { presentation, hero } from '../../data/home';
+import { navigation } from '../../data/navigation';
+import SectionHeading from '../ui/SectionHeading.astro';
+import RichParagraph from '../ui/RichParagraph.astro';
+import IndexLabel from '../ui/IndexLabel.astro';
+import Chip from '../ui/Chip.astro';
+import SegmentCard from '../ui/SegmentCard.astro';
+
+const [lead, ...body] = presentation.paragraphs;
+
+const segments = presentation.segments.map(({ cible, image }, i) => {
+  const { label, href } = hero.ctas[cible];
+  const plate = String(i + 1).padStart(2, '0');
+  return {
+    href,
+    label,
+    image,
+    tagline: navigation.menus[cible].tagline,
+    tag: `${presentation.plate} ${plate} // ${label}`,
+  };
+});
+---
+
+<section id="presentation" class="border-b border-hairline bg-surface">
+  <div class="mx-auto flex max-w-site flex-col gap-space-lg px-margin py-space-xl desktop:gap-space-xl desktop:py-space-2xl">
+    <div class="grid grid-cols-1 gap-space-lg desktop:grid-cols-12 desktop:gap-x-gutter">
+    <div class="flex flex-col gap-space-lg desktop:sticky desktop:top-28 desktop:col-span-5 desktop:self-start">
+      <SectionHeading eyebrow={presentation.eyebrow} title={presentation.title} />
+      <ul class="flex flex-wrap gap-space-sm">
+        {
+          presentation.keywords.map((keyword) => (
+            <li>
+              <Chip>{keyword}</Chip>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="flex flex-col gap-space-lg desktop:col-span-7">
+      <RichParagraph
+        segments={lead}
+        class="max-w-prose font-display text-headline-sm text-on-surface desktop:text-headline-md"
+      />
+      <div class="grid grid-cols-1 desktop:grid-cols-2">
+        {
+          body.map((segments, i) => (
+            <div class="flex flex-col gap-space-sm border-t border-hairline py-space-md desktop:px-gutter desktop:odd:border-r desktop:odd:pl-0 desktop:even:pr-0 desktop:last:col-span-2 desktop:last:border-r-0!">
+              <IndexLabel index={i} class="label-md text-on-surface" />
+              <RichParagraph
+                segments={segments}
+                class="max-w-prose text-body-md text-on-surface-editorial"
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-gutter desktop:grid-cols-2">
+      {segments.map((segment) => <SegmentCard {...segment} />)}
+    </div>
+  </div>
+</section>

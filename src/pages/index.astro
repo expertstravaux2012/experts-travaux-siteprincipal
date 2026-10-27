@@ -3,23 +3,25 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import Hero from '../components/sections/Hero.astro';
-import MaisonInteractive from '../components/sections/MaisonInteractive.astro';
+import Presentation from '../components/sections/Presentation.astro';
+import MaisonInteractive from '../components/sections/MaisonInteractiveHybride.astro';
 import Realisations from '../components/sections/Realisations.astro';
 import Methode from '../components/sections/Methode.astro';
+import Avis from '../components/sections/Avis.astro';
 import APropos from '../components/sections/APropos.astro';
 import Contact from '../components/sections/Contact.astro';
+import { seo } from '../data/seo';
 ---
 
-<Layout
-  title="Experts Travaux — Rénovation & Bâtiment à Toulouse"
-  description="Extension, rénovation complète, cuisine, façade : Experts Travaux mène vos travaux à Toulouse avec un seul interlocuteur, du devis à la remise des clés."
->
+<Layout title={seo.home.title} description={seo.home.description} path="/">
   <Header overHero />
-  <main>
+  <main id="main">
     <Hero />
+    <Presentation />
     <MaisonInteractive />
     <Realisations />
     <Methode />
+    <Avis />
     <APropos />
     <Contact />
   </main>

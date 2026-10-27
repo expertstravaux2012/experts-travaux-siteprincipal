@@ -1,0 +1,31 @@
+---
+import { breadcrumb } from '../../data/pages';
+import type { Lien } from '../../data/home';
+
+interface Props {
+  /** Éléments intermédiaires ; le dernier est la page courante (sans href). */
+  items: { label: string; href?: string }[];
+}
+
+const { items } = Astro.props;
+const trail: { label: string; href?: string }[] = [breadcrumb.home as Lien, ...items];
+---
+
+<nav aria-label={breadcrumb.ariaLabel}>
+  <ol class="flex flex-wrap items-center gap-x-space-sm text-body-sm text-on-surface-variant">
+    {
+      trail.map((item, i) => (
+        <li class="flex items-center gap-space-sm">
+          {i > 0 && <span aria-hidden="true">/</span>}
+          {item.href ? (
+            <a href={item.href} class="inline-flex min-h-11 min-w-11 items-center underline-offset-4 hover:underline">
+              {item.label}
+            </a>
+          ) : (
+            <span aria-current="page" class="text-on-surface">{item.label}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

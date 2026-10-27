@@ -1,0 +1,60 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import PageIntro from '../../components/sections/page/PageIntro.astro';
+import PrestationsGrid from '../../components/sections/page/PrestationsGrid.astro';
+import ActionPanel from '../../components/sections/page/ActionPanel.astro';
+import ActionPanels from '../../components/sections/page/ActionPanels.astro';
+import AvantApres from '../../components/sections/page/AvantApres.astro';
+import Faq from '../../components/sections/page/Faq.astro';
+import CtaBand from '../../components/sections/page/CtaBand.astro';
+import Contact from '../../components/sections/Contact.astro';
+import { particuliers as c } from '../../data/particuliers';
+import { seo } from '../../data/seo';
+import { faqJsonLd } from '../../lib/faq-jsonld';
+import { breadcrumbNode } from '../../lib/jsonld';
+import { silos } from '../../data/pages';
+
+const seoBase = {
+  ...seo.particuliers,
+  path: '/particuliers/',
+  jsonLd: [
+    breadcrumbNode('/particuliers/', [{ name: silos.particuliers.label, path: '/particuliers/' }]),
+    faqJsonLd('/particuliers/', c.faq),
+  ],
+};
+---
+
+<Layout
+  title={seoBase.title}
+  description={seoBase.description}
+  path={seoBase.path}
+  jsonLd={seoBase.jsonLd}
+>
+  <Header />
+  <main id="main">
+    <PageIntro eyebrow={c.eyebrow} title={c.h1} intro={c.intro} />
+    <PrestationsGrid eyebrow={c.prestationsHeading.eyebrow} title={c.prestationsHeading.title} items={c.prestations} />
+    <ActionPanels>
+      <ActionPanel
+        eyebrow={c.devis.eyebrow}
+        title={c.devis.title}
+        text={c.devis.text}
+        items={c.devis.etapes}
+        ordered
+        ctas={[c.devis.cta]}
+      />
+    </ActionPanels>
+    <AvantApres
+      eyebrow={c.avantApresHeading.eyebrow}
+      title={c.avantApresHeading.title}
+      intro={c.avantApresHeading.intro}
+      items={c.avantApres}
+    />
+    <Faq eyebrow={c.faqHeading.eyebrow} title={c.faqHeading.title} items={c.faq} />
+    <CtaBand cta={c.cta} />
+    <Contact cible="particuliers" />
+  </main>
+  <Footer />
+</Layout>

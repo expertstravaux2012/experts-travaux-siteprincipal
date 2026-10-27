@@ -1,0 +1,161 @@
+---
+// Panneau pleine largeur d'un lien à sous-menu. Rendu dans le DOM (attribut hidden),
+// ouvert par le script ci-dessous via le bouton [data-mega-toggle].
+import type { MegaMenuContent } from '../../data/navigation';
+import { metierPath } from '../../lib/url';
+import Button from '../ui/Button.astro';
+import MetierCell from '../ui/MetierCell.astro';
+
+interface Props {
+  id: string;
+  label: string;
+  menu: MegaMenuContent;
+}
+
+const { id, label, menu } = Astro.props;
+---
+
+<div
+  id={id}
+  role="group"
+  aria-label={label}
+  hidden
+  data-mega-panel
+  class="mega-panel absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-y border-hairline bg-surface-container-lowest shadow-floating"
+>
+  <div class="mx-auto grid max-w-site grid-cols-12 gap-gutter px-margin py-space-lg">
+    <div class="col-span-4 flex flex-col items-start gap-space-md border-r border-hairline pr-gutter">
+      <span class="label-md text-on-surface-variant">{menu.eyebrow}</span>
+      <p class="text-headline-sm text-on-surface">{menu.tagline}</p>
+      <Button variant="secondary" href={menu.cta.href} icon="arrow-right" class="mt-space-sm">
+        {menu.cta.label}
+      </Button>
+    </div>
+    <div class="col-span-8 grid grid-cols-3 content-start pt-px pl-px">
+      {
+        menu.metiers.map((metier, i) => (
+          <MetierCell
+            href={metierPath(metier.slug)}
+            index={i}
+            nom={metier.nom}
+            description={metier.description}
+            class="-mt-px -ml-px"
+          />
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .mega-panel:not([hidden]) {
+    animation: mega-in 180ms ease-out both;
+  }
+  @keyframes mega-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mega-panel:not([hidden]) {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const OPEN_DELAY = 120;
+  const CLOSE_DELAY = 200;
+
+  const header = document.getElementById('site-header');
+  const items = [...document.querySelectorAll<HTMLElement>('[data-nav-item]')];
+  const toggleOf = (item: HTMLElement) =>
+    item.querySelector<HTMLButtonElement>('[data-mega-toggle]');
+  const panelOf = (item: HTMLElement) => item.querySelector<HTMLElement>('[data-mega-panel]');
+
+  let current: HTMLElement | null = null;
+  let openedByHover = false;
+  let timer: number | undefined;
+
+  const schedule = (fn: () => void, delay: number) => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(fn, delay);
+  };
+
+  const show = (item: HTMLElement | null) => {
+    window.clearTimeout(timer);
+    if (current === item) return;
+    if (current) {
+      toggleOf(current)?.setAttribute('aria-expanded', 'false');
+      const panel = panelOf(current);
+      if (panel) panel.hidden = true;
+      current.removeAttribute('data-open');
+    }
+    current = item;
+    if (item) {
+      toggleOf(item)?.setAttribute('aria-expanded', 'true');
+      const panel = panelOf(item);
+      if (panel) panel.hidden = false;
+      item.setAttribute('data-open', '');
+    }
+    document.dispatchEvent(new CustomEvent('megamenu:change', { detail: { open: !!item } }));
+  };
+
+  items.forEach((item) => {
+    const toggle = toggleOf(item);
+
+    item.addEventListener('pointerenter', (e) => {
+      if (e.pointerType === 'touch') return;
+      if (!toggle) {
+        if (current && openedByHover) schedule(() => show(null), CLOSE_DELAY);
+        return;
+      }
+      schedule(() => {
+        show(item);
+        openedByHover = true;
+      }, OPEN_DELAY);
+    });
+
+    item.addEventListener('pointerleave', (e) => {
+      if (e.pointerType === 'touch' || !toggle) return;
+      window.clearTimeout(timer);
+    });
+
+    item.addEventListener('focusout', (e) => {
+      const next = e.relatedTarget as Node | null;
+      if (current === item && next && !item.contains(next)) show(null);
+    });
+
+    toggle?.addEventListener('click', (e) => {
+      window.clearTimeout(timer);
+      if (current === item && openedByHover && e.detail > 0) {
+        openedByHover = false;
+        return;
+      }
+      openedByHover = false;
+      show(current === item ? null : item);
+    });
+
+    panelOf(item)?.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) show(null);
+    });
+  });
+
+  header?.addEventListener('pointerleave', (e) => {
+    if (e.pointerType === 'touch') return;
+    if (current && openedByHover) schedule(() => show(null), CLOSE_DELAY);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (current && !current.contains(e.target as Node)) show(null);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || !current) return;
+    const item = current;
+    const hadFocus = item.contains(document.activeElement);
+    show(null);
+    if (hadFocus) toggleOf(item)?.focus();
+  });
+</script>

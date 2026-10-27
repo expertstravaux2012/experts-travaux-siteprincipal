@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Maison hybride — photo + calque interactif</title>
+<style>
+:root{--color-on-surface:#1a1c1c;--color-on-surface-variant:#46474a;--color-outline:#76777b;--color-outline-variant:#c7c6ca;--color-surface:#f9f9f9;--color-surface-container-lowest:#ffffff;--color-surface-container:#eeeeee;--color-tertiary:#c76c00}
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--color-surface);color:var(--color-on-surface)}
+.wrap-page{max-width:1240px;margin:0 auto;padding:40px 24px}
+h1{font-size:22px;margin:0 0 4px} .sub{color:var(--color-on-surface-variant);margin:0 0 24px;font-size:15px}
+.card{border:1px solid var(--color-outline-variant);background:var(--color-surface-container-lowest);padding:20px}
+
+.hybride .wrap{position:relative;width:100%}
+.hybride svg{width:100%;height:auto;display:block;overflow:visible}
+.hit{fill:transparent;stroke:transparent;stroke-width:2;cursor:pointer;transition:fill-opacity .15s,fill .15s,stroke .15s}
+.zone:hover .hit,.zone:focus-visible .hit,.zone.is-active .hit{fill:#c76c00;fill-opacity:.30;stroke:#c76c00}
+.zone:focus,.zone:focus-visible{outline:none}
+.lead{stroke:#1a1c1c;stroke-width:1.2;opacity:.5}
+.leaddot{fill:#c76c00;stroke:#ffffff;stroke-width:1.5}
+.ltxt{font:600 14px system-ui,-apple-system,Segoe UI,Arial,sans-serif;fill:#1a1c1c}
+.lab.is-active .ltxt{fill:#c76c00}
+.lab.is-active .lead{opacity:1;stroke:#c76c00}
+.lab.is-active .leaddot{r:5.5}
+
+ul{list-style:none;padding:0;margin:24px 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--color-outline-variant);border:1px solid var(--color-outline-variant)}
+@media(max-width:900px){ul{grid-template-columns:repeat(2,1fr)}} @media(max-width:560px){ul{grid-template-columns:1fr}}
+.legend-item{display:flex;align-items:center;gap:10px;background:var(--color-surface-container-lowest);padding:14px;text-decoration:none;color:var(--color-on-surface);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;transition:background .15s}
+.dot{width:8px;height:8px;background:var(--color-outline);flex:0 0 auto;transition:background .15s}
+.legend-item:hover,.legend-item.is-active{background:var(--color-surface-container)}
+.legend-item:hover .dot,.legend-item.is-active .dot{background:var(--color-tertiary)}
+</style></head><body><div class="wrap-page">
+<h1>Maison interactive — hybride (photo + calque)</h1>
+<p class="sub">Photo en fond, 12 zones cliquables alignées dessus, libellés FR nets. Survolez une zone ou la légende. Exploration — n'affecte pas le site.</p>
+<div class="card hybride"><div class="wrap"><svg viewBox="0 0 1560 900" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="Coupe d'une maison ; chaque partie est un lien vers un corps de metier."><image href="maison-coupe.webp" xlink:href="maison-coupe.webp" x="290" y="170.9" width="1000" height="558.1" preserveAspectRatio="xMidYMid meet"/>
+<a class="zone" data-id="toiture" xlink:href="#toiture-couverture"><title>Toiture &amp; couverture</title><polygon class="hit" points="540.0,332.8 780.0,215.6 950.0,210.0 1180.0,304.9 1050.0,321.6 850.0,249.1 660.0,299.3"/></a>
+<a class="zone" data-id="charpente" xlink:href="#charpente"><title>Charpente</title><polygon class="hit" points="860.0,310.5 940.0,232.3 1090.0,277.0 1050.0,355.1 890.0,338.4"/></a>
+<a class="zone" data-id="isolation" xlink:href="#isolation-thermique"><title>Isolation thermique</title><polygon class="hit" points="610.0,377.4 740.0,344.0 750.0,444.4 620.0,472.3"/></a>
+<a class="zone" data-id="facade" xlink:href="#facade-ravalement"><title>Façade &amp; ravalement</title><polygon class="hit" points="510.0,344.0 610.0,321.6 620.0,556.0 510.0,522.6"/></a>
+<a class="zone" data-id="menuiseries" xlink:href="#menuiseries-exterieures"><title>Menuiseries extérieures</title><polygon class="hit" points="620.0,366.3 730.0,338.4 740.0,544.9 630.0,567.2"/></a>
+<a class="zone" data-id="maconnerie" xlink:href="#maconnerie-gros-oeuvre"><title>Maçonnerie &amp; gros œuvre</title><polygon class="hit" points="400.0,422.1 520.0,388.6 540.0,533.7 410.0,556.0"/></a>
+<a class="zone" data-id="extension" xlink:href="#extension-surelevation"><title>Extension &amp; surélévation</title><polygon class="hit" points="1120.0,360.7 1220.0,383.0 1220.0,517.0 1120.0,500.2"/></a>
+<a class="zone" data-id="salle-de-bain" xlink:href="#salle-de-bain"><title>Salle de bain &amp; étanchéité</title><polygon class="hit" points="900.0,366.3 1080.0,371.9 1070.0,472.3 900.0,461.2"/></a>
+<a class="zone" data-id="cuisine" xlink:href="#cuisine"><title>Cuisine &amp; plomberie</title><polygon class="hit" points="880.0,494.6 1100.0,494.6 1090.0,600.7 880.0,589.5"/></a>
+<a class="zone" data-id="electricite" xlink:href="#electricite"><title>Électricité</title><polygon class="hit" points="780.0,304.9 850.0,304.9 850.0,595.1 780.0,595.1"/></a>
+<a class="zone" data-id="chauffage" xlink:href="#chauffage-climatisation"><title>Chauffage &amp; climatisation</title><polygon class="hit" points="480.0,550.5 600.0,544.9 610.0,617.4 480.0,623.0"/></a>
+<a class="zone" data-id="finitions" xlink:href="#platrerie-peinture-carrelage"><title>Plâtrerie, carrelage &amp; peinture</title><polygon class="hit" points="710.0,455.6 780.0,450.0 780.0,584.0 710.0,589.5"/></a>
+<g class="labels">
+<g class="lab" data-id="toiture"><line x1="1030.0" y1="254.7" x2="1300" y2="110.0" class="lead"/><circle cx="1030.0" cy="254.7" r="4" class="leaddot"/><text x="1308" y="114.0" text-anchor="start" class="ltxt">Toiture &amp; couverture</text></g>
+<g class="lab" data-id="charpente"><line x1="970.0" y1="282.6" x2="1300" y2="248.0" class="lead"/><circle cx="970.0" cy="282.6" r="4" class="leaddot"/><text x="1308" y="252.0" text-anchor="start" class="ltxt">Charpente</text></g>
+<g class="lab" data-id="isolation"><line x1="670.0" y1="399.8" x2="278" y2="110.0" class="lead"/><circle cx="670.0" cy="399.8" r="4" class="leaddot"/><text x="270" y="114.0" text-anchor="end" class="ltxt">Isolation thermique</text></g>
+<g class="lab" data-id="facade"><line x1="570.0" y1="416.5" x2="278" y2="248.0" class="lead"/><circle cx="570.0" cy="416.5" r="4" class="leaddot"/><text x="270" y="252.0" text-anchor="end" class="ltxt">Façade &amp; ravalement</text></g>
+<g class="lab" data-id="menuiseries"><line x1="670.0" y1="483.5" x2="278" y2="524.0" class="lead"/><circle cx="670.0" cy="483.5" r="4" class="leaddot"/><text x="270" y="528.0" text-anchor="end" class="ltxt">Menuiseries extérieures</text></g>
+<g class="lab" data-id="maconnerie"><line x1="470.0" y1="472.3" x2="278" y2="386.0" class="lead"/><circle cx="470.0" cy="472.3" r="4" class="leaddot"/><text x="270" y="390.0" text-anchor="end" class="ltxt">Maçonnerie &amp; gros œuvre</text></g>
+<g class="lab" data-id="extension"><line x1="1170.0" y1="427.7" x2="1300" y2="662.0" class="lead"/><circle cx="1170.0" cy="427.7" r="4" class="leaddot"/><text x="1308" y="666.0" text-anchor="start" class="ltxt">Extension &amp; surélévation</text></g>
+<g class="lab" data-id="salle-de-bain"><line x1="990.0" y1="405.4" x2="1300" y2="524.0" class="lead"/><circle cx="990.0" cy="405.4" r="4" class="leaddot"/><text x="1308" y="528.0" text-anchor="start" class="ltxt">Salle de bain &amp; étanchéité</text></g>
+<g class="lab" data-id="cuisine"><line x1="990.0" y1="550.5" x2="1300" y2="800.0" class="lead"/><circle cx="990.0" cy="550.5" r="4" class="leaddot"/><text x="1308" y="804.0" text-anchor="start" class="ltxt">Cuisine &amp; plomberie</text></g>
+<g class="lab" data-id="electricite"><line x1="820.0" y1="399.8" x2="1300" y2="386.0" class="lead"/><circle cx="820.0" cy="399.8" r="4" class="leaddot"/><text x="1308" y="390.0" text-anchor="start" class="ltxt">Électricité</text></g>
+<g class="lab" data-id="chauffage"><line x1="540.0" y1="578.4" x2="278" y2="800.0" class="lead"/><circle cx="540.0" cy="578.4" r="4" class="leaddot"/><text x="270" y="804.0" text-anchor="end" class="ltxt">Chauffage &amp; climatisation</text></g>
+<g class="lab" data-id="finitions"><line x1="750.0" y1="505.8" x2="278" y2="662.0" class="lead"/><circle cx="750.0" cy="505.8" r="4" class="leaddot"/><text x="270" y="666.0" text-anchor="end" class="ltxt">Plâtrerie, carrelage &amp; peinture</text></g>
+</g>
+</svg></div><ul><li><a class="legend-item" data-id="toiture" href="#toiture-couverture"><span class="dot"></span>Toiture &amp; couverture</a></li>
+<li><a class="legend-item" data-id="charpente" href="#charpente"><span class="dot"></span>Charpente</a></li>
+<li><a class="legend-item" data-id="isolation" href="#isolation-thermique"><span class="dot"></span>Isolation thermique</a></li>
+<li><a class="legend-item" data-id="facade" href="#facade-ravalement"><span class="dot"></span>Façade &amp; ravalement</a></li>
+<li><a class="legend-item" data-id="menuiseries" href="#menuiseries-exterieures"><span class="dot"></span>Menuiseries extérieures</a></li>
+<li><a class="legend-item" data-id="maconnerie" href="#maconnerie-gros-oeuvre"><span class="dot"></span>Maçonnerie &amp; gros œuvre</a></li>
+<li><a class="legend-item" data-id="extension" href="#extension-surelevation"><span class="dot"></span>Extension &amp; surélévation</a></li>
+<li><a class="legend-item" data-id="salle-de-bain" href="#salle-de-bain"><span class="dot"></span>Salle de bain &amp; étanchéité</a></li>
+<li><a class="legend-item" data-id="cuisine" href="#cuisine"><span class="dot"></span>Cuisine &amp; plomberie</a></li>
+<li><a class="legend-item" data-id="electricite" href="#electricite"><span class="dot"></span>Électricité</a></li>
+<li><a class="legend-item" data-id="chauffage" href="#chauffage-climatisation"><span class="dot"></span>Chauffage &amp; climatisation</a></li>
+<li><a class="legend-item" data-id="finitions" href="#platrerie-peinture-carrelage"><span class="dot"></span>Plâtrerie, carrelage &amp; peinture</a></li></ul></div>
+</div>
+<script>
+const Z=[...document.querySelectorAll('.zone')],I=[...document.querySelectorAll('.legend-item')],L=[...document.querySelectorAll('.lab')];
+const set=(id,a)=>[...Z,...I,...L].forEach(e=>{if(e.dataset.id===id)e.classList.toggle('is-active',a)});
+[...Z,...I,...L].forEach(e=>{const id=e.dataset.id;if(!id)return;
+ e.addEventListener('mouseenter',()=>set(id,true));e.addEventListener('mouseleave',()=>set(id,false));
+ e.addEventListener('focus',()=>set(id,true));e.addEventListener('blur',()=>set(id,false));});
+</script></body></html>

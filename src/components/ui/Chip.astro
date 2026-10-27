@@ -1,0 +1,18 @@
+---
+// Étiquette JetBrains Mono : [LIBELLÉ]. Lien si `href`.
+interface Props {
+  href?: string;
+  class?: string;
+}
+
+const { href, class: className = '' } = Astro.props;
+const Tag = href ? 'a' : 'span';
+const interactive = href ? 'min-h-11 transition-colors hover:border-obsidian' : 'min-h-8';
+---
+
+<Tag
+  href={href}
+  class={`label-md inline-flex items-center border border-hairline px-space-md text-on-surface ${interactive} ${className}`}
+>
+  [<slot />]
+</Tag>

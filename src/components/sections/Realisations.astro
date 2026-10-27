@@ -1,37 +1,47 @@
 ---
 import { realisations } from '../../data/realisations';
+import { realisationsSection } from '../../data/home';
 import SectionHeading from '../ui/SectionHeading.astro';
 import Button from '../ui/Button.astro';
+import RealisationCard from '../ui/RealisationCard.astro';
+
+const layouts = {
+  large: { span: 'desktop:col-span-8', image: 'aspect-4/3' },
+  small: { span: 'desktop:col-span-4', image: 'aspect-4/3 desktop:aspect-3/4' },
+  half: { span: 'desktop:col-span-6', image: 'aspect-4/3' },
+} as const;
+
+const pattern = ['large', 'small', 'small', 'large', 'half', 'half', 'half', 'half'] as const;
 ---
 
-<section id="realisations" class="border-b border-outline-variant bg-surface-container-low">
-  <div class="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 lg:px-16 lg:py-24">
-    <div class="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+<section id="realisations" class="bg-inverse-surface text-inverse-on-surface">
+  <div class="mx-auto max-w-site px-margin py-space-xl desktop:py-space-2xl">
+    <div class="mb-space-xl flex flex-col gap-space-md md:flex-row md:items-end md:justify-between">
       <SectionHeading
-        eyebrow="Réalisations"
-        title="Des chantiers livrés, partout à Toulouse."
+        tone="dark"
+        eyebrow={realisationsSection.eyebrow}
+        title={realisationsSection.title}
       />
-      <Button variant="secondary" href="#contact" icon="arrow-right" class="shrink-0">
-        Discuter de mon projet
+      <Button variant="secondary-light" href={realisationsSection.cta.href} icon="arrow-right" class="shrink-0">
+        {realisationsSection.cta.label}
       </Button>
     </div>
 
-    <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <ul class="grid grid-cols-1 items-start gap-gutter md:grid-cols-2 desktop:grid-cols-12">
       {
-        realisations.map((real) => (
-          <li class="group relative aspect-[4/3] overflow-hidden border border-outline-variant">
-            <img
-              src={real.image}
-              alt={real.alt}
-              loading="lazy"
-              decoding="async"
-              class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        realisations.map((real, index) => {
+          const layout = layouts[pattern[index] ?? 'half'];
+          return (
+            <RealisationCard
+              realisation={real}
+              href={real.href}
+              index={index}
+              labels={realisationsSection.labels}
+              class={layout.span}
+              imageClass={layout.image}
             />
-            <span class="absolute left-0 top-0 bg-primary px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.05em] text-on-primary">
-              {real.categorie}
-            </span>
-          </li>
-        ))
+          );
+        })
       }
     </ul>
   </div>

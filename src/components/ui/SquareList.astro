@@ -1,0 +1,28 @@
+---
+// Liste à puces carrées obsidian (DESIGN.md).
+interface Props {
+  items: string[];
+  ordered?: boolean;
+  class?: string;
+}
+
+const { items, ordered = false, class: className = '' } = Astro.props;
+const Tag = ordered ? 'ol' : 'ul';
+---
+
+<Tag class={`flex flex-col gap-space-sm ${className}`}>
+  {
+    items.map((item, i) => (
+      <li class="flex items-start gap-space-md text-body-md text-on-surface-variant">
+        {ordered ? (
+          <span class="label-md mt-0.5 shrink-0 text-on-surface" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+        ) : (
+          <span class="mt-2 h-2 w-2 shrink-0 bg-obsidian" aria-hidden="true"></span>
+        )}
+        <span>{item}</span>
+      </li>
+    ))
+  }
+</Tag>

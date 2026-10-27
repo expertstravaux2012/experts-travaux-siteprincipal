@@ -1,0 +1,96 @@
+---
+import { site } from '../../data/site';
+
+interface Signature {
+  /** Métier, affiché en vertical à gauche (coupé après « & »). */
+  trade?: string;
+  /** Slogan, sous le nom. */
+  slogan?: string;
+  /** Mention d'ancienneté, affichée en vertical à droite (coupée après le premier mot). */
+  since?: string;
+}
+
+interface Props {
+  /** on-light : pictogramme couleurs ; on-dark : pictogramme blanc ; adaptive : bascule via le Header (survol hero) */
+  variant?: 'on-light' | 'on-dark' | 'adaptive';
+  /** La taille se règle par la font-size du parent (tout est en em) ; la couleur du nom suit currentColor. */
+  class?: string;
+  signature?: Signature;
+}
+
+const { variant = 'on-light', class: className, signature } = Astro.props;
+const [first, ...rest] = site.name.split(' ');
+const tradeLines = signature?.trade ? signature.trade.replace(' & ', ' &\n').split('\n') : [];
+const sinceLines = signature?.since ? signature.since.split(' ') : [];
+const sideClass =
+  'label-sm hidden gap-0.5 leading-none tracking-normal uppercase opacity-75 md:flex desktop:hidden wide:flex';
+const verticalClass = '[writing-mode:vertical-rl] rotate-180';
+---
+
+<span class:list={['inline-flex items-center gap-[0.75em]', className]}>
+  {
+    tradeLines.length > 0 && (
+      <span class={sideClass} aria-hidden="true">
+        {tradeLines.map((line) => (
+          <span class={verticalClass}>{line}</span>
+        ))}
+      </span>
+    )
+  }
+  <span class="flex flex-col gap-[0.35em]">
+    <span class="inline-flex items-center gap-[0.5em]">
+      {
+        variant !== 'on-dark' && (
+          <img
+            src={site.logo.markWebp}
+            alt=""
+            width="144"
+            height="144"
+            class="logo-on-light h-[2.5em] w-auto"
+            decoding="async"
+          />
+        )
+      }
+      {
+        variant !== 'on-light' && (
+          <img
+            src={site.logo.markDarkWebp}
+            alt=""
+            width="144"
+            height="144"
+            class:list={['h-[2.5em] w-auto', variant === 'adaptive' && 'logo-adaptive-dark']}
+            loading="lazy"
+            decoding="async"
+          />
+        )
+      }
+      <span class="flex flex-col font-wordmark uppercase leading-none tracking-[0.12em]">
+        <span>{first}</span>
+        {' '}
+        <span class="self-end italic opacity-70">{rest.join(' ')}</span>
+      </span>
+    </span>
+    {
+      signature?.slogan && (
+        <span class="label-sm leading-none tracking-normal uppercase opacity-75">
+          {signature.slogan}
+        </span>
+      )
+    }
+  </span>
+  {
+    sinceLines.length > 0 && (
+      <span class={sideClass} aria-hidden="true">
+        {sinceLines.map((line) => (
+          <span class={verticalClass}>{line}</span>
+        ))}
+      </span>
+    )
+  }
+</span>
+
+<style>
+  .logo-adaptive-dark {
+    display: none;
+  }
+</style>
