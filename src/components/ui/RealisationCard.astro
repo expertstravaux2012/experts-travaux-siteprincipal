@@ -41,7 +41,7 @@ const hasMeta = Boolean(real.lieu || real.duree);
       decoding="async"
       width={real.width}
       height={real.height}
-      class="h-full w-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0 group-focus-within:grayscale-0 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+      class="h-full w-full object-cover grayscale [@media(hover:none)]:grayscale-0 transition duration-700 group-hover:scale-105 group-hover:grayscale-0 group-focus-within:grayscale-0 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
     />
     <span
       class="absolute left-0 top-0 bg-obsidian px-space-md py-space-sm label-sm text-on-primary"
