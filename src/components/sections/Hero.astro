@@ -186,6 +186,24 @@ const pad = (n: number) => String(n).padStart(2, '0');
     opacity: 0.5;
   }
 
+  @media (hover: none), (pointer: coarse) {
+    [data-hero] .hero-desaturate,
+    [data-hero] .hero-veil {
+      display: none;
+    }
+    [data-hero] .hero-scrim {
+      background-image: linear-gradient(
+        to bottom,
+        rgb(0 0 0 / 0.4),
+        rgb(0 0 0 / 0.3),
+        rgb(0 0 0 / 0.35)
+      );
+    }
+    [data-hero] .hero-slide img {
+      filter: none;
+    }
+  }
+
   @supports not (backdrop-filter: grayscale(1)) {
     [data-hero] .hero-desaturate {
       display: none;
