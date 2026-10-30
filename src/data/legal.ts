@@ -99,6 +99,7 @@ export const mentionsLegales: LegalDocument = {
       title: 'Cookies et traceurs',
       paragraphs: [
         'Le site ne dépose aucun cookie de mesure d’audience ou de publicité sans votre consentement préalable. Les seuls éléments enregistrés par défaut sont strictement nécessaires au fonctionnement du site, dont la mémorisation de votre choix.',
+        'Avec votre accord, nous utilisons Google Analytics (Google Ireland Limited) pour mesurer la fréquentation du site. Ce service n’est chargé qu’après votre consentement.',
         'Votre choix est conservé six mois ; vous pouvez le modifier à tout moment.',
       ],
       cookieSettings: true,
