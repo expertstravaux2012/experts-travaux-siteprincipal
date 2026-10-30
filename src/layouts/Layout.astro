@@ -99,5 +99,9 @@ const graph = jsonLd === false ? null : buildGraph([organizationNode(), ...jsonL
     </a>
     <CookieConsent />
     <slot />
+    <script>
+      import { initAnalytics } from '../lib/analytics';
+      initAnalytics();
+    </script>
   </body>
 </html>

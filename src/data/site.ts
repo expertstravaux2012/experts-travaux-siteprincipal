@@ -9,10 +9,10 @@ export const site = {
   indexable: true,
   /**
    * Gestionnaire de cookies. enabled = false : le bandeau ne s'affiche pas (aucun traceur à consentir).
-   * Passer à true au branchement d'un outil de mesure d'audience (via onConsent, src/lib/consent.ts).
+   * true : GA4 branché via onConsent (src/lib/analytics.ts, ID dans src/data/analytics.ts).
    * Le bouton « Gérer mes cookies » du footer reste actif dans tous les cas.
    */
-  consent: { enabled: false },
+  consent: { enabled: true },
   /** Zone d'intervention : Toulouse + rayon en km (valeur du brief client, à confirmer). */
   areaServed: {
     city: 'Toulouse',
