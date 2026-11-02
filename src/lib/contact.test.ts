@@ -27,12 +27,13 @@ test('parseContact tronque les champs trop longs', () => {
   assert.equal(result.kind === 'ok' && result.value.projet.length, 5000);
 });
 
-test('buildMailjetPayload adresse le mail à la boîte, Reply-To = visiteur, sujet sur une ligne', () => {
+test('buildMailjetPayload envoie de l’expéditeur vers le destinataire, Reply-To = visiteur, sujet sur une ligne', () => {
   const parsed = parseContact({ ...valid, nom: 'Ugo\nBcc: x@y.z' });
   assert.equal(parsed.kind, 'ok');
   if (parsed.kind !== 'ok') return;
-  const [message] = buildMailjetPayload(parsed.value, 'contact@experts-travaux.fr', 'Experts Travaux').Messages;
-  assert.equal(message.To[0].Email, 'contact@experts-travaux.fr');
+  const [message] = buildMailjetPayload(parsed.value, 'contact@experts-travaux.fr', 'devis@experts-travaux.fr', 'Experts Travaux').Messages;
+  assert.equal(message.From.Email, 'contact@experts-travaux.fr');
+  assert.equal(message.To[0].Email, 'devis@experts-travaux.fr');
   assert.equal(message.ReplyTo.Email, 'ugo@exemple.fr');
   assert.ok(!message.Subject.includes('\n'));
   assert.match(message.TextPart, /Téléphone : non renseigné/);

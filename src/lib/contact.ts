@@ -40,14 +40,14 @@ export function parseContact(body: unknown): ContactParsing {
 
 const singleLine = (value: string) => value.replace(/\s+/g, ' ');
 
-/** Corps de l'API Mailjet Send v3.1 : mail à l'entreprise, `Reply-To` = visiteur. */
-export function buildMailjetPayload(request: ContactRequest, mailbox: string, senderName: string) {
+/** Corps de l'API Mailjet Send v3.1 : envoyé depuis `sender` à `recipient`, `Reply-To` = visiteur. */
+export function buildMailjetPayload(request: ContactRequest, sender: string, recipient: string, senderName: string) {
   const { nom, email, tel, projet, page } = request;
   return {
     Messages: [
       {
-        From: { Email: mailbox, Name: senderName },
-        To: [{ Email: mailbox }],
+        From: { Email: sender, Name: senderName },
+        To: [{ Email: recipient }],
         ReplyTo: { Email: email, Name: singleLine(nom) },
         Subject: `Demande de devis — ${singleLine(nom)}`,
         TextPart: [

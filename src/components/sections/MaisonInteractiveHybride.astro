@@ -1,8 +1,8 @@
 ---
 // Maison interactive — HYBRIDE (photo + calque vectoriel).
 // Source : _exploration-maison/ (zones.py + gen2.py).
-// 12 data-id = corps-metier.ts (DRY).
-import { corpsMetier } from '../../data/corps-metier';
+// 12 data-id (zones SVG de repli) = corps-metier.ts ; la légende y ajoute la piscine (maisonMetiers, DRY).
+import { corpsMetier, maisonMetiers } from '../../data/corps-metier';
 import { metierPath } from '../../lib/url';
 import { maisonInteractiveSection as section } from '../../data/home';
 import SectionHeading from '../ui/SectionHeading.astro';
@@ -52,9 +52,9 @@ const labelFor = (id: string) => byId[id].nom;
 
     <p class="mb-6 label-md text-on-surface-variant">{section.prompt}</p>
     <ul class="grid grid-cols-1 gap-px border border-hairline bg-hairline md:grid-cols-2 desktop:grid-cols-4">
-      {corpsMetier.map((c) => (
-        <li>
-          <a class="legend-item flex h-full flex-col gap-1 bg-surface-container-lowest p-4 transition-colors" data-id={c.id} href={metierPath(c.slug)}>
+      {maisonMetiers.map((c, i) => (
+        <li class={i === maisonMetiers.length - 1 ? 'md:col-span-2 desktop:col-span-4' : undefined}>
+          <a class="legend-item flex h-full flex-col gap-1 bg-surface-container-lowest p-4 transition-colors" data-id={c.id} href={c.href}>
             <span class="flex items-center gap-3 label-md text-on-surface" data-trade-name>
               <span class="legend-dot h-2 w-2 shrink-0 bg-outline transition-colors" aria-hidden="true" />
               {c.nom}

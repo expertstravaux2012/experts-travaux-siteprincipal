@@ -39,9 +39,10 @@ export const MATERIAL_COLORS = {
   tapis: '#b9a58a',
   spot: '#fff3c4',
   etancheite: '#4a4e52',
+  eau: '#5fb3c9',
 } as const;
 
 export type MaterialKey = keyof typeof MATERIAL_COLORS;
 
 /** Matériaux translucides : l'opacité reste constante, seule la teinte passe du gris à la couleur. */
-export const GLASS_OPACITY: Partial<Record<MaterialKey, number>> = { verre: 0.28 };
+export const GLASS_OPACITY: Partial<Record<MaterialKey, number>> = { verre: 0.28, eau: 0.55 };
