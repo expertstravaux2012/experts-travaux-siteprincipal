@@ -5,6 +5,8 @@
 // Les balises <title>/<meta description> vivent dans seo.ts.
 
 import type { Cible } from './home';
+import { metierPath } from '../lib/url';
+import { piscine, piscinePath } from './piscine';
 import { site } from './site';
 
 export type { Cible };
@@ -295,5 +297,23 @@ export const corpsMetier: CorpsMetier[] = [
         'Les finitions ne rattrapent pas un support mal préparé. Experts Travaux coordonne le second œuvre avec les corps d’état précédents : un seul interlocuteur planifie chaque métier au bon moment et contrôle la qualité avant la réception. Le devis détaille chaque poste et le chantier est remis propre, avec une réception réalisée avec vous.',
       cibles: 'les deux',
     },
+  },
+];
+
+/** Entrée de la maison interactive : un corps de métier ou un service dédié (piscine) qui a sa propre page. */
+export interface MaisonMetier {
+  id: string;
+  nom: string;
+  description: string;
+  href: string;
+}
+
+export const maisonMetiers: MaisonMetier[] = [
+  ...corpsMetier.map(({ id, nom, description, slug }) => ({ id, nom, description, href: metierPath(slug) })),
+  {
+    id: 'piscine',
+    nom: piscine.nom,
+    description: 'Le chantier de votre piscine, de la fouille au bassin terminé, coordonné par un seul interlocuteur.',
+    href: piscinePath,
   },
 ];

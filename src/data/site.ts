@@ -68,6 +68,8 @@ export const site = {
     footerContactTitle: 'Contact',
   },
   email: 'contact@experts-travaux.fr',
+  /** Destinataire des demandes de devis du formulaire de contact (l'expéditeur reste `email`). */
+  quoteEmail: 'devis@experts-travaux.fr',
   phone: {
     display: '05 82 95 14 32',
     href: 'tel:+33582951432',

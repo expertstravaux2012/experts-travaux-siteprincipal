@@ -1,5 +1,5 @@
 // Maquette 3D v2 : maison en coupe (façade avant ouverte, repère en mètres, emprise 10 × 8, RDC 0–2,8, étage 3,1–5,9).
-// Chaque maillage fusionné porte l'id d'un corps de métier (= corps-metier.ts) dans userData.id.
+// Chaque maillage fusionné porte l'id d'un corps de métier (= corps-metier.ts, + `piscine` de maisonMetiers) dans userData.id.
 // Au repos tout est gris ; au survol, chaque matériau du métier prend sa couleur (house-materials-v2.ts).
 import {
   BoxGeometry,
@@ -526,6 +526,58 @@ const buildExtension = (b: HouseBuilder) => {
   }
 };
 
+/** Piscine enterrée (coupe ouverte sur la façade avant) et pool house, à l'est de l'extension. */
+const buildPool = (b: HouseBuilder) => {
+  const p = (material: MaterialKey, x: Range, y: Range, z: Range) => b.box('piscine', material, x, y, z);
+  const GROUND_X: Range = [9.6, 21];
+  const GROUND_Z: Range = [-2.9, 2.5];
+  const BASIN_X: Range = [10.6, 16.6];
+  const BASIN_Z0 = -2.1;
+  const FLOOR: Range = [-1.7, -1.5];
+  const WALL = 0.2;
+
+  // terrain : bande ouest, bande est, fond et arrière du bassin
+  const ground = (x: Range, z: Range) => {
+    p('terre', x, [-1.8, -0.04], z);
+    p('herbe', x, [-0.04, 0], z);
+  };
+  ground([GROUND_X[0], BASIN_X[0]], GROUND_Z);
+  ground([BASIN_X[1], GROUND_X[1]], GROUND_Z);
+  ground(BASIN_X, [GROUND_Z[0], BASIN_Z0]);
+  p('terre', BASIN_X, [-1.8, FLOOR[0]], [BASIN_Z0, GROUND_Z[1]]);
+
+  // coque béton, eau, margelles
+  p('beton', BASIN_X, FLOOR, [BASIN_Z0, GROUND_Z[1]]);
+  p('beton', BASIN_X, [FLOOR[1], 0], [BASIN_Z0, BASIN_Z0 + WALL]);
+  p('beton', [BASIN_X[0], BASIN_X[0] + WALL], [FLOOR[1], 0], [BASIN_Z0 + WALL, GROUND_Z[1]]);
+  p('beton', [BASIN_X[1] - WALL, BASIN_X[1]], [FLOOR[1], 0], [BASIN_Z0 + WALL, GROUND_Z[1]]);
+  p('eau', [BASIN_X[0] + WALL, BASIN_X[1] - WALL], [FLOOR[1], -0.1], [BASIN_Z0 + WALL, GROUND_Z[1]]);
+  p('pierre', [BASIN_X[0] - 0.1, BASIN_X[1] + 0.1], [0, 0.05], [BASIN_Z0 - 0.1, BASIN_Z0 + WALL]);
+  p('pierre', [BASIN_X[0] - 0.1, BASIN_X[0] + WALL], [0, 0.05], [BASIN_Z0 + WALL, GROUND_Z[1]]);
+  p('pierre', [BASIN_X[1] - WALL, BASIN_X[1] + 0.1], [0, 0.05], [BASIN_Z0 + WALL, GROUND_Z[1]]);
+
+  // plages
+  p('carrelage', [GROUND_X[0], BASIN_X[0] - 0.1], [0, 0.04], GROUND_Z);
+  p('carrelage', [BASIN_X[1] + 0.1, 17.6], [0, 0.04], GROUND_Z);
+
+  // pool house : dalle, murs, porte vitrée côté bassin, toit-terrasse
+  const HOUSE_X: Range = [17.6, 20.8];
+  const HEIGHT = 2.6;
+  const DOOR_Z: Range = [0.3, 1.5];
+  p('beton', HOUSE_X, [0, 0.1], [GROUND_Z[0], GROUND_Z[1]]);
+  p('carrelage', HOUSE_X, [0.1, 0.12], [GROUND_Z[0] + 0.2, GROUND_Z[1]]);
+  p('enduit', HOUSE_X, [0.12, HEIGHT], [GROUND_Z[0], GROUND_Z[0] + 0.2]);
+  p('enduit', [HOUSE_X[1] - 0.2, HOUSE_X[1]], [0.12, HEIGHT], [GROUND_Z[0] + 0.2, GROUND_Z[1]]);
+  p('enduit', [HOUSE_X[0], HOUSE_X[0] + 0.2], [0.12, HEIGHT], [GROUND_Z[0] + 0.2, DOOR_Z[0]]);
+  p('enduit', [HOUSE_X[0], HOUSE_X[0] + 0.2], [0.12, HEIGHT], [DOOR_Z[1], GROUND_Z[1]]);
+  p('enduit', [HOUSE_X[0], HOUSE_X[0] + 0.2], [2.2, HEIGHT], DOOR_Z);
+  p('menuiserie', [HOUSE_X[0] + 0.05, HOUSE_X[0] + 0.1], [0.12, 2.2], [DOOR_Z[0], DOOR_Z[0] + 0.05]);
+  p('menuiserie', [HOUSE_X[0] + 0.05, HOUSE_X[0] + 0.1], [0.12, 2.2], [DOOR_Z[1] - 0.05, DOOR_Z[1]]);
+  p('vitrage', [HOUSE_X[0] + 0.07, HOUSE_X[0] + 0.08], [0.12, 2.2], [DOOR_Z[0] + 0.05, DOOR_Z[1] - 0.05]);
+  p('beton', [HOUSE_X[0] - 0.2, HOUSE_X[1] + 0.2], [HEIGHT, HEIGHT + 0.2], [GROUND_Z[0], GROUND_Z[1]]);
+  p('etancheite', [HOUSE_X[0] - 0.2, HOUSE_X[1] + 0.2], [HEIGHT + 0.2, HEIGHT + 0.22], [GROUND_Z[0], GROUND_Z[1]]);
+};
+
 export const buildHouse = (palette: Palette): { group: Group; trades: Map<string, Trade> } => {
   const b = new HouseBuilder(palette);
   buildFoundations(b);
@@ -542,6 +594,7 @@ export const buildHouse = (palette: Palette): { group: Group; trades: Map<string
   buildBathroom(b);
   buildStoneWall(b);
   buildExtension(b);
+  buildPool(b);
   return b.build();
 };
 
@@ -551,7 +604,7 @@ export const applyMix = (trade: Trade, palette: Palette): void => {
 
 /** Cadrage de la maquette : centre et demi-étendue (largeur, hauteur) pour le calcul de distance caméra. */
 export const HOUSE_FRAME = {
-  center: [0.7, 3.5, 0] as Vec3,
-  halfWidth: 9.4,
+  center: [6.4, 3.5, 0] as Vec3,
+  halfWidth: 14.8,
   halfHeight: 5.8,
 };

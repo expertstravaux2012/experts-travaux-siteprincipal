@@ -40,7 +40,7 @@ export const POST: APIRoute = async ({ request }) => {
       'Content-Type': 'application/json',
       Authorization: `Basic ${btoa(`${apiKey}:${apiSecret}`)}`,
     },
-    body: JSON.stringify(buildMailjetPayload(parsed.value, site.email, site.name)),
+    body: JSON.stringify(buildMailjetPayload(parsed.value, site.email, site.quoteEmail, site.name)),
   }).catch(() => null);
 
   if (!response?.ok) {
