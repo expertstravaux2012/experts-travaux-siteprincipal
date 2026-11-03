@@ -1,3 +1,6 @@
+import type { autoReply as AutoReplyContent } from '../data/contact.ts';
+import { buildAutoReplyHtml } from './email-template.ts';
+
 export interface ContactRequest {
   nom: string;
   email: string;
@@ -40,8 +43,17 @@ export function parseContact(body: unknown): ContactParsing {
 
 const singleLine = (value: string) => value.replace(/\s+/g, ' ');
 
-/** Corps de l'API Mailjet Send v3.1 : envoyé depuis `sender` à `recipient`, `Reply-To` = visiteur. */
-export function buildMailjetPayload(request: ContactRequest, sender: string, recipient: string, senderName: string) {
+/**
+ * Corps de l'API Mailjet Send v3.1 : deux messages envoyés depuis `sender`.
+ * 1. à `recipient`, `Reply-To` = visiteur ; 2. accusé de réception au visiteur, `Reply-To` = `recipient`.
+ */
+export function buildMailjetPayload(
+  request: ContactRequest,
+  sender: string,
+  recipient: string,
+  senderName: string,
+  reply: typeof AutoReplyContent,
+) {
   const { nom, email, tel, projet, page } = request;
   return {
     Messages: [
@@ -59,6 +71,14 @@ export function buildMailjetPayload(request: ContactRequest, sender: string, rec
           'Projet :',
           projet,
         ].join('\n'),
+      },
+      {
+        From: { Email: sender, Name: senderName },
+        To: [{ Email: email, Name: singleLine(nom) }],
+        ReplyTo: { Email: recipient, Name: senderName },
+        Subject: reply.subject,
+        TextPart: [reply.greeting(singleLine(nom)), '', ...reply.body, '', reply.signature(senderName)].join('\n'),
+        HTMLPart: buildAutoReplyHtml(singleLine(nom), reply),
       },
     ],
   };

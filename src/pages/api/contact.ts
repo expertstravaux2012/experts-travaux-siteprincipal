@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { autoReply } from '../../data/contact';
 import { site } from '../../data/site';
 import { buildMailjetPayload, contactMaxBodyBytes, parseContact } from '../../lib/contact';
 
@@ -40,13 +41,17 @@ export const POST: APIRoute = async ({ request }) => {
       'Content-Type': 'application/json',
       Authorization: `Basic ${btoa(`${apiKey}:${apiSecret}`)}`,
     },
-    body: JSON.stringify(buildMailjetPayload(parsed.value, site.email, site.quoteEmail, site.name)),
+    body: JSON.stringify(buildMailjetPayload(parsed.value, site.email, site.quoteEmail, site.name, autoReply)),
   }).catch(() => null);
 
-  if (!response?.ok) {
-    console.error('Mailjet : échec de l’envoi', response?.status, await response?.text());
+  const result = (await response?.json().catch(() => null)) as { Messages?: { Status?: string }[] } | null;
+  const [request, ack] = result?.Messages ?? [];
+  const requestSent = request ? request.Status === 'success' : Boolean(response?.ok);
+  if (!requestSent) {
+    console.error('Mailjet : échec de l’envoi', response?.status, JSON.stringify(result));
     return respond(502, false);
   }
+  if (ack && ack.Status !== 'success') console.error('Mailjet : échec de l’accusé de réception', JSON.stringify(ack));
   return respond(200, true);
 };
 
