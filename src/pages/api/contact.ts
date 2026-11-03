@@ -45,8 +45,8 @@ export const POST: APIRoute = async ({ request }) => {
   }).catch(() => null);
 
   const result = (await response?.json().catch(() => null)) as { Messages?: { Status?: string }[] } | null;
-  const [request, ack] = result?.Messages ?? [];
-  const requestSent = request ? request.Status === 'success' : Boolean(response?.ok);
+  const [internal, ack] = result?.Messages ?? [];
+  const requestSent = internal ? internal.Status === 'success' : Boolean(response?.ok);
   if (!requestSent) {
     console.error('Mailjet : échec de l’envoi', response?.status, JSON.stringify(result));
     return respond(502, false);
