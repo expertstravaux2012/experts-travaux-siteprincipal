@@ -70,6 +70,8 @@ export const site = {
   email: 'contact@experts-travaux.fr',
   /** Destinataire des demandes de devis du formulaire de contact (l'expéditeur reste `email`). */
   quoteEmail: 'devis@experts-travaux.fr',
+  /** Clé publique du widget Cloudflare Turnstile (anti-spam du formulaire de devis). */
+  turnstileSiteKey: '0x4AAAAAAF58ZXnnKG5gv0x8',
   phone: {
     display: '05 82 95 14 32',
     href: 'tel:+33582951432',

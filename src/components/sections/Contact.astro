@@ -2,6 +2,7 @@
 import { site } from '../../data/site';
 import { ctaContact } from '../../data/home';
 import { contactLimits } from '../../lib/contact';
+import { turnstileAction } from '../../lib/turnstile';
 import SectionHeading from '../ui/SectionHeading.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
@@ -86,17 +87,22 @@ const fieldClass =
         <label for="projet" class="label-md text-on-surface">{fields.projet.label}</label>
         <textarea id="projet" name="projet" rows="4" maxlength={contactLimits.projet} required class={fieldClass} placeholder={fields.projet.placeholder} toolparamdescription={fields.projet.agentHint}></textarea>
       </div>
-      <input type="text" name="website" tabindex="-1" autocomplete="off" hidden />
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only" />
+      <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-action={turnstileAction} data-appearance="interaction-only" data-language="fr"></div>
       <Button variant="primary" type="submit" class="w-full">{submit}</Button>
       <p data-contact-status role="status" aria-live="polite" class="text-body-md text-on-surface"></p>
     </form>
   </div>
 </section>
 
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 <script>
   document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
     const status = form.querySelector<HTMLElement>('[data-contact-status]');
     const submit = form.querySelector<HTMLButtonElement>('[type="submit"]');
+
+    let startedAt = performance.now();
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -104,7 +110,7 @@ const fieldClass =
       submit.disabled = true;
       status.textContent = form.dataset.sending ?? '';
 
-      const body = { ...Object.fromEntries(new FormData(form)), page: location.pathname };
+      const body = { ...Object.fromEntries(new FormData(form)), page: location.pathname, elapsed: Math.round(performance.now() - startedAt) };
       const ok = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -115,7 +121,11 @@ const fieldClass =
         .catch(() => false);
 
       status.textContent = (ok ? form.dataset.success : form.dataset.error) ?? '';
-      if (ok) form.reset();
+      if (ok) {
+        form.reset();
+        startedAt = performance.now();
+      }
+      (window as Window & { turnstile?: { reset(): void } }).turnstile?.reset();
       submit.disabled = false;
     });
   });
