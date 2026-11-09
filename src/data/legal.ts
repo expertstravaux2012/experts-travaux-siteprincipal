@@ -7,7 +7,7 @@ export const legalPlaceholder = 'À COMPLÉTER';
 
 export const legal = {
   /** Date de dernière mise à jour des textes (ISO). */
-  updatedAt: '2026-10-27',
+  updatedAt: '2026-11-09',
   editeur: {
     raisonSociale: 'SEGARD Ugo',
     formeJuridique: 'SARL',
@@ -91,6 +91,8 @@ export const mentionsLegales: LegalDocument = {
         `Le responsable du traitement est ${e.raisonSociale}, dont les coordonnées figurent ci-dessus.`,
         'Les données saisies dans le formulaire de contact (nom, adresse e-mail, téléphone, description du projet) sont utilisées uniquement pour répondre à votre demande et, le cas échéant, établir un devis. La base légale est l’exécution de mesures précontractuelles prises à votre demande.',
         `Elles sont conservées le temps nécessaire au traitement de votre demande, puis au plus ${legal.conservationDonnees} à compter du dernier échange. Elles ne sont ni vendues ni cédées à des tiers ; seuls ${site.name} et ses prestataires techniques y ont accès : ${h.nom}, qui héberge le site, Mailjet, service d’envoi d’e-mails qui achemine les demandes du formulaire, et Cloudflare, dont le service Turnstile protège ce formulaire contre les envois automatisés.`,
+        'Pour cette protection, Cloudflare traite votre adresse IP et des informations techniques de votre navigateur afin de distinguer un visiteur d’un robot. Ce traitement repose sur notre intérêt légitime à sécuriser le formulaire contre les abus.',
+        'Certains de ces prestataires (Vercel, Cloudflare) sont établis aux États-Unis. Les transferts de données sont encadrés par le cadre de protection des données UE–États-Unis (Data Privacy Framework) ou, à défaut, par des clauses contractuelles types de la Commission européenne.',
         `Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation, d’opposition et de portabilité de vos données. Pour l’exercer, écrivez à ${site.email}. Vous pouvez aussi introduire une réclamation auprès de la CNIL (www.cnil.fr).`,
       ],
     },
@@ -99,8 +101,8 @@ export const mentionsLegales: LegalDocument = {
       title: 'Cookies et traceurs',
       paragraphs: [
         'Le site ne dépose aucun cookie de mesure d’audience ou de publicité sans votre consentement préalable. Les seuls éléments enregistrés par défaut sont strictement nécessaires au fonctionnement du site, dont la mémorisation de votre choix.',
-        'Avec votre accord, nous utilisons Google Analytics (Google Ireland Limited) pour mesurer la fréquentation du site. Ce service n’est chargé qu’après votre consentement.',
-        'Votre choix est conservé six mois ; vous pouvez le modifier à tout moment.',
+        'Avec votre accord, nous utilisons Google Analytics (Google Ireland Limited) pour mesurer la fréquentation du site. Ce service n’est chargé qu’après votre consentement, et peut impliquer un transfert de données vers les États-Unis, encadré par le Data Privacy Framework.',
+        'Votre choix est conservé six mois. Vous pouvez le modifier ou retirer votre consentement à tout moment, aussi simplement que vous l’avez donné, via le bouton « Gérer mes cookies » en pied de page.',
       ],
       cookieSettings: true,
     },
