@@ -90,7 +90,7 @@ export const mentionsLegales: LegalDocument = {
       paragraphs: [
         `Le responsable du traitement est ${e.raisonSociale}, dont les coordonnées figurent ci-dessus.`,
         'Les données saisies dans le formulaire de contact (nom, adresse e-mail, téléphone, description du projet) sont utilisées uniquement pour répondre à votre demande et, le cas échéant, établir un devis. La base légale est l’exécution de mesures précontractuelles prises à votre demande.',
-        `Elles sont conservées le temps nécessaire au traitement de votre demande, puis au plus ${legal.conservationDonnees} à compter du dernier échange. Elles ne sont ni vendues ni cédées à des tiers ; seuls ${site.name} et ses prestataires techniques y ont accès : ${h.nom}, qui héberge le site, et Mailjet, service d’envoi d’e-mails qui achemine les demandes du formulaire.`,
+        `Elles sont conservées le temps nécessaire au traitement de votre demande, puis au plus ${legal.conservationDonnees} à compter du dernier échange. Elles ne sont ni vendues ni cédées à des tiers ; seuls ${site.name} et ses prestataires techniques y ont accès : ${h.nom}, qui héberge le site, Mailjet, service d’envoi d’e-mails qui achemine les demandes du formulaire, et Cloudflare, dont le service Turnstile protège ce formulaire contre les envois automatisés.`,
         `Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation, d’opposition et de portabilité de vos données. Pour l’exercer, écrivez à ${site.email}. Vous pouvez aussi introduire une réclamation auprès de la CNIL (www.cnil.fr).`,
       ],
     },

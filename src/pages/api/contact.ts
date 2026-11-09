@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { autoReply } from '../../data/contact';
 import { site } from '../../data/site';
 import { buildMailjetPayload, contactMaxBodyBytes, parseContact } from '../../lib/contact';
+import { turnstileAction, turnstileTokenFrom, verifyTurnstile } from '../../lib/turnstile';
 
 export const prerender = false;
 
@@ -18,15 +19,25 @@ const safeJson = (raw: string): unknown => {
   }
 };
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (request.headers.get('origin') !== new URL(request.url).origin) return respond(403, false);
   if (Number(request.headers.get('content-length')) > contactMaxBodyBytes) return respond(413, false);
 
   const raw = await request.text();
   if (raw.length > contactMaxBodyBytes) return respond(413, false);
-  const parsed = parseContact(safeJson(raw));
+  const body = safeJson(raw);
+  const parsed = parseContact(body);
   if (parsed.kind === 'spam') return respond(200, true);
   if (parsed.kind === 'invalid') return respond(400, false);
+
+  const turnstileSecret = import.meta.env.TURNSTILE_SECRET_KEY;
+  if (!turnstileSecret) {
+    console.error('Turnstile : TURNSTILE_SECRET_KEY manquante');
+    return respond(500, false);
+  }
+  if (!(await verifyTurnstile(turnstileTokenFrom(body), turnstileSecret, clientAddress, turnstileAction))) {
+    return respond(403, false);
+  }
 
   const apiKey = import.meta.env.MAILJET_API_KEY;
   const apiSecret = import.meta.env.MAILJET_API_SECRET;
