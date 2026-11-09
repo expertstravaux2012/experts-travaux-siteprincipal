@@ -311,7 +311,7 @@ export interface ContactFormContent {
   };
   submit: string;
   /** Messages affichés après l'envoi (région aria-live). */
-  status: { sending: string; success: string; error: string };
+  status: { sending: string; success: string; error: string; telInvalid: string };
   tool: ContactFormTool;
 }
 
@@ -378,6 +378,7 @@ export const ctaContact: CtaContactContent = {
     status: {
       sending: 'Envoi en cours…',
       success: 'Merci, votre demande a bien été envoyée. Nous revenons vers vous rapidement.',
+      telInvalid: 'Ce numéro de téléphone n’est pas valide. Exemple : 06 12 34 56 78.',
       error: `Votre demande n’a pas pu être envoyée. Réessayez ou écrivez-nous à ${site.email}.`,
     },
     tool: {

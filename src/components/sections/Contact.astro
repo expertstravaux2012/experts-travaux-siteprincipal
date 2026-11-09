@@ -65,6 +65,7 @@ const fieldClass =
       data-sending={status.sending}
       data-success={status.success}
       data-error={status.error}
+      data-tel-invalid={status.telInvalid}
       class="flex flex-col gap-5 border border-hairline bg-surface-container-lowest p-6 sm:p-8"
       toolname={tool.name}
       tooldescription={toolDescription}
@@ -98,6 +99,8 @@ const fieldClass =
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
+  import { isValidPhone } from '../../lib/contact';
+
   document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
     const status = form.querySelector<HTMLElement>('[data-contact-status]');
     const submit = form.querySelector<HTMLButtonElement>('[type="submit"]');
@@ -107,6 +110,12 @@ const fieldClass =
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!status || !submit) return;
+      const tel = form.querySelector<HTMLInputElement>('[name="tel"]');
+      if (tel && tel.value.trim() && !isValidPhone(tel.value.trim())) {
+        status.textContent = form.dataset.telInvalid ?? '';
+        tel.focus();
+        return;
+      }
       submit.disabled = true;
       status.textContent = form.dataset.sending ?? '';
 

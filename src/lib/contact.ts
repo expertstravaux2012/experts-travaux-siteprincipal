@@ -30,7 +30,7 @@ const randomCaseSwitches = 3;
 const text = (value: unknown, max: number) =>
   typeof value === 'string' ? value.trim().slice(0, max) : '';
 
-const isValidPhone = (tel: string) => {
+export const isValidPhone = (tel: string) => {
   const digits = tel.replace(/[\s.\-()]/g, '');
   return frenchLocalPhone.test(digits) || (/^(?:\+|00)/.test(digits) && phonePattern.test(digits));
 };
